@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JAVAQUEST:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JAVAQUEST_jar</output-path>
+    <root id="archive" name="JAVAQUEST.jar">
+      <element id="module-output" name="JAVAQUEST" />
+    </root>
+  </artifact>
+</component>
