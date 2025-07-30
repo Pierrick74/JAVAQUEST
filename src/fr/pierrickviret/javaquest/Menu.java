@@ -1,14 +1,11 @@
 package fr.pierrickviret.javaquest;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void showInformation(String[] datas) {
-        for (String element : datas) {
-            System.out.println(element);
-        }
+    public void showInformation(String data) {
+        System.out.println(data);
     }
 
     public int listenResultBetween(int min, int max) {

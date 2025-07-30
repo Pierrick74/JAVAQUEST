@@ -1,5 +1,7 @@
 package fr.pierrickviret.javaquest.character;
 
+import java.util.Random;
+
 public class MainCharacter extends Character {
     //enum
     public enum characterType {
@@ -21,17 +23,19 @@ public class MainCharacter extends Character {
 
     //private
     private int getHealth(MainCharacter.characterType type) {
+        Random rand = new Random();
         return switch (type) {
-            case Warrior -> (int) (Math.random() * (10 - 5 + 1)) + 5;
-            case Wizard -> (int) (Math.random() * (15 - 8 + 1)) + 8;
+            case Warrior -> rand.nextInt(5, 10);
+            case Wizard -> rand.nextInt(8, 15);
             default -> 0;
         };
     }
 
     private int getAttack(MainCharacter.characterType type) {
+        Random rand = new Random();
         return switch (type) {
-            case Warrior -> (int) (Math.random() * (15 - 8 + 1)) + 8;
-            case Wizard -> (int) (Math.random() * (6 - 3 + 1)) + 3;
+            case Warrior -> rand.nextInt(8, 15);
+            case Wizard -> rand.nextInt(3, 6);
             default -> 0;
         };
     }
