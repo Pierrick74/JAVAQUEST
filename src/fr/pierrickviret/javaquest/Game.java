@@ -1,8 +1,8 @@
 package fr.pierrickviret.javaquest;
 
 import fr.pierrickviret.javaquest.character.MainCharacter;
+import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
-import fr.pierrickviret.javaquest.commun.fr.pierrickviret.javaquest.Board;
 
 import static java.lang.System.exit;
 
@@ -93,7 +93,7 @@ public class Game {
         menu.showInformation(createCharacterInformation);
         int choice = menu.listenResultBetween(1,3);
         if(choice == 3 ) {exitGame();}
-        MainCharacter.characterType type = choice == 1 ? MainCharacter.characterType.Warrior : MainCharacter.characterType.Wizard;
+        CharacterType type = choice == 1 ? CharacterType.Warrior : CharacterType.Wizard;
 
         menu.showInformation(askForCharacterName);
         String name = menu.listenString();
@@ -119,7 +119,7 @@ public class Game {
 
         menu.showInformation(rollDice + turn.toString());
 
-        if(player.getPosition() >= 64) {
+        if(player.getPosition() >= board.getSize()) {
             gameState = GameState.finishGame;
         } else {
             System.out.println(player);

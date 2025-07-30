@@ -1,4 +1,4 @@
-package fr.pierrickviret.javaquest.commun.fr.pierrickviret.javaquest;
+package fr.pierrickviret.javaquest;
 
 public class Board {
     //variable
