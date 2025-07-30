@@ -1,6 +1,8 @@
 package fr.pierrickviret.javaquest;
 
 import fr.pierrickviret.javaquest.character.MainCharacter;
+import fr.pierrickviret.javaquest.character.Warrior;
+import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
 
@@ -66,7 +68,7 @@ public class Game {
 
                 case startGame:
                     player = new Player();
-                    gameState = GameState.playerTurn;
+                    gameState = character == null ? GameState.createCharacter : GameState.playerTurn;
                     break;
 
                 case playerTurn:
@@ -98,8 +100,19 @@ public class Game {
         menu.showInformation(askForCharacterName);
         String name = menu.listenString();
 
-        this.character = new MainCharacter(type, name);
+        createCharacter(type, name);
         showCharacterCreated();
+    }
+
+    private void createCharacter( CharacterType type, String name ){
+        switch (type) {
+            case Warrior:
+                character = new Warrior(name);
+                break;
+            case Wizard:
+                character = new Wizard(name);
+                break;
+        }
     }
 
     private Boolean isModifyCharacter() {

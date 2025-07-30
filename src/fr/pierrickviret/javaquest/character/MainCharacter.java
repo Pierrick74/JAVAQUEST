@@ -1,12 +1,17 @@
 package fr.pierrickviret.javaquest.character;
 
 import fr.pierrickviret.javaquest.commun.CharacterType;
+import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
+import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.util.Random;
 
 public class MainCharacter extends Character {
     //variable
     CharacterType type;
+    String name;
+    OffensiveEquipement offensiveEquipement;
+    DefensiveEquipement  defensiveEquipement;
 
     //init
     public MainCharacter(CharacterType type, String name) {
