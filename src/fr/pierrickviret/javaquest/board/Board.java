@@ -1,6 +1,8 @@
-package fr.pierrickviret.javaquest;
+package fr.pierrickviret.javaquest.board;
 
 import fr.pierrickviret.javaquest.character.MainCharacter;
+import fr.pierrickviret.javaquest.character.dragon;
+import fr.pierrickviret.javaquest.equipement.offensive.Sword;
 
 /**
  *<h2> class Board</h2>
@@ -16,13 +18,18 @@ public class Board {
     * Taille maximum du plateau
      */
     private final Integer size;
+    private Case[] cases;
 
     //init
     /**
-    * initialise la valeur du plateau à 64
+    * Initialise la valeur du plateau à 64
      */
     public Board() {
         this.size = 64;
+        this.cases = new Case[size+1];
+        cases[2] = new dragon();
+        cases[3] = new Sword();
+
     }
 
     /**

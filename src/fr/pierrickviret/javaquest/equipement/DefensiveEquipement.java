@@ -1,5 +1,7 @@
 package fr.pierrickviret.javaquest.equipement;
 
+import fr.pierrickviret.javaquest.board.Case;
+
 /**
  *<h2> class DefensiveEquipement</h2>
  * <p> Class abstraite représentant les équipements défensifs

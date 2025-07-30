@@ -9,5 +9,8 @@ import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
  * @see fr.pierrickviret.javaquest.equipement.OffensiveEquipement
  * @version 1.0
  */
-public class weapon extends OffensiveEquipement {
+public class Weapon extends OffensiveEquipement {
+    public Weapon(String name, Integer value) {
+        super(name, value);
+    }
 }

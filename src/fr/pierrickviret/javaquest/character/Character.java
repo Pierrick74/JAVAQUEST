@@ -1,4 +1,7 @@
 package fr.pierrickviret.javaquest.character;
+
+import fr.pierrickviret.javaquest.board.Case;
+
 /**
 *<h2> class Character</h2>
 * <p> Class abstraite représentant l'ensemble des personnages vivant du jeu</p>
@@ -13,8 +16,10 @@ public abstract class Character {
     Integer attack;
 
     //init
-    Character(){
-
+    public Character(String name, Integer health, Integer attack) {
+        this.name = name;
+        this.health = health;
+        this.attack = attack;
     }
 
 }

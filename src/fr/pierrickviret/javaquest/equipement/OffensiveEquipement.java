@@ -1,4 +1,7 @@
 package fr.pierrickviret.javaquest.equipement;
+
+import fr.pierrickviret.javaquest.board.Case;
+
 /**
  *<h2> class OffensiveEquipement</h2>
  * <p> Class abstraite représentant les équipements offensifs
@@ -8,4 +11,9 @@ package fr.pierrickviret.javaquest.equipement;
 public abstract class OffensiveEquipement {
     Integer value;
     String name;
+
+    public OffensiveEquipement(String name, Integer value) {
+        this.name = name;
+        this.value = value;
+    }
 }
