@@ -46,23 +46,15 @@ public class Game {
                     break;
 
                 case waitingInformation:
-                    menu.showInformation(mainMenuInformation);
-                    switch (menu.listenResultBetween(1,3)) {
-                        case 1:
-                            gameState = GameState.createCharacter;
-                            break;
-                        case 2:
-                            gameState = GameState.startGame;
-                            break;
-                        case 3:
-                            gameState = GameState.exitGame;
-                            break;
-                    }
+                    manageWaitingInformation();
+                    break;
 
                 case createCharacter:
                     if( character == null) {
                         createCharacter();
-                        gameState = gameState == GameState.waitingInformation ? GameState.waitingInformation : GameState.startGame;
+                        if (gameState != GameState.waitingInformation) {
+                            gameState = GameState.startGame;
+                        }
                     } else {
                         if(isModifyCharacter()){
                             this.character = null;
@@ -79,24 +71,10 @@ public class Game {
 
                 case playerTurn:
                     movePlayer();
-                    if(player.getPosition() >= 64) {
-                        gameState = GameState.finishGame;
-                    } else {
-                        System.out.println(player);
-                    }
                     break;
 
                 case finishGame:
-                    menu.showInformation(finishGame);
-                    switch (menu.listenResultBetween(1,3)) {
-                        case 1:
-                            gameState = GameState.startGame;
-                        case 2:
-                            character = null;
-                            gameState = GameState.createCharacter;
-                        case 3:
-                            gameState = GameState.exitGame;
-                    }
+                    manageFinishGame();
                     break;
                 default:
                     break;
@@ -140,5 +118,42 @@ public class Game {
         player.addPosition(turn);
 
         menu.showInformation(rollDice + turn.toString());
+
+        if(player.getPosition() >= 64) {
+            gameState = GameState.finishGame;
+        } else {
+            System.out.println(player);
+        }
+    }
+
+    private void manageFinishGame() {
+        menu.showInformation(finishGame);
+        switch (menu.listenResultBetween(1,3)) {
+            case 1:
+                gameState = GameState.startGame;
+                break;
+            case 2:
+                character = null;
+                gameState = GameState.createCharacter;
+                break;
+            case 3:
+                gameState = GameState.exitGame;
+                break;
+        }
+    }
+
+    private void manageWaitingInformation() {
+        menu.showInformation(mainMenuInformation);
+        switch (menu.listenResultBetween(1,3)) {
+            case 1:
+                gameState = GameState.createCharacter;
+                break;
+            case 2:
+                gameState = GameState.startGame;
+                break;
+            case 3:
+                gameState = GameState.exitGame;
+                break;
+        }
     }
 }
