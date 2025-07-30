@@ -11,8 +11,8 @@ public class Player {
         return position;
     }
 
-    public void addPosition(Integer number) {
-        this.position = this.position + number ;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     @Override

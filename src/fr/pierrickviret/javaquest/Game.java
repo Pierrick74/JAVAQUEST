@@ -5,6 +5,9 @@ import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
+import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
+
+import java.util.Objects;
 
 import static java.lang.System.exit;
 
@@ -16,7 +19,7 @@ public class Game {
     static String askForCharacterName = "Quel est le nom de votre Personnage";
     static String showCharacterCreated = "\nVoici le personnage crée";
     static String askForCharacterModification = "\nVoulez vous modifier le personnage\n1. utiliser le personnage\n2. Modifier le personnage";
-    static String finishGame = "\nVoulez avez fini le jeu, Bravo !\nVoulez vous:\n1. commencer un nouveau jeu en gardant le personage\n2. commencer un nouveau jeu avec un nouveau personnage\n3. Quitter le jeu";
+    static String finishGame = "\nVous avez fini le jeu, Bravo !\nVoulez vous:\n1. commencer un nouveau jeu en gardant le personage\n2. commencer un nouveau jeu avec un nouveau personnage\n3. Quitter le jeu";
     static String rollDice = "Vous avez lancé le dé : ";
     static String endGame = "Au revoir";
 
@@ -72,7 +75,7 @@ public class Game {
                     break;
 
                 case playerTurn:
-                    movePlayer();
+                    changePlayerPosition();
                     break;
 
                 case finishGame:
@@ -126,17 +129,30 @@ public class Game {
         System.out.println(character);
     }
 
-    private void movePlayer() {
-        Integer turn = dice.getRoll();
-        player.addPosition(turn);
+    private void changePlayerPosition() {
+        Integer turnDice = dice.getRoll();
+        menu.showInformation(rollDice + turnDice.toString());
 
-        menu.showInformation(rollDice + turn.toString());
+        try {
+            movePlayer(player.getPosition() + turnDice);
+        } catch (OutOfBoardException | Exception e) {
+            menu.showInformation(e.getMessage());
+            int offset = board.getSize() - (player.getPosition() + turnDice );
+            player.setPosition(board.getSize() + offset);
+        }
 
-        if(player.getPosition() >= board.getSize()) {
+        if(Objects.equals(player.getPosition(), board.getSize())) {
             gameState = GameState.finishGame;
         } else {
             System.out.println(player);
         }
+    }
+
+    private void movePlayer(Integer position) throws OutOfBoardException {
+        if(position > board.getSize()) {
+            throw new OutOfBoardException("Vous ne pouvez pas avancer plus que de case du plateau\nVous reculez\n");
+        }
+        player.setPosition(position);
     }
 
     private void manageFinishGame() {
