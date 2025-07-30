@@ -6,10 +6,17 @@ import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.util.Random;
 
-public class MainCharacter extends Character {
+/**
+ *<h2> class Character</h2>
+ * <p> Class abstraite représentant l'ensemble des personnages que le joueur peut créer
+ * Cette class extends de <cite>Character</cite></p>
+ * @author Pierrick
+ * @see Character
+ * @version 1.0
+ */
+public abstract class MainCharacter extends Character {
     //variable
     CharacterType type;
-    String name;
     OffensiveEquipement offensiveEquipement;
     DefensiveEquipement  defensiveEquipement;
 

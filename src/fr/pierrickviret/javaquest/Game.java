@@ -8,8 +8,21 @@ import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 
 import java.util.Objects;
-
 import static java.lang.System.exit;
+
+/**
+ *<h2> class Game</h2>
+ * <p> Class qui contient toute la logique du jeu
+ * le joueur va se voir proposer de créer un personnage : Combatant ou magicien
+ * il pourra ensuite commencer la partie.
+ * Le dé sera lancé et le joueur avancera sur un plateau</p>
+ *
+ * <p> A la fin , il pourra rejouer ou sortir du jeu
+ * Si il veut rejouer, il pourra refaire une partie avec le meme personnage ou en recréer un autre</p>
+ * @author Pierrick
+ * @see Board
+ * @version 1.0
+ */
 
 public class Game {
     // information to display
@@ -19,21 +32,41 @@ public class Game {
     static String askForCharacterName = "Quel est le nom de votre Personnage";
     static String showCharacterCreated = "\nVoici le personnage crée";
     static String askForCharacterModification = "\nVoulez vous modifier le personnage\n1. utiliser le personnage\n2. Modifier le personnage";
-    static String finishGame = "\nVous avez fini le jeu, Bravo !\nVoulez vous:\n1. commencer un nouveau jeu en gardant le personage\n2. commencer un nouveau jeu avec un nouveau personnage\n3. Quitter le jeu";
+    static String finishGame = "\nVous avez fini le jeu, Bravo !";
     static String rollDice = "Vous avez lancé le dé : ";
     static String endGame = "Au revoir";
 
     //dependency
+    /**
+     * permet d'interagir avec le terminal
+     */
     Menu menu;
+    /**
+     * Personnage principale du jeu
+     */
     MainCharacter character;
+    /**
+     * Plateau pour ce jeu
+     */
     Board board;
+    /**
+     * Permet de lancer le dé
+     */
     Dice dice;
+    /**
+     * Représente le joueur
+     */
     Player player;
 
-    //variable
+    /**
+     * Represente l'etat du jeu
+     * @see GameState
+     */
     GameState gameState;
 
-    //init
+    /**
+     * Permet d'initialiser les dépendances
+     */
     Game(){
         this.menu = new Menu();
         this.gameState = GameState.begin;
@@ -42,6 +75,12 @@ public class Game {
     }
 
     //public
+
+    /**
+     * Fonction principale de la class
+     * gère le jeu en déroulant les differents états du jeu.
+     * @see GameState
+     */
     public void start() {
         while (gameState != GameState.exitGame) {
             switch (gameState) {
@@ -79,7 +118,8 @@ public class Game {
                     break;
 
                 case finishGame:
-                    manageFinishGame();
+                    menu.showInformation(finishGame);
+                    gameState = GameState.waitingInformation;
                     break;
                 default:
                     break;
@@ -89,11 +129,21 @@ public class Game {
     }
 
     //private
+
+    /**
+     * Gere la sortie du jeu
+     * affiche un message de sortie
+     */
     private void exitGame() {
         menu.showInformation(endGame);
         exit(0);
     }
 
+    /**
+     * Récupère les informations du joueur et appel la création du personnage.
+     * @see MainCharacter
+     * @see Menu
+     */
     private void createCharacter(){
         menu.showInformation(createCharacterInformation);
         int choice = menu.listenResultBetween(1,3);
@@ -107,6 +157,11 @@ public class Game {
         showCharacterCreated();
     }
 
+    /**
+     * Création du personnage.
+     * @param type indique le type du personnage
+     * @param name indique le nom du personnage
+     */
     private void createCharacter( CharacterType type, String name ){
         switch (type) {
             case Warrior:
@@ -118,17 +173,32 @@ public class Game {
         }
     }
 
+    /**
+     * Demande à l'utilisateur si il veut modifier le personnage qu'il a crée.
+     * @return boolen reponse si il veut modifier
+     */
     private Boolean isModifyCharacter() {
         showCharacterCreated();
         menu.showInformation(askForCharacterModification);
         return menu.listenResultBetween(1,2) == 2;
     }
 
+    /**
+     * Permet d'afficher les informations du personnage crée
+     * @see MainCharacter
+     */
     private void showCharacterCreated() {
         menu.showInformation(showCharacterCreated);
         System.out.println(character);
     }
 
+    /**
+     * Permet d'avancer le joueur de la valeur du lancé de dé
+     * Si la position dépasse la limite du Board, le joueur recule
+     * @see Dice
+     * @see Player
+     * @see Board
+     */
     private void changePlayerPosition() {
         Integer turnDice = dice.getRoll();
         menu.showInformation(rollDice + turnDice.toString());
@@ -148,6 +218,11 @@ public class Game {
         }
     }
 
+    /**
+     * Avance le joueur à la position donnée
+     * @param position {@code int} position du joueur
+     * @throws OutOfBoardException si le joueur dépasse la valeur max du board
+     */
     private void movePlayer(Integer position) throws OutOfBoardException {
         if(position > board.getSize()) {
             throw new OutOfBoardException("Vous ne pouvez pas avancer plus que de case du plateau\nVous reculez\n");
@@ -155,22 +230,9 @@ public class Game {
         player.setPosition(position);
     }
 
-    private void manageFinishGame() {
-        menu.showInformation(finishGame);
-        switch (menu.listenResultBetween(1,3)) {
-            case 1:
-                gameState = GameState.startGame;
-                break;
-            case 2:
-                character = null;
-                gameState = GameState.createCharacter;
-                break;
-            case 3:
-                gameState = GameState.exitGame;
-                break;
-        }
-    }
-
+    /**
+     *
+     */
     private void manageWaitingInformation() {
         menu.showInformation(mainMenuInformation);
         switch (menu.listenResultBetween(1,3)) {
