@@ -14,4 +14,8 @@ public abstract class OffensiveEquipement {
         this.name = name;
         this.value = value;
     }
+
+    public String getName() {
+        return name;
+    }
 }

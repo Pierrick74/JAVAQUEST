@@ -1,10 +1,11 @@
 package fr.pierrickviret.javaquest.db;
 import fr.pierrickviret.javaquest.Menu;
-import fr.pierrickviret.javaquest.Player;
 import fr.pierrickviret.javaquest.character.Character;
+import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
+import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.sql.*;
 
@@ -50,14 +51,25 @@ public class SQLRepository
         }
     }
 
-    public void createHeroes(String name, CharacterType type, Integer LifePoints, Integer Strength, OffensiveEquipmentType OffensiveEquipement, DefensiveEquipmentType DefensiveEquipment) {
+    /**
+     * permet de cree un nouveau personnage dans la BDD
+     * @param name {@code String} nom du personnage
+     * @param type {@code CharactereType} le type du personnage
+     * @param LifePoints {@code Integer} les points de vie
+     * @param Strength {@code Integer} la force
+     * @param OffensiveEquipement {@code OffensiveEquipment} les armes offensives, indiquer empty si null
+     * @param DefensiveEquipment {@code DefensiveEquipment} les armes deffensives, indiquer empty si null
+     * @return {@code Integer} retourne l'ID du personnage créer
+     */
+    public Integer createHeroes(String name, CharacterType type, Integer LifePoints, Integer Strength, OffensiveEquipmentType OffensiveEquipement, DefensiveEquipmentType DefensiveEquipment) {
         try {
+            int id = 0;
             conn = getConnection();
 
             // Requête avec des paramètres (?)
             String query = "INSERT INTO JavaquestCharacter(Name, Type, LifePoints, Strength, OffensiveEquipment, DefensiveEquipment) VALUES(?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement pstmt = conn.prepareStatement(query);
+            PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             // Attribution des paramètres
             pstmt.setString(1, name);
@@ -67,11 +79,15 @@ public class SQLRepository
             pstmt.setString(5, OffensiveEquipement.toString());
             pstmt.setString(6, DefensiveEquipment.toString());
 
-            int rs = pstmt.executeUpdate();
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
 
             getHeroes();
             closeConnection();
-
+            return id;
         } catch(SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
             e.printStackTrace();
@@ -79,10 +95,30 @@ public class SQLRepository
             System.out.println("Erreur générale : " + e.getMessage());
             e.printStackTrace();
         }
+        return null;
     }
 
-    public void editHero(Character character) {
+    public void editHero(MainCharacter character) {
+        try {
+            conn = getConnection();
+            PreparedStatement pstmt;
+            pstmt = conn.prepareStatement(
+                    "UPDATE JavaquestCharacter SET Name=?, Type=?, LifePoints=?, Strength=?, OffensiveEquipment=?, DefensiveEquipment=? WHERE ID=?");
 
+            String characterOffensiveEquipment = character.getOffensiveEquipement() != null ? character.getOffensiveEquipement().getName() : OffensiveEquipmentType.empty.toString();
+            String characterDefensiveEquipment = character.getDefensiveEquipement() != null ? character.getDefensiveEquipement().getName() : DefensiveEquipmentType.empty.toString();
+
+            pstmt.setString(1, character.getName());
+            pstmt.setString(2, character.getType().toString());
+            pstmt.setInt(3, character.getHealth());
+            pstmt.setInt(4, character.getAttack());
+            pstmt.setString(5, characterOffensiveEquipment);
+            pstmt.setString(6, characterDefensiveEquipment);
+            pstmt.setInt(7, character.getID());
+            int numUpd = pstmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
     }
 
     private Statement getStatement(){

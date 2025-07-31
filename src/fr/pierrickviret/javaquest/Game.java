@@ -40,6 +40,9 @@ public class Game {
     static String finishGame = "\nVous avez fini le jeu, Bravo !";
     static String rollDice = "Vous avez lancé le dé : ";
     static String endGame = "Au revoir";
+    static String askIfUserWantToChangeCharacterTypeToWarrior = "\nVoulez vous modifier le type du personnage\n1. utiliser le type actuel\n2. Transformer en Combatant\n3. Quitter le jeu";
+    static String askIfUserWantToChangeCharacterTypeToWizard = "\nVoulez vous modifier le type du personnage\n1. utiliser le type actuel\n2. Transformer en Magicien\n3. Quitter le jeu";
+    static String askIfUserWantToChangeName = "\nVoulez vous modifier le nom du personnage\n1. utiliser le type actuel\n2. Changer le nom\n3. Quitter le jeu";
 
     //dependency
     /**
@@ -112,9 +115,9 @@ public class Game {
                         }
                     } else {
                         if(isModifyCharacter()){
-                            this.character = null;
+                            modifyCharacter();
                         } else {
-                            gameState = GameState.waitingInformation;
+                            gameState = GameState.startGame;
                         }
                     }
                     break;
@@ -168,6 +171,34 @@ public class Game {
         showCharacterCreated();
     }
 
+    private void modifyCharacter(){
+
+        MainCharacter oldCharacter = character;
+
+        // change type
+        String information = character.getType() == CharacterType.Warrior ? askIfUserWantToChangeCharacterTypeToWizard : askIfUserWantToChangeCharacterTypeToWarrior;
+        menu.showInformation(information);
+        int choice = menu.listenResultBetween(1,3);
+        if(choice == 3 ) {exitGame();}
+        if(choice == 2 ) {
+            character = character.getType() == CharacterType.Warrior ? new Wizard(oldCharacter.getName()) : new Warrior(oldCharacter.getName());
+            character.setID(oldCharacter.getID());
+        }
+
+        //change name
+        menu.showInformation(askIfUserWantToChangeName);
+        choice = menu.listenResultBetween(1,3);
+        if(choice == 3 ) {exitGame();}
+        if(choice == 2 ) {
+            menu.showInformation(askForCharacterName);
+            String name = menu.listenString();
+            character.setName(name);
+        }
+
+        //save in database
+        mysql.editHero(character);
+    }
+
     /**
      * Création du personnage.
      * @param type indique le type du personnage
@@ -182,11 +213,13 @@ public class Game {
                 character = new Wizard(name);
                 break;
         }
-        mysql.createHeroes(name, type, character.getAttack() , character.getHealth(), OffensiveEquipmentType.empty, DefensiveEquipmentType.empty);
+        int id = mysql.createHeroes(name, type, character.getAttack() , character.getHealth(), OffensiveEquipmentType.empty, DefensiveEquipmentType.empty);
+
+        character.setID(id);
     }
 
     /**
-     * Demande à l'utilisateur si il veut modifier le personnage qu'il a crée.
+     * Demande à l'utilisateur s'il veut modifier le personnage qu'il a crée.
      * @return boolen reponse si il veut modifier
      */
     private Boolean isModifyCharacter() {

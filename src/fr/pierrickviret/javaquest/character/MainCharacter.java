@@ -19,6 +19,7 @@ public abstract class MainCharacter extends Character {
     CharacterType type;
     OffensiveEquipement offensiveEquipement;
     DefensiveEquipement  defensiveEquipement;
+    private int ID;
 
     //init
     public MainCharacter(CharacterType type, String name) {
@@ -29,12 +30,44 @@ public abstract class MainCharacter extends Character {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public CharacterType getType() {
+        return type;
+    }
+
+    public void setType(CharacterType type) {
+        this.type = type;
+    }
+
     public int getHealth() {
         return health;
     }
 
     public int getAttack() {
         return attack;
+    }
+
+    public OffensiveEquipement getOffensiveEquipement() {
+        return offensiveEquipement;
+    }
+
+    public DefensiveEquipement getDefensiveEquipement() {
+        return defensiveEquipement;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     //private
