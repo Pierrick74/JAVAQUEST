@@ -6,8 +6,11 @@ import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.commun.CharacterType;
+import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.GameState;
+import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
+import fr.pierrickviret.javaquest.db.SQLRepository;
 
 import java.util.Objects;
 import static java.lang.System.exit;
@@ -67,13 +70,19 @@ public class Game {
     GameState gameState;
 
     /**
+     * Permet de gere la BDD
+     */
+    SQLRepository mysql;
+
+    /**
      * Permet d'initialiser les dépendances
      */
     Game(){
-        this.menu = new Menu();
+        this.menu = Menu.getInstance();
         this.gameState = GameState.begin;
         this.dice = new Dice();
         this.board = new Board();
+        this.mysql = SQLRepository.getInstance();
     }
 
     //public
@@ -173,6 +182,7 @@ public class Game {
                 character = new Wizard(name);
                 break;
         }
+        mysql.createHeroes(name, type, character.getAttack() , character.getHealth(), OffensiveEquipmentType.empty, DefensiveEquipmentType.empty);
     }
 
     /**

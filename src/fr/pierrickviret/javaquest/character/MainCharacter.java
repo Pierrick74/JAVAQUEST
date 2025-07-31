@@ -24,13 +24,21 @@ public abstract class MainCharacter extends Character {
     public MainCharacter(CharacterType type, String name) {
         super(name, 0, 0);
         this.type = type;
-        this.health = getHealth(this.type);
-        this.attack = getAttack(this.type);
+        this.health = setHealth(this.type);
+        this.attack = setAttack(this.type);
         this.name = name;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
     //private
-    private int getHealth(CharacterType type) {
+    private int setHealth(CharacterType type) {
         Random rand = new Random();
         return switch (type) {
             case Warrior -> rand.nextInt(5, 10);
@@ -38,7 +46,7 @@ public abstract class MainCharacter extends Character {
         };
     }
 
-    private int getAttack(CharacterType type) {
+    private int setAttack(CharacterType type) {
         Random rand = new Random();
         return switch (type) {
             case Warrior -> rand.nextInt(8, 15);

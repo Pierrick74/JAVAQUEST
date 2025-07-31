@@ -14,6 +14,14 @@ public class Menu {
      * Initialise la liaison avec le terminal
      */
     private final Scanner scanner = new Scanner(System.in);
+    private static Menu instance;
+
+    private Menu() {
+    }
+
+    public static Menu getInstance() {
+        return instance==null?instance = new Menu():instance;
+    }
 
     /**
      * Affiche le texte donné en parametre sur le terminal
