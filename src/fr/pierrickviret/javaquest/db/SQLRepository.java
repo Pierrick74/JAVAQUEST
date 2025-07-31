@@ -121,6 +121,24 @@ public class SQLRepository
         }
     }
 
+    public void changeLifePoints(MainCharacter character) {
+        try {
+            conn = getConnection();
+            PreparedStatement pstmt;
+            pstmt = conn.prepareStatement(
+                    "UPDATE JavaquestCharacter SET LifePoints=? WHERE ID=?");
+
+            String characterOffensiveEquipment = character.getOffensiveEquipement() != null ? character.getOffensiveEquipement().getName() : OffensiveEquipmentType.empty.toString();
+            String characterDefensiveEquipment = character.getDefensiveEquipement() != null ? character.getDefensiveEquipement().getName() : DefensiveEquipmentType.empty.toString();
+
+            pstmt.setInt(1, character.getHealth());
+            pstmt.setInt(2, character.getID());
+            int numUpd = pstmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+    }
+
     private Statement getStatement(){
         try
         {

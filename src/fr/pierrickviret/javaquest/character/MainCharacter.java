@@ -42,12 +42,12 @@ public abstract class MainCharacter extends Character {
         return type;
     }
 
-    public void setType(CharacterType type) {
-        this.type = type;
-    }
-
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getAttack() {
