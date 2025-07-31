@@ -19,7 +19,6 @@ public abstract class MainCharacter extends Character {
     CharacterType type;
     OffensiveEquipement offensiveEquipement;
     DefensiveEquipement  defensiveEquipement;
-    private int ID;
 
     //init
     public MainCharacter(CharacterType type, String name) {
@@ -60,14 +59,6 @@ public abstract class MainCharacter extends Character {
 
     public DefensiveEquipement getDefensiveEquipement() {
         return defensiveEquipement;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     //private

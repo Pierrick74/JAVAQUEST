@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.board.Case;
 
 import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
 
-public class PotionCase extends Case {
+public class PotionCase extends Case implements saveableInDB{
     DefensiveEquipement potion;
 
     public PotionCase(DefensiveEquipement potion) {
@@ -13,5 +13,10 @@ public class PotionCase extends Case {
     public String toString() {
 
         return "Yes, une potion , enfin" + System.lineSeparator();
+    }
+
+    @Override
+    public String getInfoToSave() {
+        return potion.toString();
     }
 }

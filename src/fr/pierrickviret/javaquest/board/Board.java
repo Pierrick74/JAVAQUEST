@@ -21,6 +21,7 @@ public class Board {
      */
     private final Integer size;
     private Case[] cases;
+    private Integer Id;
 
     //init
     /**
@@ -50,5 +51,17 @@ public class Board {
      */
     public Case getCase(int index) {
         return cases[index];
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public Boolean hasID() {
+        return Id != null;
     }
 }

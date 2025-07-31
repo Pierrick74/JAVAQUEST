@@ -1,5 +1,7 @@
 package fr.pierrickviret.javaquest.db;
+import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.Menu;
+import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.character.Character;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.commun.CharacterType;
@@ -37,7 +39,10 @@ public class SQLRepository
     {
         try
         {
-            stmt = getStatement();
+
+            conn = getConnection();
+            stmt = conn.createStatement();
+
             res = stmt.executeQuery("SELECT * FROM JavaquestCharacter");
 
             menu.showInformation("voici les Heros du jeu");
@@ -116,9 +121,11 @@ public class SQLRepository
             pstmt.setString(6, characterDefensiveEquipment);
             pstmt.setInt(7, character.getID());
             int numUpd = pstmt.executeUpdate();
+            closeConnection();
         } catch (Exception e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
+
     }
 
     public void changeLifePoints(MainCharacter character) {
@@ -134,21 +141,11 @@ public class SQLRepository
             pstmt.setInt(1, character.getHealth());
             pstmt.setInt(2, character.getID());
             int numUpd = pstmt.executeUpdate();
+            closeConnection();
         } catch (Exception e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
-    }
 
-    private Statement getStatement(){
-        try
-        {
-            conn = getConnection();
-            return conn.createStatement();
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        return null;
     }
 
     private Connection getConnection(){
@@ -174,4 +171,83 @@ public class SQLRepository
         catch(Exception e){
         }
     }
+
+    // Save Board
+    public Integer saveBoard(Board board) {
+        try {
+            if(board.hasID()) {
+                return updateBoard(board);
+            } else {
+                return createSaveBoard(board);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+        return null;
+    }
+
+    private Integer updateBoard(Board board) {
+        try {
+            int id = 0;
+            conn = getConnection();
+
+            Gson gson = new Gson();
+            String boardJson = gson.toJson(board);
+
+            conn = getConnection();
+            PreparedStatement pstmt;
+
+            pstmt = conn.prepareStatement(
+                    "UPDATE JavaquestBoard SET Data=? WHERE ID=?", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, boardJson);
+            pstmt.setInt(2, board.getId());
+
+            pstmt.executeUpdate();
+
+            //get ID of board
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            closeConnection();
+            return id;
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+        return null;
+    }
+
+    private Integer createSaveBoard(Board board) {
+        try {
+            int id = 0;
+            conn = getConnection();
+
+            Gson gson = new Gson();
+            String boardJson = gson.toJson(board);
+
+            conn = getConnection();
+            PreparedStatement pstmt;
+
+            pstmt = conn.prepareStatement(
+                    "INSERT INTO JavaquestBoard (Data) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, boardJson);
+
+            pstmt.executeUpdate();
+
+            //get ID of board
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            closeConnection();
+            return id;
+        } catch (Exception e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+        return null;
+    }
+
+
 }

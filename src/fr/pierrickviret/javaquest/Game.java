@@ -1,5 +1,7 @@
 package fr.pierrickviret.javaquest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
 import fr.pierrickviret.javaquest.character.MainCharacter;
@@ -84,7 +86,6 @@ public class Game {
         this.menu = Menu.getInstance();
         this.gameState = GameState.begin;
         this.dice = new Dice();
-        this.board = new Board();
         this.mysql = SQLRepository.getInstance();
     }
 
@@ -123,6 +124,14 @@ public class Game {
                     break;
 
                 case startGame:
+                    board = new Board();
+                    int id = mysql.saveBoard(board);
+                    board.setId(id);
+
+                    Gson gson = new Gson();
+                    String boardJson = gson.toJson(board);
+                    board = gson.fromJson(boardJson, Board.class);
+
                     player = new Player();
                     gameState = character == null ? GameState.createCharacter : GameState.playerTurn;
                     break;

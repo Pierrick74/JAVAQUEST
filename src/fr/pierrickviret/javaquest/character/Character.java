@@ -12,12 +12,21 @@ public abstract class Character {
     String name;
     Integer health;
     Integer attack;
+    Integer ID;
 
     //init
     public Character(String name, Integer health, Integer attack) {
         this.name = name;
         this.health = health;
         this.attack = attack;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
 }
