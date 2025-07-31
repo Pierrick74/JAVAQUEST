@@ -1,7 +1,9 @@
 package fr.pierrickviret.javaquest.board;
 
+import fr.pierrickviret.javaquest.board.Case.*;
+import fr.pierrickviret.javaquest.character.Dragon;
 import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.character.dragon;
+import fr.pierrickviret.javaquest.equipement.defensive.potion;
 import fr.pierrickviret.javaquest.equipement.offensive.Sword;
 
 /**
@@ -25,11 +27,12 @@ public class Board {
     * Initialise la valeur du plateau à 64
      */
     public Board() {
-        this.size = 64;
+        this.size = 4;
         this.cases = new Case[size+1];
-        cases[2] = new dragon();
-        cases[3] = new Sword();
-
+        cases[1] = new EmptyCase();
+        cases[2] = new EnemyCase(new Dragon());
+        cases[3] = new WeaponCase(new Sword());
+        cases[4] = new PotionCase(new potion());
     }
 
     /**
@@ -38,5 +41,14 @@ public class Board {
      */
     public Integer getSize() {
         return size;
+    }
+
+    /**
+     * permet de retourner l'objet de la case indiqué
+     * @param index {@code Integer} position sur le plateau
+     * @return l'objet sur la case
+     */
+    public Case getCase(int index) {
+        return cases[index];
     }
 }

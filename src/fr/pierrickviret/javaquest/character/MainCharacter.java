@@ -22,7 +22,7 @@ public abstract class MainCharacter extends Character {
 
     //init
     public MainCharacter(CharacterType type, String name) {
-        super();
+        super(name, 0, 0);
         this.type = type;
         this.health = getHealth(this.type);
         this.attack = getAttack(this.type);

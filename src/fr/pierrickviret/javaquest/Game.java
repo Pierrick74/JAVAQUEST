@@ -1,6 +1,7 @@
 package fr.pierrickviret.javaquest;
 
 import fr.pierrickviret.javaquest.board.Board;
+import fr.pierrickviret.javaquest.board.Case.Case;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
@@ -190,7 +191,8 @@ public class Game {
      */
     private void showCharacterCreated() {
         menu.showInformation(showCharacterCreated);
-        System.out.println(character);
+        menu.showInformation(character.toString());
+        menu.showInformation("");
     }
 
     /**
@@ -214,11 +216,20 @@ public class Game {
 
         if(Objects.equals(player.getPosition(), board.getSize())) {
             gameState = GameState.finishGame;
-        } else {
-            System.out.println(player);
+            return;
         }
+
+        menu.showInformation(player.toString());
+        checkCase();
     }
 
+    /**
+     * Regarde la case sur laquelle le joueur est arrivé et effectue l'action
+     */
+    private void checkCase() {
+        Case currentCase = board.getCase(player.getPosition());
+        menu.showInformation(currentCase.toString());
+    }
     /**
      * Avance le joueur à la position donnée
      * @param position {@code int} position du joueur

@@ -1,7 +1,5 @@
 package fr.pierrickviret.javaquest.character;
 
-import fr.pierrickviret.javaquest.board.Case;
-
 /**
 *<h2> class Character</h2>
 * <p> Class abstraite représentant l'ensemble des personnages vivant du jeu</p>

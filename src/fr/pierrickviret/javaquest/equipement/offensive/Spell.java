@@ -10,4 +10,7 @@ import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
  * @version 1.0
  */
 public class Spell extends OffensiveEquipement {
+    public Spell(String name, Integer value) {
+        super(name, value);
+    }
 }

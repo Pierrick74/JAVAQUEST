@@ -39,6 +39,6 @@ public class Player {
     @Override
     public String toString() {
         return "Le Joueur" + System.lineSeparator() +
-                "est en position = " + position + ";" + System.lineSeparator();
+                "est en position = " + position + ".";
     }
 }

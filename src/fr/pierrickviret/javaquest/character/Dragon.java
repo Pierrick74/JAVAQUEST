@@ -1,7 +1,7 @@
 package fr.pierrickviret.javaquest.character;
 
-public class dragon extends Character {
-    public dragon() {
+public class Dragon extends Character {
+    public Dragon() {
         super("dragon",15, 4);
     }
 
