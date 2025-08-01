@@ -16,7 +16,6 @@ public class Dice {
      */
     public Integer getRoll(){
         Random rand = new Random();
-        //return rand.nextInt(1, 7);
-        return 1;
+        return rand.nextInt(1, 7);
     }
 }

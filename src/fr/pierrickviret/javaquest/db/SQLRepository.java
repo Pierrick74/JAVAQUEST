@@ -88,7 +88,8 @@ public class SQLRepository
                 id = rs.getInt(1);
             }
 
-            getHeroes();
+            //affiche l'ensemble des créations
+            //getHeroes();
             closeConnection();
             return id;
         } catch(SQLException e) {
@@ -157,9 +158,9 @@ public class SQLRepository
     private void closeConnection(){
         try
         {
-            conn.close();
-            stmt.close();
-            res.close();
+            if(conn != null){conn.close();}
+            if(stmt != null){stmt.close();}
+            if(res != null){ res.close();}
         }
         catch(Exception e){
             System.out.println(e);

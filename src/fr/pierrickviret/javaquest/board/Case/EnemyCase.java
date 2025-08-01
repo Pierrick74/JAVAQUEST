@@ -20,8 +20,12 @@ public class EnemyCase extends Case {
 
     @Override
     public void interact(MainCharacter character) {
-        character.setHealth(character.getHealth() - enemy.getAttack());
+        int health = character.getHealth() - enemy.getAttack();
+        if (health < 0) {
+            health = 0;
+        }
+        character.setHealth(health);
         show(enemy.toString() + " vous attaque");
-        show("votre santée est à " + character.getHealth());
+        show("votre santé est à " + character.getHealth());
     }
 }

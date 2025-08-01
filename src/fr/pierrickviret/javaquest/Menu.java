@@ -24,7 +24,7 @@ public class Menu {
     }
 
     /**
-     * Affiche le texte donné en parametre sur le terminal
+     * Affiche le texte donné en parameter sur le terminal
      * @param data {@code String} donnée à afficher.
      */
     public void showInformation(String data) {
@@ -33,10 +33,10 @@ public class Menu {
 
     /**
      * Permet de lire les réponses utilisateurs sous forme de INT
-     * Si l'utilisateur ne tappe pas dans les limites prévus, la fonction attends une bonne réponse avant de la renvoyer
+     * Si l'utilisateur ne tape pas dans les limites prévus, la fonction attends une bonne réponse avant de la renvoyer
      * @param min {@code int} valeur minimale pour la réponse
      * @param max {@code int} valeur maximale pour la réponse
-     * @return {@code int} retourne la reponse comprise entre les bornes
+     * @return {@code int} retourne la réponse comprise entre les bornes
      */
     public int listenResultBetween(int min, int max) {
         int result = 0;

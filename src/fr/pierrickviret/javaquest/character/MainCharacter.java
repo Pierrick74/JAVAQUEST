@@ -65,6 +65,12 @@ public abstract class MainCharacter extends Character {
         return defensiveEquipement;
     }
 
+    public void resetCharacter(){
+        health = maxHealth;
+        offensiveEquipement = null;
+        defensiveEquipement= null;
+    }
+
     //private
     private int setHealth(CharacterType type) {
         Random rand = new Random();

@@ -20,12 +20,12 @@ import static java.lang.System.exit;
 /**
  *<h2> class Game</h2>
  * <p> Class qui contient toute la logique du jeu
- * le joueur va se voir proposer de créer un personnage : Combatant ou magicien
+ * le joueur va se voir proposer de créer un personnage : Combatant ou magicien,
  * il pourra ensuite commencer la partie.
- * Le dé sera lancé et le joueur avancera sur un plateau</p>
+ * Le dé sera lancé et le joueur avancera sur un plateau.</p>
  *
- * <p> A la fin , il pourra rejouer ou sortir du jeu
- * Si il veut rejouer, il pourra refaire une partie avec le meme personnage ou en recréer un autre</p>
+ * <p> À la fin, il pourra rejouer ou sortir du jeu
+ * S'il veut rejouer, il pourra refaire une partie avec le meme personnage ou en recréer un autre.</p>
  * @author Pierrick
  * @see Board
  * @version 1.0
@@ -33,7 +33,7 @@ import static java.lang.System.exit;
 
 public class Game {
     // information to display
-    static String welcomeInformation = "Bienvenue dans le jeu\nJAVAQUEST";
+    static String welcomeInformation = "Bienvenue dans le jeu\nJAVA QUEST";
     static String mainMenuInformation = "\nVeuillez choisir:\n1. création du personnage\n2. Démarrer la partie\n3. Quitter le jeu";
     static String createCharacterInformation = "Quel personnage voulez-vous créer ?\n1. Combattant\n2. Mage\n3. Quitter le jeu";
     static String askForCharacterName = "Quel est le nom de votre Personnage";
@@ -44,7 +44,9 @@ public class Game {
     static String endGame = "Au revoir";
     static String askIfUserWantToChangeCharacterTypeToWarrior = "\nVoulez vous modifier le type du personnage\n1. utiliser le type actuel\n2. Transformer en Combatant\n3. Quitter le jeu";
     static String askIfUserWantToChangeCharacterTypeToWizard = "\nVoulez vous modifier le type du personnage\n1. utiliser le type actuel\n2. Transformer en Magicien\n3. Quitter le jeu";
-    static String askIfUserWantToChangeName = "\nVoulez vous modifier le nom du personnage\n1. utiliser le type actuel\n2. Changer le nom\n3. Quitter le jeu";
+    static String askIfUserWantToChangeName = "\nVoulez vous modifier le nom du personnage\n1. utiliser le nom actuel\n2. Changer le nom\n3. Quitter le jeu";
+    static String gameOver = "\nVous êtes mort, Game Over";
+    static String mustCreateCharacter = "\nVous devez créer un personnage avant";
 
     //dependency
     /**
@@ -52,7 +54,7 @@ public class Game {
      */
     Menu menu;
     /**
-     * Personnage principale du jeu
+     * Personnage principal du jeu
      */
     MainCharacter character;
     /**
@@ -69,7 +71,7 @@ public class Game {
     Player player;
 
     /**
-     * Represente l'etat du jeu
+     * Represent l'état du jeu
      * @see GameState
      */
     GameState gameState;
@@ -93,7 +95,7 @@ public class Game {
 
     /**
      * Fonction principale de la class
-     * gère le jeu en déroulant les differents états du jeu.
+     * gère le jeu en déroulant les différents états du jeu.
      * @see GameState
      */
     public void start() {
@@ -111,42 +113,43 @@ public class Game {
                 case createCharacter:
                     if( character == null) {
                         createCharacter();
-                        if (gameState != GameState.waitingInformation) {
-                            gameState = GameState.startGame;
-                        }
                     } else {
                         if(isModifyCharacter()){
                             modifyCharacter();
-                        } else {
-                            gameState = GameState.startGame;
                         }
                     }
+                    gameState = GameState.waitingInformation;
                     break;
 
                 case startGame:
-                    board = new Board();
-                    Integer id = mysql.saveBoard(board);
-                    board.setId(id);
-
-                    //TODO for test
-                    Gson gson = GsonConfig.getInstance();
-                    String boardJson = gson.toJson(board);
-                    menu.showInformation(boardJson);
-                    mysql.saveBoard(board);
-                    board = gson.fromJson(boardJson, Board.class);
-
-                    player = new Player();
-                    gameState = character == null ? GameState.createCharacter : GameState.playerTurn;
+                    if ( character == null) {
+                        gameState = GameState.createCharacter;
+                        menu.showInformation(mustCreateCharacter);
+                        break;
+                    } else {
+                        resetCharacter();
+                    }
+                    initGame();
+                    gameState = GameState.playerTurn;
                     break;
 
                 case playerTurn:
                     changePlayerPosition();
+                    if(character.getHealth() <= 0) {
+                        gameState = GameState.gameOver;
+                    }
                     break;
 
                 case finishGame:
                     menu.showInformation(finishGame);
                     gameState = GameState.waitingInformation;
                     break;
+
+                case gameOver:
+                    menu.showInformation(gameOver);
+                    gameState = GameState.waitingInformation;
+                    break;
+
                 default:
                     break;
             }
@@ -155,6 +158,25 @@ public class Game {
     }
 
     //private
+
+    private void initGame(){
+        board = new Board();
+        Integer id = mysql.saveBoard(board);
+        board.setId(id);
+
+        //TODO for test
+        Gson gson = GsonConfig.getInstance();
+        String boardJson = gson.toJson(board);
+        menu.showInformation(boardJson);
+        mysql.saveBoard(board);
+        board = gson.fromJson(boardJson, Board.class);
+
+        player = new Player();
+    }
+
+    private void resetCharacter() {
+        character.resetCharacter();
+    }
 
     /**
      * Gere la sortie du jeu
@@ -207,6 +229,7 @@ public class Game {
             character.setName(name);
         }
 
+        showCharacterCreated();
         //save in database
         mysql.editHero(character);
     }
@@ -231,8 +254,8 @@ public class Game {
     }
 
     /**
-     * Demande à l'utilisateur s'il veut modifier le personnage qu'il a crée.
-     * @return boolen reponse si il veut modifier
+     * Demande à l'utilisateur s'il veut modifier le personnage qu'il a créé.
+     * @return boolean  si il veut modifier
      */
     private Boolean isModifyCharacter() {
         showCharacterCreated();

@@ -1,7 +1,7 @@
 package fr.pierrickviret.javaquest.equipement;
 
 /**
- *<h2> class OffensiveEquipement</h2>
+ *<h2> class Offensive Equipment</h2>
  * <p> Class abstraite représentant les équipements offensifs
  * @author Pierrick
  * @version 1.0
