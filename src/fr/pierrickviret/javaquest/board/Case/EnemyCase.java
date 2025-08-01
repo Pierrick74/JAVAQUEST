@@ -19,13 +19,38 @@ public class EnemyCase extends Case {
     }
 
     @Override
-    public void interact(MainCharacter character) {
-        int health = character.getHealth() - enemy.getAttack();
+    public Boolean interact(MainCharacter character) {
+        characterAttack(character);
+        if(enemy.getCharacterHealthValue() <= 0){
+            return false;
+        }
+        enemyAttack(character);
+        return true;
+    }
+
+    private void enemyAttack(MainCharacter character) {
+        int health = character.getHealth() - enemy.getAttackValue();
         if (health < 0) {
             health = 0;
         }
         character.setHealth(health);
         show(enemy.toString() + " vous attaque");
         show("votre santé est à " + character.getHealth());
+    }
+
+    private void characterAttack(MainCharacter character) {
+        int health = enemy.getCharacterHealthValue() - character.getAttackValue();
+        if (health > 0) {
+            enemy.setCharacterHealth(health);
+            show(" vous attaquez " + enemy.toString());
+            show(" Il s'enfuit");
+        }
+        else {
+            enemy.setCharacterHealth(0);
+            show(" vous attaquez" + enemy.toString());
+            show(" Vous avez vaincu " + enemy.toString());
+
+        }
+
     }
 }

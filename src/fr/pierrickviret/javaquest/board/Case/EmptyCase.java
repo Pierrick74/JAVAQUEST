@@ -11,6 +11,7 @@ public class EmptyCase extends Case {
     }
 
     @Override
-    public void interact(MainCharacter character) {
+    public Boolean interact(MainCharacter character) {
+        return true;
     }
 }

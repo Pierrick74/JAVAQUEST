@@ -29,8 +29,15 @@ public abstract class Character {
         this.ID = ID;
     }
 
-    public Integer getAttack() {
+    public Integer getAttackValue() {
         return attack;
     }
 
+    public Integer getCharacterHealthValue() {
+        return health;
+    }
+
+    public void setCharacterHealth(Integer health) {
+        this.health = health;
+    }
 }

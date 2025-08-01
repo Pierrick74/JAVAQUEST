@@ -19,8 +19,12 @@ public class PotionCase extends Case {
     }
 
     @Override
-    public void interact(MainCharacter character) {
+    public Boolean interact(MainCharacter character) {
         int health = character.getHealth() + potion.getValue();
+        if(character.getHealth() == character.getMaxHealth()) {
+            return true;
+        }
+
         if(health > character.getMaxHealth()) {
             character.setHealth(character.getMaxHealth());
             show("Votre vie est au maximum");
@@ -28,5 +32,6 @@ public class PotionCase extends Case {
             character.setHealth(health);
             show("Votre vie remonte à " + health);
         }
+        return false;
     }
 }

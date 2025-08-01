@@ -20,20 +20,24 @@ public class WeaponCase extends Case {
     }
 
     @Override
-    public void interact(MainCharacter character) {
+    public Boolean interact(MainCharacter character) {
         if( character instanceof Warrior){
             if(character.getOffensiveEquipement() != null){
                 Integer actualEquipementValue = character.getOffensiveEquipement().getValue();
                 if (actualEquipementValue < this.weapon.getValue()) {
                     takeObject(character);
+                    return false;
                 } else {
                     show("Votre arme est supérieure, vous laissez " + weapon.getName());
+                    return true;
                 }
             } else {
                 takeObject(character);
+                return false;
             }
         } else {
             show("Vous ne pouvez pas prendre d'armement");
+            return true;
         }
     }
 

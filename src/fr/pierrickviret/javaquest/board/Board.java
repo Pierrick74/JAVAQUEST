@@ -41,8 +41,11 @@ public class Board {
         feedBoard();
     }
 
-    private void feedBoard() {
+    public void setCaseToEmpty(int id) {
+        cases[id] = new EmptyCase();
+    }
 
+    private void feedBoard() {
         for (int i = 0; i < cases.length; i++) {
             cases[i] = new EmptyCase();
         }

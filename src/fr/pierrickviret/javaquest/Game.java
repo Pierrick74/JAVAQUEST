@@ -3,6 +3,7 @@ package fr.pierrickviret.javaquest;
 import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
+import fr.pierrickviret.javaquest.board.Case.EmptyCase;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
@@ -248,7 +249,7 @@ public class Game {
                 character = new Wizard(name);
                 break;
         }
-        int id = mysql.createHeroes(name, type, character.getAttack() , character.getHealth(), OffensiveEquipmentType.empty, DefensiveEquipmentType.empty);
+        int id = mysql.createHeroes(name, type, character.getAttackValue() , character.getHealth(), OffensiveEquipmentType.empty, DefensiveEquipmentType.empty);
 
         character.setID(id);
     }
@@ -306,7 +307,10 @@ public class Game {
      */
     private void checkCase() {
         Case currentCase = board.getCase(player.getPosition());
-        currentCase.interact(character);
+        Boolean stateCase = currentCase.interact(character);
+        if(!stateCase) {
+            board.setCaseToEmpty(player.getPosition());
+        }
     }
     /**
      * Avance le joueur à la position donnée

@@ -33,7 +33,7 @@ public class SQLRepository
     /**
      * Permet d'afficher les personnages en BD
      */
-    public void getHeroes()
+    public void showHeroes()
     {
         try
         {
@@ -113,7 +113,7 @@ public class SQLRepository
             pstmt.setString(1, character.getName());
             pstmt.setString(2, character.getType().toString());
             pstmt.setInt(3, character.getHealth());
-            pstmt.setInt(4, character.getAttack());
+            pstmt.setInt(4, character.getAttackValue());
             pstmt.setString(5, characterOffensiveEquipment);
             pstmt.setString(6, characterDefensiveEquipment);
             pstmt.setInt(7, character.getID());
