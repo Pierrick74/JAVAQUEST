@@ -9,5 +9,5 @@ import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
  * @see fr.pierrickviret.javaquest.equipement.DefensiveEquipement
  * @version 1.0
  */
-public class shield extends DefensiveEquipement {
+public class Shield extends DefensiveEquipement {
 }

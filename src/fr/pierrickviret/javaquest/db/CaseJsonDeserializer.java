@@ -26,6 +26,8 @@ public class CaseJsonDeserializer implements JsonDeserializer<Case> {
                 return context.deserialize(json, WeaponCase.class);
             case "potion":
                 return context.deserialize(json, PotionCase.class);
+            case "spell":
+                return context.deserialize(json, SpellCase.class);
             default:
                 return context.deserialize(json, EmptyCase.class);
         }

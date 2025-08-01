@@ -3,7 +3,7 @@ package fr.pierrickviret.javaquest.board;
 import fr.pierrickviret.javaquest.board.Case.*;
 import fr.pierrickviret.javaquest.character.Dragon;
 import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.equipement.defensive.potion;
+import fr.pierrickviret.javaquest.equipement.defensive.Potion;
 import fr.pierrickviret.javaquest.equipement.offensive.Sword;
 
 /**
@@ -33,7 +33,7 @@ public class Board {
         cases[1] = new EmptyCase();
         cases[2] = new EnemyCase(new Dragon());
         cases[3] = new WeaponCase(new Sword());
-        cases[4] = new PotionCase(new potion());
+        cases[4] = new PotionCase(new Potion());
     }
 
     /**

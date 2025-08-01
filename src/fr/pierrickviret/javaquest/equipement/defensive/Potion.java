@@ -9,5 +9,8 @@ import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
  * @see fr.pierrickviret.javaquest.equipement.DefensiveEquipement
  * @version 1.0
  */
-public class potion extends DefensiveEquipement {
+public class Potion extends DefensiveEquipement {
+    public Potion(String name, Integer value) {
+        super(name, value);
+    }
 }

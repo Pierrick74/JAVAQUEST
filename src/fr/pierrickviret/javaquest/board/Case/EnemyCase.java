@@ -12,7 +12,8 @@ public class EnemyCase extends Case implements saveableInDB {
     @Override
     public String toString() {
 
-        return "oh non, un ennemi" + System.lineSeparator();
+        return "oh non, un " + System.lineSeparator()
+                + enemy.toString();
     }
 
 

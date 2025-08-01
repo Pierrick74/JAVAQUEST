@@ -10,6 +10,11 @@ public abstract class DefensiveEquipement {
     Integer value;
     String name;
 
+    public DefensiveEquipement(String name, Integer value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public String getName(){
         return name;
     }

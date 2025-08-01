@@ -12,7 +12,9 @@ public class PotionCase extends Case implements saveableInDB{
     @Override
     public String toString() {
 
-        return "Yes, une potion , enfin" + System.lineSeparator();
+        return "Yes, "
+        + potion.toString()
+        +", enfin" + System.lineSeparator();
     }
 
     @Override
