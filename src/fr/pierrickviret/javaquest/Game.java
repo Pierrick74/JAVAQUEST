@@ -12,6 +12,7 @@ import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
+import fr.pierrickviret.javaquest.db.CaseJsonDeserializer;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 
 import java.util.Objects;
@@ -128,8 +129,11 @@ public class Game {
                     int id = mysql.saveBoard(board);
                     board.setId(id);
 
-                    Gson gson = new Gson();
+                    //TODO for test
+                    Gson gson = new GsonBuilder().registerTypeAdapter(Case.class, new CaseJsonDeserializer()).create();
                     String boardJson = gson.toJson(board);
+                    menu.showInformation(boardJson);
+                    mysql.saveBoard(board);
                     board = gson.fromJson(boardJson, Board.class);
 
                     player = new Player();
