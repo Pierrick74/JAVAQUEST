@@ -1,7 +1,6 @@
 package fr.pierrickviret.javaquest.board.Case;
 
 import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 

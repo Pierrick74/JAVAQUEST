@@ -1,7 +1,6 @@
 package fr.pierrickviret.javaquest;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
 import fr.pierrickviret.javaquest.character.MainCharacter;
@@ -12,8 +11,6 @@ import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
-import fr.pierrickviret.javaquest.db.CaseJsonDeserializer;
-import fr.pierrickviret.javaquest.db.CharacterJsonDeserializer;
 import fr.pierrickviret.javaquest.db.GsonConfig;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 

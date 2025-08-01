@@ -2,12 +2,10 @@ package fr.pierrickviret.javaquest.db;
 import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.board.Board;
-import fr.pierrickviret.javaquest.character.Character;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
-import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.sql.*;
 
@@ -95,10 +93,8 @@ public class SQLRepository
             return id;
         } catch(SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
-            e.printStackTrace();
         } catch(Exception e) {
             System.out.println("Erreur générale : " + e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }
@@ -120,7 +116,7 @@ public class SQLRepository
             pstmt.setString(5, characterOffensiveEquipment);
             pstmt.setString(6, characterDefensiveEquipment);
             pstmt.setInt(7, character.getID());
-            int numUpd = pstmt.executeUpdate();
+            pstmt.executeUpdate();
             closeConnection();
         } catch (Exception e) {
             System.out.println("Erreur SQL : " + e.getMessage());
@@ -135,12 +131,9 @@ public class SQLRepository
             pstmt = conn.prepareStatement(
                     "UPDATE JavaquestCharacter SET LifePoints=? WHERE ID=?");
 
-            String characterOffensiveEquipment = character.getOffensiveEquipement() != null ? character.getOffensiveEquipement().getName() : OffensiveEquipmentType.empty.toString();
-            String characterDefensiveEquipment = character.getDefensiveEquipement() != null ? character.getDefensiveEquipement().getName() : DefensiveEquipmentType.empty.toString();
-
             pstmt.setInt(1, character.getHealth());
             pstmt.setInt(2, character.getID());
-            int numUpd = pstmt.executeUpdate();
+            pstmt.executeUpdate();
             closeConnection();
         } catch (Exception e) {
             System.out.println("Erreur SQL : " + e.getMessage());
@@ -169,6 +162,7 @@ public class SQLRepository
             res.close();
         }
         catch(Exception e){
+            System.out.println(e);
         }
     }
 

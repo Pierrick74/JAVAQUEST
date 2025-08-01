@@ -6,7 +6,6 @@ import fr.pierrickviret.javaquest.character.Gobelin;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Sorcerer;
 import fr.pierrickviret.javaquest.equipement.defensive.BigPotion;
-import fr.pierrickviret.javaquest.equipement.defensive.Potion;
 import fr.pierrickviret.javaquest.equipement.defensive.SmallPotion;
 import fr.pierrickviret.javaquest.equipement.offensive.Club;
 import fr.pierrickviret.javaquest.equipement.offensive.Fireball;
@@ -27,7 +26,7 @@ public class Board {
     * Taille maximum du plateau
      */
     private final Integer size;
-    private Case[] cases;
+    private final Case[] cases;
     private Integer Id;
 
     //init
