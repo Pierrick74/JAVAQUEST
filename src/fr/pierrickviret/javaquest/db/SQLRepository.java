@@ -24,7 +24,7 @@ public class SQLRepository
     private SQLRepository() {}
 
     /**
-     * permet de recupérer le singleton
+     * permet de récupérer le singleton
      * @return une instance de ConnectMySQL
      */
     public static SQLRepository getInstance() {
@@ -43,7 +43,7 @@ public class SQLRepository
 
             res = stmt.executeQuery("SELECT * FROM JavaquestCharacter");
 
-            menu.showInformation("voici les Heros du jeu");
+            menu.showInformation("voici les Heroes du jeu");
             while(res.next())
                 menu.showInformation(res.getString("name"));
 
@@ -57,11 +57,11 @@ public class SQLRepository
     /**
      * permet de cree un nouveau personnage dans la BDD
      * @param name {@code String} nom du personnage
-     * @param type {@code CharactereType} le type du personnage
+     * @param type {@code CharacterType} le type du personnage
      * @param LifePoints {@code Integer} les points de vie
      * @param Strength {@code Integer} la force
      * @param OffensiveEquipement {@code OffensiveEquipment} les armes offensives, indiquer empty si null
-     * @param DefensiveEquipment {@code DefensiveEquipment} les armes deffensives, indiquer empty si null
+     * @param DefensiveEquipment {@code DefensiveEquipment} les armes defensive, indiquer empty si null
      * @return {@code Integer} retourne l'ID du personnage créer
      */
     public Integer createHeroes(String name, CharacterType type, Integer LifePoints, Integer Strength, OffensiveEquipmentType OffensiveEquipement, DefensiveEquipmentType DefensiveEquipment) {

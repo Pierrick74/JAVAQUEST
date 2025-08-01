@@ -12,6 +12,8 @@ import fr.pierrickviret.javaquest.equipement.offensive.Fireball;
 import fr.pierrickviret.javaquest.equipement.offensive.Lightning;
 import fr.pierrickviret.javaquest.equipement.offensive.Sword;
 
+import java.util.Random;
+
 /**
  *<h2> class Board</h2>
  * <p> Class représentant le plateau de jeu
@@ -40,77 +42,66 @@ public class Board {
     }
 
     private void feedBoard() {
+
         for (int i = 0; i < cases.length; i++) {
             cases[i] = new EmptyCase();
         }
 
-// 5 Massues (cases 2, 11, 5, 22, 38)
-        cases[2] = new WeaponCase(new Club());
-        cases[5] = new WeaponCase(new Club());
-        cases[11] = new WeaponCase(new Club());
-        cases[22] = new WeaponCase(new Club());
-        cases[38] = new WeaponCase(new Club());
+// 5 Massues
+        for (int i = 0; i < 5; i++) {
+            cases[giveEmptyCase()] = new WeaponCase(new Club());
+        }
 
-// 4 Épées (cases 19, 26, 42 et 53)
-        cases[19] = new WeaponCase(new Sword());
-        cases[26] = new WeaponCase(new Sword());
-        cases[42] = new WeaponCase(new Sword());
-        cases[53] = new WeaponCase(new Sword());
+// 4 Épées
+        for (int i = 0; i < 4; i++) {
+            cases[giveEmptyCase()] = new WeaponCase(new Sword());
+        }
 
-// 5 Sorts "éclair" (cases 1, 4, 8, 17 et 23)
-        cases[1] = new SpellCase(new Lightning());
-        cases[4] = new SpellCase(new Lightning());
-        cases[8] = new SpellCase(new Lightning());
-        cases[17] = new SpellCase(new Lightning());
-        cases[23] = new SpellCase(new Lightning());
 
-// 2 Sorts "boules de feu" (cases 48 et 49)
-        cases[48] = new SpellCase(new Fireball());
-        cases[49] = new SpellCase(new Fireball());
+// 5 Sorts "éclair"
+        for (int i = 0; i < 5; i++) {
+            cases[giveEmptyCase()] = new SpellCase(new Lightning());
+        }
 
-// 6 Potions standards (cases 7, 13, 31, 33, 39, 43)
-        cases[7] = new PotionCase(new SmallPotion());
-        cases[13] = new PotionCase(new SmallPotion());
-        cases[31] = new PotionCase(new SmallPotion());
-        cases[33] = new PotionCase(new SmallPotion());
-        cases[39] = new PotionCase(new SmallPotion());
-        cases[43] = new PotionCase(new SmallPotion());
+// 2 Sorts "boules de feu"
+        for (int i = 0; i < 2; i++) {
+            cases[giveEmptyCase()] = new SpellCase(new Fireball());
+        }
 
-// 2 Grandes potions (cases 28, 41)
-        cases[28] = new PotionCase(new BigPotion());
-        cases[41] = new PotionCase(new BigPotion());
+// 6 Potions standards
+        for (int i = 0; i < 6; i++) {
+            cases[giveEmptyCase()] = new PotionCase(new SmallPotion());
+        }
 
-// === CASES ENNEMIS (24 cases) ===
+// 2 Grandes potions
+        for (int i = 0; i < 6; i++) {
+            cases[giveEmptyCase()] = new PotionCase(new BigPotion());
+        }
+// CASES ENNEMIS (24 cases)
 
-// 10 Gobelins (cases 3, 6, 9, 12, 15, 18, 21, 24, 27 et 30)
-        cases[3] = new EnemyCase(new Gobelin());
-        cases[6] = new EnemyCase(new Gobelin());
-        cases[9] = new EnemyCase(new Gobelin());
-        cases[12] = new EnemyCase(new Gobelin());
-        cases[15] = new EnemyCase(new Gobelin());
-        cases[18] = new EnemyCase(new Gobelin());
-        cases[21] = new EnemyCase(new Gobelin());
-        cases[24] = new EnemyCase(new Gobelin());
-        cases[27] = new EnemyCase(new Gobelin());
-        cases[30] = new EnemyCase(new Gobelin());
+// 10 Gobelins
+        for (int i = 0; i < 10; i++) {
+            cases[giveEmptyCase()] = new EnemyCase(new Gobelin());
+        }
 
-// 10 Sorciers (cases 10, 20, 25, 32, 35, 36, 37, 40, 44 et 47)
-        cases[10] = new EnemyCase(new Sorcerer());
-        cases[20] = new EnemyCase(new Sorcerer());
-        cases[25] = new EnemyCase(new Sorcerer());
-        cases[32] = new EnemyCase(new Sorcerer());
-        cases[35] = new EnemyCase(new Sorcerer());
-        cases[36] = new EnemyCase(new Sorcerer());
-        cases[37] = new EnemyCase(new Sorcerer());
-        cases[40] = new EnemyCase(new Sorcerer());
-        cases[44] = new EnemyCase(new Sorcerer());
-        cases[47] = new EnemyCase(new Sorcerer());
+// 10 Sorciers
+        for (int i = 0; i < 10; i++) {
+            cases[giveEmptyCase()] = new EnemyCase(new Sorcerer());
+        }
 
-// 4 Dragons (cases 45, 52, 56 et 62)
-        cases[45] = new EnemyCase(new Dragon());
-        cases[52] = new EnemyCase(new Dragon());
-        cases[56] = new EnemyCase(new Dragon());
-        cases[62] = new EnemyCase(new Dragon());
+// 4 Dragons
+        for (int i = 0; i < 4; i++) {
+            cases[giveEmptyCase()] = new EnemyCase(new Dragon());
+        }
+    }
+
+    private int giveEmptyCase() {
+        Random rand = new Random();
+        int place;
+        do {
+            place = rand.nextInt(1, size);
+        } while (!(cases[place] instanceof EmptyCase));
+        return place;
     }
 
     /**
