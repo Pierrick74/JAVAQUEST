@@ -5,9 +5,9 @@ import fr.pierrickviret.javaquest.equipement.defensive.Potion;
 import fr.pierrickviret.javaquest.equipement.offensive.Spell;
 
 public class PotionCase extends Case implements saveableInDB{
-    Spell potion;
+    Potion potion;
 
-    public PotionCase(Spell potion) {
+    public PotionCase(Potion potion) {
         this.potion = potion;
     }
 

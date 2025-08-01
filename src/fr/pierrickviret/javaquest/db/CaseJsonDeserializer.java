@@ -3,6 +3,9 @@ package fr.pierrickviret.javaquest.db;
 import com.google.gson.*;
 import fr.pierrickviret.javaquest.board.Case.*;
 import fr.pierrickviret.javaquest.character.Character;
+import fr.pierrickviret.javaquest.equipement.defensive.Potion;
+import fr.pierrickviret.javaquest.equipement.offensive.Spell;
+import fr.pierrickviret.javaquest.equipement.offensive.Weapon;
 
 import java.lang.reflect.Type;
 
@@ -25,13 +28,15 @@ public class CaseJsonDeserializer implements JsonDeserializer<Case> {
         if (jsonObject.has("enemy")) {
             Character enemy = context.deserialize(jsonObject.get("enemy"), Character.class);
             return new EnemyCase(enemy);
-
         } else if (jsonObject.has("weapon")) {
-            return context.deserialize(jsonObject.get("weapon"), WeaponCase.class);
+            Weapon weapon = context.deserialize(jsonObject.get("weapon"), Weapon.class);
+            return new WeaponCase(weapon);
         } else if (jsonObject.has("potion")) {
-            return context.deserialize(jsonObject.get("potion"), PotionCase.class);
+            Potion potion = context.deserialize(jsonObject.get("potion"), Potion.class);
+            return new PotionCase(potion);
         } else if (jsonObject.has("spell")) {
-            return context.deserialize(jsonObject.get("spell"), SpellCase.class);
+            Spell spell = context.deserialize(jsonObject.get("spell"), Spell.class);
+            return new SpellCase(spell);
         } else {
             return new EmptyCase();
         }

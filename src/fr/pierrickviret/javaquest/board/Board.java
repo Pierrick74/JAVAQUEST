@@ -39,9 +39,9 @@ public class Board {
         this.cases = new Case[size+1];
         cases[1] = new EmptyCase();
         cases[2] = new EnemyCase(new Dragon());
-        cases[3] = new WeaponCase(new Sword());
+        cases[3] = new PotionCase(new SmallPotion());
         cases[4] = new PotionCase(new BigPotion());
-        cases[5] = new PotionCase(new SmallPotion());
+        cases[5] = new WeaponCase(new Sword());
         cases[6] = new EnemyCase(new Gobelin());
         cases[7] = new WeaponCase(new Club());
         cases[8] = new SpellCase(new Lightning());
