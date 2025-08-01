@@ -2,8 +2,15 @@ package fr.pierrickviret.javaquest.board;
 
 import fr.pierrickviret.javaquest.board.Case.*;
 import fr.pierrickviret.javaquest.character.Dragon;
+import fr.pierrickviret.javaquest.character.Gobelin;
 import fr.pierrickviret.javaquest.character.MainCharacter;
+import fr.pierrickviret.javaquest.character.Sorcerer;
+import fr.pierrickviret.javaquest.equipement.defensive.BigPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.Potion;
+import fr.pierrickviret.javaquest.equipement.defensive.SmallPotion;
+import fr.pierrickviret.javaquest.equipement.offensive.Club;
+import fr.pierrickviret.javaquest.equipement.offensive.Fireball;
+import fr.pierrickviret.javaquest.equipement.offensive.Lightning;
 import fr.pierrickviret.javaquest.equipement.offensive.Sword;
 
 /**
@@ -28,12 +35,18 @@ public class Board {
     * Initialise la valeur du plateau à 64
      */
     public Board() {
-        this.size = 4;
+        this.size = 10;
         this.cases = new Case[size+1];
         cases[1] = new EmptyCase();
         cases[2] = new EnemyCase(new Dragon());
         cases[3] = new WeaponCase(new Sword());
-        cases[4] = new PotionCase(new Potion());
+        cases[4] = new PotionCase(new BigPotion());
+        cases[5] = new PotionCase(new SmallPotion());
+        cases[6] = new EnemyCase(new Gobelin());
+        cases[7] = new WeaponCase(new Club());
+        cases[8] = new SpellCase(new Lightning());
+        cases[9] = new SpellCase(new Fireball());
+        cases[10] = new EnemyCase(new Sorcerer());
     }
 
     /**

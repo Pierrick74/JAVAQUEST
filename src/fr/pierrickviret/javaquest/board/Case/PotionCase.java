@@ -1,11 +1,13 @@
 package fr.pierrickviret.javaquest.board.Case;
 
 import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
+import fr.pierrickviret.javaquest.equipement.defensive.Potion;
+import fr.pierrickviret.javaquest.equipement.offensive.Spell;
 
 public class PotionCase extends Case implements saveableInDB{
-    DefensiveEquipement potion;
+    Spell potion;
 
-    public PotionCase(DefensiveEquipement potion) {
+    public PotionCase(Spell potion) {
         this.potion = potion;
     }
 

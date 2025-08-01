@@ -1,9 +1,10 @@
 package fr.pierrickviret.javaquest.equipement.defensive;
 
 import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
+import fr.pierrickviret.javaquest.equipement.offensive.Spell;
 
 
-public class BigPotion extends DefensiveEquipement {
+public class BigPotion extends Spell {
     public BigPotion() {
         super("Grande potion", 5);
     }

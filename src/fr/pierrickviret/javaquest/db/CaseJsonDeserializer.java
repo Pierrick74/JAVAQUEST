@@ -1,10 +1,8 @@
 package fr.pierrickviret.javaquest.db;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import fr.pierrickviret.javaquest.board.Case.*;
+import fr.pierrickviret.javaquest.character.Character;
 
 import java.lang.reflect.Type;
 
@@ -13,23 +11,29 @@ import java.lang.reflect.Type;
  */
 public class CaseJsonDeserializer implements JsonDeserializer<Case> {
     public Case deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        if (json.getAsJsonObject().get("cases") == null) {
-            return context.deserialize(json, EmptyCase.class);
+
+        if (json.isJsonNull()) {
+            return new EmptyCase();
         }
 
-        String type = json.getAsJsonObject().get("cases").getAsString();
+        JsonObject jsonObject = json.getAsJsonObject();
 
-        switch(type) {
-            case "enemy":
-                return context.deserialize(json, EnemyCase.class);
-            case "weapon":
-                return context.deserialize(json, WeaponCase.class);
-            case "potion":
-                return context.deserialize(json, PotionCase.class);
-            case "spell":
-                return context.deserialize(json, SpellCase.class);
-            default:
-                return context.deserialize(json, EmptyCase.class);
+        if (jsonObject.isEmpty()) {
+            return new EmptyCase();
+        }
+
+        if (jsonObject.has("enemy")) {
+            Character enemy = context.deserialize(jsonObject.get("enemy"), Character.class);
+            return new EnemyCase(enemy);
+
+        } else if (jsonObject.has("weapon")) {
+            return context.deserialize(jsonObject.get("weapon"), WeaponCase.class);
+        } else if (jsonObject.has("potion")) {
+            return context.deserialize(jsonObject.get("potion"), PotionCase.class);
+        } else if (jsonObject.has("spell")) {
+            return context.deserialize(jsonObject.get("spell"), SpellCase.class);
+        } else {
+            return new EmptyCase();
         }
     }
 }

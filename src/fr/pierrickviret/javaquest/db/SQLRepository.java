@@ -223,7 +223,7 @@ public class SQLRepository
             int id = 0;
             conn = getConnection();
 
-            Gson gson = new Gson();
+            Gson gson = GsonConfig.getInstance();
             String boardJson = gson.toJson(board);
 
             conn = getConnection();

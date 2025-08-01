@@ -1,7 +1,7 @@
 package fr.pierrickviret.javaquest.equipement.offensive;
 
-public class fireball extends Spell{
-    public fireball() {
+public class Fireball extends Spell{
+    public Fireball() {
         super("Boule de feu", 2);
     }
 

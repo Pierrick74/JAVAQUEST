@@ -10,4 +10,7 @@ import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
  * @version 1.0
  */
 public class Shield extends DefensiveEquipement {
+    public Shield() {
+        super("bouclier", 4);
+    }
 }
