@@ -1,8 +1,9 @@
 package fr.pierrickviret.javaquest.board.Case;
 
 import fr.pierrickviret.javaquest.character.Character;
+import fr.pierrickviret.javaquest.character.MainCharacter;
 
-public class EnemyCase extends Case implements saveableInDB {
+public class EnemyCase extends Case {
     Character enemy;
 
     public EnemyCase(Character enemy) {
@@ -17,9 +18,10 @@ public class EnemyCase extends Case implements saveableInDB {
                 + System.lineSeparator();
     }
 
-
     @Override
-    public String getInfoToSave() {
-        return String.valueOf(enemy.getID());
+    public void interact(MainCharacter character) {
+        character.setHealth(character.getHealth() - enemy.getAttack());
+        show(enemy.toString() + " vous attaque");
+        show("votre santée est à " + character.getHealth());
     }
 }

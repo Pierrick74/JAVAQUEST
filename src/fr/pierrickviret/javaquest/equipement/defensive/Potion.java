@@ -13,4 +13,8 @@ public class Potion extends DefensiveEquipement {
     public Potion(String name, Integer value) {
         super(name, value);
     }
+
+    public Integer getValue() {
+        return value;
+    }
 }

@@ -7,7 +7,7 @@ package fr.pierrickviret.javaquest.equipement;
  * @version 1.0
  */
 public abstract class OffensiveEquipement {
-    Integer value;
+    protected  Integer value;
     String name;
 
     public OffensiveEquipement(String name, Integer value) {
@@ -18,4 +18,6 @@ public abstract class OffensiveEquipement {
     public String getName() {
         return name;
     }
+
+    public Integer getValue() {return value;}
 }

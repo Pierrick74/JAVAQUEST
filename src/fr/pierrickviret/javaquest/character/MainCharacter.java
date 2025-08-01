@@ -16,6 +16,7 @@ import java.util.Random;
  */
 public abstract class MainCharacter extends Character {
     //variable
+    Integer maxHealth;
     CharacterType type;
     OffensiveEquipement offensiveEquipement;
     DefensiveEquipement  defensiveEquipement;
@@ -25,6 +26,7 @@ public abstract class MainCharacter extends Character {
         super(name, 0, 0);
         this.type = type;
         this.health = setHealth(this.type);
+        maxHealth = this.health;
         this.attack = setAttack(this.type);
         this.name = name;
     }
@@ -49,12 +51,14 @@ public abstract class MainCharacter extends Character {
         this.health = health;
     }
 
-    public int getAttack() {
-        return attack;
-    }
+    public Integer getMaxHealth() {return maxHealth;}
 
     public OffensiveEquipement getOffensiveEquipement() {
         return offensiveEquipement;
+    }
+
+    public void setOffensiveEquipement(OffensiveEquipement offensiveEquipement) {
+        this.offensiveEquipement = offensiveEquipement;
     }
 
     public DefensiveEquipement getDefensiveEquipement() {

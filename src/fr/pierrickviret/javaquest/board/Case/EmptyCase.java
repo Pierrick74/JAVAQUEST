@@ -1,6 +1,8 @@
 package fr.pierrickviret.javaquest.board.Case;
 
-public class EmptyCase extends Case implements saveableInDB {
+import fr.pierrickviret.javaquest.character.MainCharacter;
+
+public class EmptyCase extends Case {
 
     @Override
     public String toString() {
@@ -9,7 +11,6 @@ public class EmptyCase extends Case implements saveableInDB {
     }
 
     @Override
-    public String getInfoToSave() {
-        return "";
+    public void interact(MainCharacter character) {
     }
 }

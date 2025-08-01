@@ -29,4 +29,8 @@ public abstract class Character {
         this.ID = ID;
     }
 
+    public Integer getAttack() {
+        return attack;
+    }
+
 }

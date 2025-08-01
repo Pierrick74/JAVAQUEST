@@ -13,4 +13,8 @@ public class Spell extends OffensiveEquipement {
     public Spell(String name, Integer value) {
         super(name, value);
     }
+
+    public Integer getValue() {
+        return value;
+    }
 }

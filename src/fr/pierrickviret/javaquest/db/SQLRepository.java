@@ -188,10 +188,10 @@ public class SQLRepository
 
     private Integer updateBoard(Board board) {
         try {
-            int id = 0;
+            Integer id = 0;
             conn = getConnection();
 
-            Gson gson = new Gson();
+            Gson gson = GsonConfig.getInstance();
             String boardJson = gson.toJson(board);
 
             conn = getConnection();
@@ -220,7 +220,7 @@ public class SQLRepository
 
     private Integer createSaveBoard(Board board) {
         try {
-            int id = 0;
+            Integer id = 0;
             conn = getConnection();
 
             Gson gson = GsonConfig.getInstance();

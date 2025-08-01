@@ -128,11 +128,10 @@ public class Game {
 
                 case startGame:
                     board = new Board();
-                    int id = mysql.saveBoard(board);
+                    Integer id = mysql.saveBoard(board);
                     board.setId(id);
 
                     //TODO for test
-
                     Gson gson = GsonConfig.getInstance();
                     String boardJson = gson.toJson(board);
                     menu.showInformation(boardJson);
@@ -263,7 +262,7 @@ public class Game {
      */
     private void changePlayerPosition() {
         Integer turnDice = dice.getRoll();
-        menu.showInformation(rollDice + turnDice.toString());
+        menu.showInformation("\n"+ rollDice + turnDice.toString() + "\n");
 
         try {
             movePlayer(player.getPosition() + turnDice);
@@ -287,7 +286,7 @@ public class Game {
      */
     private void checkCase() {
         Case currentCase = board.getCase(player.getPosition());
-        menu.showInformation(currentCase.toString());
+        currentCase.interact(character);
     }
     /**
      * Avance le joueur à la position donnée

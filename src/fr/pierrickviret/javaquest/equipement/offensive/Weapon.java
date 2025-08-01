@@ -13,4 +13,8 @@ public class Weapon extends OffensiveEquipement {
     public Weapon(String name, Integer value) {
         super(name, value);
     }
+
+    public Integer getValue() {
+        return value;
+    }
 }
