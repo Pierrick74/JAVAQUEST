@@ -43,11 +43,11 @@ public class EnemyCase extends Case {
         if (health > 0) {
             enemy.setCharacterHealth(health);
             show(" vous attaquez " + enemy.toString());
-            show(" Il s'enfuit");
+            show("la santé de "+ enemy.toString() + " passe à " + enemy.getCharacterHealthValue() );
         }
         else {
             enemy.setCharacterHealth(0);
-            show(" vous attaquez" + enemy.toString());
+            show(" vous attaquez " + enemy.toString());
             show(" Vous avez vaincu " + enemy.toString());
 
         }

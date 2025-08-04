@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
 import fr.pierrickviret.javaquest.board.Case.EmptyCase;
+import fr.pierrickviret.javaquest.board.Case.EnemyCase;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
@@ -16,6 +17,8 @@ import fr.pierrickviret.javaquest.db.GsonConfig;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 
 import java.util.Objects;
+import java.util.Random;
+
 import static java.lang.System.exit;
 
 /**
@@ -48,6 +51,7 @@ public class Game {
     static String askIfUserWantToChangeName = "\nVoulez vous modifier le nom du personnage\n1. utiliser le nom actuel\n2. Changer le nom\n3. Quitter le jeu";
     static String gameOver = "\nVous êtes mort, Game Over";
     static String mustCreateCharacter = "\nVous devez créer un personnage avant";
+    static String askForFight = "\nQue voulez vous faire?\n1. Attaquer\n2. Fuir\n3. Quitter le jeu";
 
     //dependency
     /**
@@ -307,11 +311,63 @@ public class Game {
      */
     private void checkCase() {
         Case currentCase = board.getCase(player.getPosition());
-        Boolean stateCase = currentCase.interact(character);
-        if(!stateCase) {
-            board.setCaseToEmpty(player.getPosition());
+        if( currentCase instanceof EnemyCase) {
+            menu.showInformation("\n"+ currentCase.toString());
+            StartFight(currentCase);
+        } else {
+            Boolean stateCase = currentCase.interact(character);
+            if (!stateCase) {
+                board.setCaseToEmpty(player.getPosition());
+            }
         }
     }
+
+    private void StartFight(Case currentCase) {
+        menu.showInformation(askForFight);
+        int result = menu.listenResultBetween(1,3);
+        switch (result) {
+            case 1:
+                Boolean haveFighter = fightWithEnemy(currentCase);
+                if (haveFighter) {
+                    StartFight(currentCase);
+                }
+                break;
+            case 2:
+                movePlayerBackward();
+                break;
+            case 3:
+                exitGame();
+                break;
+        }
+    }
+
+    /**
+     * Permet de combatre avec un enemy
+     * @param currentCase la case actuel
+     * @return si un combat peut encore avoir lieux
+     */
+    private boolean fightWithEnemy(Case currentCase) {
+        Boolean stateCase = currentCase.interact(character);
+        if (!stateCase) {
+            board.setCaseToEmpty(player.getPosition());
+        }
+        if(character.getHealth() <= 0) {
+            stateCase = false;
+        }
+        return stateCase;
+    }
+
+    /**
+     * Permet de faire reculer le joueur d’un nombre de cases aléatoires (entre 1 et 6)
+     * lors d'une fuite de combat
+     */
+    private void movePlayerBackward(){
+        Random rand = new Random();
+        int number = rand.nextInt(1, 7);
+        player.setPosition(player.getPosition() - number);
+        menu.showInformation("\nVous reculez de "+ number + " cases\n" + player.toString());
+    }
+
     /**
      * Avance le joueur à la position donnée
      * @param position {@code int} position du joueur
