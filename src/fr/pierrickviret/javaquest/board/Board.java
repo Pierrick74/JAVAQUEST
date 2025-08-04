@@ -33,28 +33,43 @@ public class Board {
     /**
      * Initialise la valeur du plateau à 64
      */
-    public Board() {
+    public Board(int difficultyLevel) {
         this.size = 64;
         this.cases = new Case[size+1];
-        feedBoard();
+        feedBoard(difficultyLevel);
     }
 
     public void setCaseToEmpty(int id) {
         cases[id] = new EmptyCase();
     }
 
-    private void feedBoard() {
+    /**
+     * retourne le nombre d'objet suivant la dificulté
+     * @return nombre d'armes / potion / enemie
+     */
+    private int[] getNumberOfObject(int difficultyLevel) {
+        return switch (difficultyLevel) {
+            case 2 -> new int[]{8, 8, 30};
+            case 3 -> new int[]{6, 6, 40};
+            default -> new int[]{10, 10, 24};
+        };
+
+    }
+
+    private void feedBoard(int difficultyLevel) {
+        int[] numberOfObjects = getNumberOfObject(difficultyLevel);
+
         for (int i = 0; i < cases.length; i++) {
             cases[i] = new EmptyCase();
         }
 
-        // 5 Massues
-        for (int i = 0; i < 5; i++) {
+        // Massues
+        for (int i = 0; i < (numberOfObjects[0]-2)/2; i++) {
             cases[giveEmptyCase()] = new WeaponCase(new Club());
         }
 
-        // 4 Épées
-        for (int i = 0; i < 4; i++) {
+        // Épées
+        for (int i = 0; i < (numberOfObjects[0]-2)/2; i++) {
             cases[giveEmptyCase()] = new WeaponCase(new Sword());
         }
 
@@ -64,12 +79,12 @@ public class Board {
         }
 
         // 5 Sorts "éclair"
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < (numberOfObjects[0]-2)/2; i++) {
             cases[giveEmptyCase()] = new SpellCase(new Lightning());
         }
 
         // 2 Sorts "boules de feu"
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < (numberOfObjects[0]-2)/2 ; i++) {
             cases[giveEmptyCase()] = new SpellCase(new Fireball());
         }
 
@@ -79,12 +94,12 @@ public class Board {
         }
 
         // 6 Potions standards
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < (numberOfObjects[1]-2)/2; i++) {
             cases[giveEmptyCase()] = new PotionCase(new SmallPotion());
         }
 
         // 2 Grandes potions
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < (numberOfObjects[1]-2)/2; i++) {
             cases[giveEmptyCase()] = new PotionCase(new BigPotion());
         }
 
@@ -96,16 +111,16 @@ public class Board {
         // CASES ENNEMIS (24 cases)
 
         // 10 Gobelins
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < (numberOfObjects[2]-4)/2; i++) {
             cases[giveEmptyCase()] = new EnemyCase(new Gobelin());
         }
 
-// 10 Sorciers
-        for (int i = 0; i < 10; i++) {
+        // 10 Sorciers
+        for (int i = 0; i < (numberOfObjects[0]-4)/2; i++) {
             cases[giveEmptyCase()] = new EnemyCase(new Sorcerer());
         }
 
-// 4 Dragons
+        // 4 Dragons
         for (int i = 0; i < 4; i++) {
             cases[giveEmptyCase()] = new EnemyCase(new Dragon());
         }

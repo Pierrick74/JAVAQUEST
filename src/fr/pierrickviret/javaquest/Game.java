@@ -159,7 +159,9 @@ public class Game {
     //private
 
     private void initGame(){
-        board = new Board();
+        Menu.getInstance().showInformation("Quelle dificultée voulez vous ?\n1\n2\n3");
+        int result = Menu.getInstance().listenResultBetween(1,3);
+        board = new Board(result);
         Integer id = mysql.saveBoard(board);
         board.setId(id);
 
