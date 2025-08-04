@@ -3,7 +3,6 @@ package fr.pierrickviret.javaquest;
 import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
-import fr.pierrickviret.javaquest.board.Case.EmptyCase;
 import fr.pierrickviret.javaquest.board.Case.EnemyCase;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
@@ -286,6 +285,8 @@ public class Game {
      * @see Board
      */
     private void changePlayerPosition() {
+        menu.showInformation("\nAppuyer sur entrée pour lancer le dé");
+        menu.listenString();
         Integer turnDice = dice.getRoll();
         menu.showInformation("\n"+ rollDice + turnDice.toString() + "\n");
 
@@ -342,7 +343,7 @@ public class Game {
     }
 
     /**
-     * Permet de combatre avec un enemy
+     * Permet de combattre avec un enemy
      * @param currentCase la case actuel
      * @return si un combat peut encore avoir lieux
      */
