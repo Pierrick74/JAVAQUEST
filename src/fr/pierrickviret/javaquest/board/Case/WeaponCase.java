@@ -14,9 +14,8 @@ public class WeaponCase extends Case {
     @Override
     public String toString() {
 
-        return "Coup de chance, une nouvelle arme pour le Combatant"
-                + weapon.toString()
-                + System.lineSeparator();
+        return "Coup de chance, une nouvelle arme pour le Combatant "
+                + weapon.toString();
     }
 
     @Override
@@ -36,7 +35,7 @@ public class WeaponCase extends Case {
                 return false;
             }
         } else {
-            show("Vous ne pouvez pas prendre d'armement");
+            show("Vous ne pouvez pas prendre d'armement, vous êtes un magicien");
             return true;
         }
     }

@@ -311,8 +311,8 @@ public class Game {
      */
     private void checkCase() {
         Case currentCase = board.getCase(player.getPosition());
+        menu.showInformation("\n"+ currentCase.toString());
         if( currentCase instanceof EnemyCase) {
-            menu.showInformation("\n"+ currentCase.toString());
             StartFight(currentCase);
         } else {
             Boolean stateCase = currentCase.interact(character);

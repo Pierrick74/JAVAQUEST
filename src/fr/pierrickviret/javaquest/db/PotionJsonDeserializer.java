@@ -4,6 +4,7 @@ import com.google.gson.*;
 import fr.pierrickviret.javaquest.equipement.defensive.BigPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.Potion;
 import fr.pierrickviret.javaquest.equipement.defensive.SmallPotion;
+import fr.pierrickviret.javaquest.equipement.defensive.Thunderclap;
 
 import java.lang.reflect.Type;
 
@@ -18,6 +19,8 @@ public class PotionJsonDeserializer implements JsonDeserializer<Potion> {
                 return new SmallPotion();
             case "grande potion":
                 return new BigPotion();
+            case "potion coup de tonnerre":
+                return new Thunderclap();
             default:
                 throw new JsonParseException("Type inconnu : " + name);
         }

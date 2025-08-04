@@ -20,6 +20,7 @@ public abstract class MainCharacter extends Character {
     CharacterType type;
     OffensiveEquipement offensiveEquipement;
     DefensiveEquipement  defensiveEquipement;
+    Boolean boostAttack;
 
     //init
     public MainCharacter(CharacterType type, String name) {
@@ -29,6 +30,7 @@ public abstract class MainCharacter extends Character {
         maxHealth = this.health;
         this.attack = setAttack(this.type);
         this.name = name;
+        this.boostAttack =  false;
     }
 
     public String getName() {
@@ -69,6 +71,18 @@ public abstract class MainCharacter extends Character {
         health = maxHealth;
         offensiveEquipement = null;
         defensiveEquipement= null;
+    }
+
+    public void setBoostAttack() {
+        boostAttack = true;
+    }
+
+    public void resetBoostAttack() {
+        boostAttack = false;
+    }
+
+    public Boolean getBoostAttackValue() {
+        return boostAttack;
     }
 
     //private

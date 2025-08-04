@@ -7,10 +7,8 @@ import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Sorcerer;
 import fr.pierrickviret.javaquest.equipement.defensive.BigPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.SmallPotion;
-import fr.pierrickviret.javaquest.equipement.offensive.Club;
-import fr.pierrickviret.javaquest.equipement.offensive.Fireball;
-import fr.pierrickviret.javaquest.equipement.offensive.Lightning;
-import fr.pierrickviret.javaquest.equipement.offensive.Sword;
+import fr.pierrickviret.javaquest.equipement.defensive.Thunderclap;
+import fr.pierrickviret.javaquest.equipement.offensive.*;
 
 import java.util.Random;
 
@@ -50,39 +48,54 @@ public class Board {
             cases[i] = new EmptyCase();
         }
 
-// 5 Massues
+        // 5 Massues
         for (int i = 0; i < 5; i++) {
             cases[giveEmptyCase()] = new WeaponCase(new Club());
         }
 
-// 4 Épées
+        // 4 Épées
         for (int i = 0; i < 4; i++) {
             cases[giveEmptyCase()] = new WeaponCase(new Sword());
         }
 
+        // 2 Arc
+        for (int i = 0; i < 2; i++) {
+            cases[giveEmptyCase()] = new WeaponCase(new Bow());
+        }
 
-// 5 Sorts "éclair"
+        // 5 Sorts "éclair"
         for (int i = 0; i < 5; i++) {
             cases[giveEmptyCase()] = new SpellCase(new Lightning());
         }
 
-// 2 Sorts "boules de feu"
+        // 2 Sorts "boules de feu"
         for (int i = 0; i < 2; i++) {
             cases[giveEmptyCase()] = new SpellCase(new Fireball());
         }
 
-// 6 Potions standards
+        // 2 Sorts "Invisibilité"
+        for (int i = 0; i < 2; i++) {
+            cases[giveEmptyCase()] = new SpellCase(new Invisibility());
+        }
+
+        // 6 Potions standards
         for (int i = 0; i < 6; i++) {
             cases[giveEmptyCase()] = new PotionCase(new SmallPotion());
         }
 
-// 2 Grandes potions
+        // 2 Grandes potions
         for (int i = 0; i < 6; i++) {
             cases[giveEmptyCase()] = new PotionCase(new BigPotion());
         }
-// CASES ENNEMIS (24 cases)
 
-// 10 Gobelins
+        // 2 potions Coup de tonnerre
+        for (int i = 0; i < 2; i++) {
+            cases[giveEmptyCase()] = new PotionCase(new Thunderclap());
+        }
+
+        // CASES ENNEMIS (24 cases)
+
+        // 10 Gobelins
         for (int i = 0; i < 10; i++) {
             cases[giveEmptyCase()] = new EnemyCase(new Gobelin());
         }

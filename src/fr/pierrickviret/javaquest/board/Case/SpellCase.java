@@ -15,8 +15,7 @@ public class SpellCase extends Case {
     public String toString() {
 
         return "Coup de chance, une nouveau sort pour le magicien :"
-                +spell.toString()
-                + System.lineSeparator();
+                +spell.toString();
     }
 
     @Override
@@ -36,7 +35,7 @@ public class SpellCase extends Case {
                 return false;
             }
         } else {
-            show("Vous ne pouvez pas prendre de sort");
+            show("Vous ne pouvez pas prendre de sort, vous êtes un Combatant");
             return true;
         }
     }

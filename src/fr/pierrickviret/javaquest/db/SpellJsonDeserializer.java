@@ -16,6 +16,8 @@ public class SpellJsonDeserializer implements JsonDeserializer<Spell> {
                 return new Lightning();
             case "boule de feu":
                 return new Fireball();
+            case "invisibilité":
+                return new Invisibility();
             default:
                 throw new JsonParseException("Type inconnu : " + name);
         }

@@ -4,6 +4,8 @@ import fr.pierrickviret.javaquest.Dice;
 import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.character.*;
 import fr.pierrickviret.javaquest.character.Character;
+import fr.pierrickviret.javaquest.equipement.offensive.Bow;
+import fr.pierrickviret.javaquest.equipement.offensive.Invisibility;
 
 public class EnemyCase extends Case {
     Character enemy;
@@ -59,7 +61,8 @@ public class EnemyCase extends Case {
     }
 
     private void characterAttack(MainCharacter character) {
-        int attackValue = getAttackValueWithCriticalRules(character.getAttackValue());
+        int attackValue = checkAttackValue(character);
+
         if(attackValue == 0){
             show("Vous ne pouvez pas attaquer");
             return;
@@ -76,6 +79,25 @@ public class EnemyCase extends Case {
             show(" Vous avez vaincu " + enemy.toString());
 
         }
+    }
+
+    private Integer checkAttackValue(MainCharacter character) {
+        int attackValue = getAttackValueWithCriticalRules(character.getAttackValue());
+
+        if(enemy instanceof Dragon && character.getOffensiveEquipement() instanceof Bow) {
+            attackValue = attackValue + 2;
+            show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+        }
+
+        if(enemy instanceof EvilSpirits && character.getOffensiveEquipement() instanceof Invisibility) {
+            show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
+            attackValue = attackValue + 3;
+        }
+
+        if(character.getBoostAttackValue()){
+            attackValue = attackValue * 2;
+        }
+        return attackValue;
     }
 
     private Integer getAttackValueWithCriticalRules(Integer attackValue) {
