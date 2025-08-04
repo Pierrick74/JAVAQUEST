@@ -54,10 +54,6 @@ public class Game {
 
     //dependency
     /**
-     * permet d'interagir avec le terminal
-     */
-    Menu menu;
-    /**
      * Personnage principal du jeu
      */
     MainCharacter character;
@@ -89,7 +85,6 @@ public class Game {
      * Permet d'initialiser les dépendances
      */
     Game(){
-        this.menu = Menu.getInstance();
         this.gameState = GameState.begin;
         this.dice = new Dice();
         this.mysql = SQLRepository.getInstance();
@@ -106,7 +101,7 @@ public class Game {
         while (gameState != GameState.exitGame) {
             switch (gameState) {
                 case begin:
-                    menu.showInformation(welcomeInformation);
+                    Menu.getInstance().showInformation(welcomeInformation);
                     gameState = GameState.waitingInformation;
                     break;
 
@@ -128,7 +123,7 @@ public class Game {
                 case startGame:
                     if ( character == null) {
                         gameState = GameState.createCharacter;
-                        menu.showInformation(mustCreateCharacter);
+                        Menu.getInstance().showInformation(mustCreateCharacter);
                         break;
                     } else {
                         resetCharacter();
@@ -145,12 +140,12 @@ public class Game {
                     break;
 
                 case finishGame:
-                    menu.showInformation(finishGame);
+                    Menu.getInstance().showInformation(finishGame);
                     gameState = GameState.waitingInformation;
                     break;
 
                 case gameOver:
-                    menu.showInformation(gameOver);
+                    Menu.getInstance().showInformation(gameOver);
                     gameState = GameState.waitingInformation;
                     break;
 
@@ -186,7 +181,7 @@ public class Game {
      * affiche un message de sortie
      */
     private void exitGame() {
-        menu.showInformation(endGame);
+        Menu.getInstance().showInformation(endGame);
         exit(0);
     }
 
@@ -196,13 +191,13 @@ public class Game {
      * @see Menu
      */
     private void createCharacter(){
-        menu.showInformation(createCharacterInformation);
-        int choice = menu.listenResultBetween(1,3);
+        Menu.getInstance().showInformation(createCharacterInformation);
+        int choice = Menu.getInstance().listenResultBetween(1,3);
         if(choice == 3 ) {exitGame();}
         CharacterType type = choice == 1 ? CharacterType.Warrior : CharacterType.Wizard;
 
-        menu.showInformation(askForCharacterName);
-        String name = menu.listenString();
+        Menu.getInstance().showInformation(askForCharacterName);
+        String name = Menu.getInstance().listenString();
 
         createCharacter(type, name);
         showCharacterCreated();
@@ -214,8 +209,8 @@ public class Game {
 
         // change type
         String information = character.getType() == CharacterType.Warrior ? askIfUserWantToChangeCharacterTypeToWizard : askIfUserWantToChangeCharacterTypeToWarrior;
-        menu.showInformation(information);
-        int choice = menu.listenResultBetween(1,3);
+        Menu.getInstance().showInformation(information);
+        int choice = Menu.getInstance().listenResultBetween(1,3);
         if(choice == 3 ) {exitGame();}
         if(choice == 2 ) {
             character = character.getType() == CharacterType.Warrior ? new Wizard(oldCharacter.getName()) : new Warrior(oldCharacter.getName());
@@ -223,12 +218,12 @@ public class Game {
         }
 
         //change name
-        menu.showInformation(askIfUserWantToChangeName);
-        choice = menu.listenResultBetween(1,3);
+        Menu.getInstance().showInformation(askIfUserWantToChangeName);
+        choice = Menu.getInstance().listenResultBetween(1,3);
         if(choice == 3 ) {exitGame();}
         if(choice == 2 ) {
-            menu.showInformation(askForCharacterName);
-            String name = menu.listenString();
+            Menu.getInstance().showInformation(askForCharacterName);
+            String name = Menu.getInstance().listenString();
             character.setName(name);
         }
 
@@ -262,8 +257,8 @@ public class Game {
      */
     private Boolean isModifyCharacter() {
         showCharacterCreated();
-        menu.showInformation(askForCharacterModification);
-        return menu.listenResultBetween(1,2) == 2;
+        Menu.getInstance().showInformation(askForCharacterModification);
+        return Menu.getInstance().listenResultBetween(1,2) == 2;
     }
 
     /**
@@ -271,9 +266,9 @@ public class Game {
      * @see MainCharacter
      */
     private void showCharacterCreated() {
-        menu.showInformation(showCharacterCreated);
-        menu.showInformation(character.toString());
-        menu.showInformation("");
+        Menu.getInstance().showInformation(showCharacterCreated);
+        Menu.getInstance().showInformation(character.toString());
+        Menu.getInstance().showInformation("");
     }
 
     /**
@@ -284,15 +279,15 @@ public class Game {
      * @see Board
      */
     private void changePlayerPosition() {
-        menu.showInformation("\nAppuyer sur entrée pour lancer le dé");
-        menu.listenString();
+        Menu.getInstance().showInformation("\nAppuyer sur entrée pour lancer le dé");
+        Menu.getInstance().listenString();
         Integer turnDice = dice.getRoll(6);
-        menu.showInformation("\n"+ rollDice + turnDice.toString() + "\n");
+        Menu.getInstance().showInformation("\n"+ rollDice + turnDice.toString() + "\n");
 
         try {
             movePlayer(player.getPosition() + turnDice);
         } catch (OutOfBoardException | Exception e) {
-            menu.showInformation(e.getMessage());
+            Menu.getInstance().showInformation(e.getMessage());
             int offset = board.getSize() - (player.getPosition() + turnDice );
             player.setPosition(board.getSize() + offset);
         }
@@ -302,7 +297,7 @@ public class Game {
             return;
         }
 
-        menu.showInformation(player.toString());
+        Menu.getInstance().showInformation(player.toString());
         checkCase();
     }
 
@@ -311,7 +306,7 @@ public class Game {
      */
     private void checkCase() {
         Case currentCase = board.getCase(player.getPosition());
-        menu.showInformation("\n"+ currentCase.toString());
+        Menu.getInstance().showInformation("\n"+ currentCase.toString());
         if( currentCase instanceof EnemyCase) {
             StartFight(currentCase);
         } else {
@@ -323,11 +318,11 @@ public class Game {
     }
 
     private void StartFight(Case currentCase) {
-        menu.showInformation(askForFight);
-        int result = menu.listenResultBetween(1,3);
+        Menu.getInstance().showInformation(askForFight);
+        int result = Menu.getInstance().listenResultBetween(1,3);
         switch (result) {
             case 1:
-                Boolean haveFighter = fightWithEnemy(currentCase);
+                boolean haveFighter = fightWithEnemy(currentCase);
                 if (haveFighter) {
                     StartFight(currentCase);
                 }
@@ -365,7 +360,7 @@ public class Game {
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
         player.setPosition(player.getPosition() - number);
-        menu.showInformation("\nVous reculez de "+ number + " cases\n" + player.toString());
+        Menu.getInstance().showInformation("\nVous reculez de "+ number + " cases\n" + player.toString());
     }
 
     /**
@@ -384,8 +379,8 @@ public class Game {
      *
      */
     private void manageWaitingInformation() {
-        menu.showInformation(mainMenuInformation);
-        switch (menu.listenResultBetween(1,3)) {
+        Menu.getInstance().showInformation(mainMenuInformation);
+        switch (Menu.getInstance().listenResultBetween(1,3)) {
             case 1:
                 gameState = GameState.createCharacter;
                 break;
