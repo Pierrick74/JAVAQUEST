@@ -171,7 +171,6 @@ public class Game {
         //TODO for test
         Gson gson = GsonConfig.getInstance();
         String boardJson = gson.toJson(board);
-        menu.showInformation(boardJson);
         mysql.saveBoard(board);
         board = gson.fromJson(boardJson, Board.class);
 

@@ -69,16 +69,19 @@ public class EnemyCase extends Case {
     private Integer getAttackValueWithCriticalRules(Integer attackValue) {
         Dice dice = new Dice();
         Integer number = dice.getRoll(20);
-        switch (number) {
-            case 1:
-                Menu.getInstance().showInformation("Vous optenez " + number + " avec le dé à 20 faces, dommage");
-                return 0;
-            case 20:
-                Menu.getInstance().showInformation("Vous optenez " + number + " avec le dé à 20 faces, super");
-                return attackValue + 2;
-            default:
-                Menu.getInstance().showInformation("Vous optenez " + number + " avec le dé à 20 faces");
-                return attackValue;
-        }
+        return switch (number) {
+            case 1 -> {
+                Menu.getInstance().showInformation("Vous obtenez " + number + " avec le dé à 20 faces, dommage");
+                yield 0;
+            }
+            case 20 -> {
+                Menu.getInstance().showInformation("Vous obtenez " + number + " avec le dé à 20 faces, super");
+                yield attackValue + 2;
+            }
+            default -> {
+                Menu.getInstance().showInformation("Vous obtenez " + number + " avec le dé à 20 faces");
+                yield attackValue;
+            }
+        };
     }
 }
