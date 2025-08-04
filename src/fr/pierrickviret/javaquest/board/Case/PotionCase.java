@@ -27,10 +27,10 @@ public class PotionCase extends Case {
 
         if(health > character.getMaxHealth()) {
             character.setHealth(character.getMaxHealth());
-            show("Votre vie est au maximum");
+            show("Une potion, votre vie est au maximum");
         } else {
             character.setHealth(health);
-            show("Votre vie remonte à " + health);
+            show("Une potion, votre vie remonte à " + health);
         }
         return false;
     }

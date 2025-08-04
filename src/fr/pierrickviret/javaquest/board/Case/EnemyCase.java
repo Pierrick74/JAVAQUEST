@@ -1,5 +1,7 @@
 package fr.pierrickviret.javaquest.board.Case;
 
+import fr.pierrickviret.javaquest.Dice;
+import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.character.Character;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 
@@ -29,28 +31,54 @@ public class EnemyCase extends Case {
     }
 
     private void enemyAttack(MainCharacter character) {
-        int health = character.getHealth() - enemy.getAttackValue();
+        int attackValue = getAttackValueWithCriticalRules(enemy.getAttackValue());
+        if(attackValue == 0){
+            show(enemy.toString() + " ne peux pas vous attaquer");
+            return;
+        }
+
+        int health = character.getHealth() - attackValue;
         if (health < 0) {
             health = 0;
         }
         character.setHealth(health);
-        show(enemy.toString() + " vous attaque");
+        show(enemy.toString() + " vous attaque de " + attackValue);
         show("votre santé est à " + character.getHealth());
     }
 
     private void characterAttack(MainCharacter character) {
-        int health = enemy.getCharacterHealthValue() - character.getAttackValue();
+        int attackValue = getAttackValueWithCriticalRules(character.getAttackValue());
+        if(attackValue == 0){
+            show("Vous ne pouvez pas attaquer");
+            return;
+        }
+
+        int health = enemy.getCharacterHealthValue() - attackValue;
+        show(" vous attaquez " + enemy.toString() + " avec une force de " + attackValue);
         if (health > 0) {
             enemy.setCharacterHealth(health);
-            show(" vous attaquez " + enemy.toString());
             show("la santé de "+ enemy.toString() + " passe à " + enemy.getCharacterHealthValue() );
         }
         else {
             enemy.setCharacterHealth(0);
-            show(" vous attaquez " + enemy.toString());
             show(" Vous avez vaincu " + enemy.toString());
 
         }
+    }
 
+    private Integer getAttackValueWithCriticalRules(Integer attackValue) {
+        Dice dice = new Dice();
+        Integer number = dice.getRoll(20);
+        switch (number) {
+            case 1:
+                Menu.getInstance().showInformation("Vous optenez " + number + " avec le dé à 20 faces, dommage");
+                return 0;
+            case 20:
+                Menu.getInstance().showInformation("Vous optenez " + number + " avec le dé à 20 faces, super");
+                return attackValue + 2;
+            default:
+                Menu.getInstance().showInformation("Vous optenez " + number + " avec le dé à 20 faces");
+                return attackValue;
+        }
     }
 }

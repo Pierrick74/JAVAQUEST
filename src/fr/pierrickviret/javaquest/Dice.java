@@ -14,8 +14,8 @@ public class Dice {
      * Permet de récupérer la valeur du dé après un lancé.
      * @return {@code int} une valeur entre 1 et 6.
      */
-    public Integer getRoll(){
+    public Integer getRoll(int numberOfFaces){
         Random rand = new Random();
-        return rand.nextInt(1, 7);
+        return rand.nextInt(1, numberOfFaces+1);
     }
 }

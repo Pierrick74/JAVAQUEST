@@ -287,7 +287,7 @@ public class Game {
     private void changePlayerPosition() {
         menu.showInformation("\nAppuyer sur entrée pour lancer le dé");
         menu.listenString();
-        Integer turnDice = dice.getRoll();
+        Integer turnDice = dice.getRoll(6);
         menu.showInformation("\n"+ rollDice + turnDice.toString() + "\n");
 
         try {
