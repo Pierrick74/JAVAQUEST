@@ -2,8 +2,8 @@ package fr.pierrickviret.javaquest.board.Case;
 
 import fr.pierrickviret.javaquest.Dice;
 import fr.pierrickviret.javaquest.Menu;
+import fr.pierrickviret.javaquest.character.*;
 import fr.pierrickviret.javaquest.character.Character;
-import fr.pierrickviret.javaquest.character.MainCharacter;
 
 public class EnemyCase extends Case {
     Character enemy;
@@ -20,8 +20,20 @@ public class EnemyCase extends Case {
                 + System.lineSeparator();
     }
 
+    /**
+     *
+     * @return return true si l'enemie est encore en vie
+     */
     @Override
     public Boolean interact(MainCharacter character) {
+
+        if(character instanceof Wizard && enemy instanceof Orcs) {
+            return true;
+        }
+        if(character instanceof Warrior && enemy instanceof EvilSpirits) {
+            return true;
+        }
+
         characterAttack(character);
         if(enemy.getCharacterHealthValue() <= 0){
             return false;
