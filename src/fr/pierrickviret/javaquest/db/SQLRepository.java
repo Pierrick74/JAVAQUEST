@@ -107,14 +107,14 @@ public class SQLRepository
             pstmt = conn.prepareStatement(
                     "UPDATE JavaquestCharacter SET Name=?, Type=?, LifePoints=?, Strength=?, OffensiveEquipment=?, DefensiveEquipment=? WHERE ID=?");
 
-            String characterOffensiveEquipment = character.getOffensiveEquipement() != null ? character.getOffensiveEquipement().getName() : OffensiveEquipmentType.empty.toString();
+           // String characterOffensiveEquipment = character.getOffensiveEquipements() != null ? character.getOffensiveEquipements().getName() : OffensiveEquipmentType.empty.toString();
             String characterDefensiveEquipment = character.getDefensiveEquipement() != null ? character.getDefensiveEquipement().getName() : DefensiveEquipmentType.empty.toString();
 
             pstmt.setString(1, character.getName());
             pstmt.setString(2, character.getType().toString());
             pstmt.setInt(3, character.getHealth());
             pstmt.setInt(4, character.getAttackValue());
-            pstmt.setString(5, characterOffensiveEquipment);
+            pstmt.setString(5, character.getOffensiveEquipements().toString());
             pstmt.setString(6, characterDefensiveEquipment);
             pstmt.setInt(7, character.getID());
             pstmt.executeUpdate();
@@ -139,7 +139,6 @@ public class SQLRepository
         } catch (Exception e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
-
     }
 
     private Connection getConnection(){

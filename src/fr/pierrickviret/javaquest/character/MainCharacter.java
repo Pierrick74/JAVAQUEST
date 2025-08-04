@@ -1,5 +1,6 @@
 package fr.pierrickviret.javaquest.character;
 
+import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
@@ -18,7 +19,7 @@ public abstract class MainCharacter extends Character {
     //variable
     Integer maxHealth;
     CharacterType type;
-    OffensiveEquipement offensiveEquipement;
+    OffensiveEquipement[] offensiveEquipements =  new OffensiveEquipement[2];
     DefensiveEquipement  defensiveEquipement;
     Boolean boostAttack;
 
@@ -55,21 +56,47 @@ public abstract class MainCharacter extends Character {
 
     public Integer getMaxHealth() {return maxHealth;}
 
-    public OffensiveEquipement getOffensiveEquipement() {
-        return offensiveEquipement;
+    public OffensiveEquipement getOffensiveEquipement(int index) {
+        return offensiveEquipements[index-1];
     }
 
-    public void setOffensiveEquipement(OffensiveEquipement offensiveEquipement) {
-        this.offensiveEquipement = offensiveEquipement;
+    public OffensiveEquipement[] getOffensiveEquipements() {
+        return offensiveEquipements;
+    }
+
+    public void setOffensiveEquipement(OffensiveEquipement offensiveEquipement, int index) {
+        this.offensiveEquipements[index-1] = offensiveEquipement;
+    }
+
+    public void showOffensiveEquipement() {
+        if (this.offensiveEquipements == null) {
+            Menu.getInstance().showInformation("Aucun équipement offensif disponible");
+            return;
+        }
+
+        Menu.getInstance().showInformation("voici votre inventaire");
+        for (int i = 0; i < 2; i++) {
+            if(offensiveEquipements[i] != null) {
+                Menu.getInstance().showInformation("Emplacement "+ (i+1) + " : " + offensiveEquipements[i].getName());
+            } else {
+                Menu.getInstance().showInformation("Emplacement " + (i+1) + " : Vide");
+            }
+        }
     }
 
     public DefensiveEquipement getDefensiveEquipement() {
         return defensiveEquipement;
     }
 
+    public Boolean hasOffensiveEquipement() {
+        return offensiveEquipements[0] != null || offensiveEquipements[1] != null;
+    }
+
     public void resetCharacter(){
         health = maxHealth;
-        offensiveEquipement = null;
+        for (int i = 0; i < offensiveEquipements.length; i++) {
+            offensiveEquipements[i] = null;
+        }
         defensiveEquipement= null;
     }
 

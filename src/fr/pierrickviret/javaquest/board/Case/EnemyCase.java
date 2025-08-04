@@ -4,6 +4,7 @@ import fr.pierrickviret.javaquest.Dice;
 import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.character.*;
 import fr.pierrickviret.javaquest.character.Character;
+import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.offensive.Bow;
 import fr.pierrickviret.javaquest.equipement.offensive.Invisibility;
 
@@ -82,20 +83,31 @@ public class EnemyCase extends Case {
     }
 
     private Integer checkAttackValue(MainCharacter character) {
-        int attackValue = getAttackValueWithCriticalRules(character.getAttackValue());
+        character.showOffensiveEquipement();
+        int attackValue = character.getAttackValue();
 
-        if(enemy instanceof Dragon && character.getOffensiveEquipement() instanceof Bow) {
-            attackValue = attackValue + 2;
-            show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+        if(character.hasOffensiveEquipement()){
+            Menu.getInstance().showInformation("Selectionner votre arme");
+            int result = Menu.getInstance().listenResultBetween(1,2);
+            OffensiveEquipement equipement = character.getOffensiveEquipement(result);
+            attackValue = attackValue + equipement.getValue();
+
+            if(enemy instanceof Dragon && equipement instanceof Bow) {
+                attackValue = attackValue + 2;
+                show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+            }
+
+            if(enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
+                show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
+                attackValue = attackValue + 3;
+            }
         }
 
-        if(enemy instanceof EvilSpirits && character.getOffensiveEquipement() instanceof Invisibility) {
-            show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
-            attackValue = attackValue + 3;
-        }
+        attackValue = getAttackValueWithCriticalRules(attackValue);
 
         if(character.getBoostAttackValue()){
             attackValue = attackValue * 2;
+            character.resetBoostAttack();
         }
         return attackValue;
     }
