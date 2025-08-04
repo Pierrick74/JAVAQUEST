@@ -39,7 +39,7 @@ public class WeaponCase extends Case {
                 return true;
             case 2:
                 character.setOffensiveEquipement(weapon, 2);
-                menu.showInformation("Vous laissez l'arme");
+                menu.showInformation("Vous prennez l'arme");
                 character.showOffensiveEquipement();
                 return true;
             case 3:

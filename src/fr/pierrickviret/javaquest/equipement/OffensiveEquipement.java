@@ -9,10 +9,12 @@ package fr.pierrickviret.javaquest.equipement;
 public abstract class OffensiveEquipement {
     protected  Integer value;
     String name;
+    int level;
 
-    public OffensiveEquipement(String name, Integer value) {
+    public OffensiveEquipement(String name, Integer value, int level) {
         this.name = name;
         this.value = value;
+        this.level = level;
     }
 
     public String getName() {
@@ -20,4 +22,6 @@ public abstract class OffensiveEquipement {
     }
 
     public Integer getValue() {return value;}
+
+    public Integer getLevel() {return level;}
 }

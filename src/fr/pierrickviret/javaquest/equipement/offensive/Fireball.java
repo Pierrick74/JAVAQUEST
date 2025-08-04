@@ -2,11 +2,11 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Fireball extends Spell{
     public Fireball() {
-        super("Boule de feu", 2);
+        super("Boule de feu", 2,2);
     }
 
     @Override
     public String toString() {
-        return "lance des boules de feu" + System.lineSeparator();
+        return "un sort:lance des boules de feu de niveau 2" + System.lineSeparator();
     }
 }

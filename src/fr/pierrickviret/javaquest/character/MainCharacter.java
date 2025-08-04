@@ -5,6 +5,7 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -19,19 +20,20 @@ public abstract class MainCharacter extends Character {
     //variable
     Integer maxHealth;
     CharacterType type;
-    OffensiveEquipement[] offensiveEquipements =  new OffensiveEquipement[2];
+    ArrayList<OffensiveEquipement> offensiveEquipements =  new ArrayList<OffensiveEquipement>();
     DefensiveEquipement  defensiveEquipement;
     Boolean boostAttack;
 
     //init
     public MainCharacter(CharacterType type, String name) {
-        super(name, 0, 0);
+        super(name, 0, 0, 0);
         this.type = type;
         this.health = setHealth(this.type);
         maxHealth = this.health;
         this.attack = setAttack(this.type);
         this.name = name;
         this.boostAttack =  false;
+        this.experience = 0;
     }
 
     public String getName() {
@@ -57,29 +59,42 @@ public abstract class MainCharacter extends Character {
     public Integer getMaxHealth() {return maxHealth;}
 
     public OffensiveEquipement getOffensiveEquipement(int index) {
-        return offensiveEquipements[index-1];
+        return offensiveEquipements.get(index);
     }
 
-    public OffensiveEquipement[] getOffensiveEquipements() {
+    public int getLevel() {
+        if(experience >= 15) {
+            return 3;
+        }
+        if(experience >= 10) {
+            return 2;
+        }
+        return 1;
+    }
+
+    public ArrayList<OffensiveEquipement> getOffensiveEquipements() {
         return offensiveEquipements;
     }
 
     public void setOffensiveEquipement(OffensiveEquipement offensiveEquipement, int index) {
-        this.offensiveEquipements[index-1] = offensiveEquipement;
+        while (offensiveEquipements.size() <= index) {
+            offensiveEquipements.add(null);
+        }
+        offensiveEquipements.set(index, offensiveEquipement);
     }
 
     public void showOffensiveEquipement() {
-        if (this.offensiveEquipements == null) {
+        if (this.offensiveEquipements.isEmpty()) {
             Menu.getInstance().showInformation("Aucun équipement offensif disponible");
             return;
         }
 
         Menu.getInstance().showInformation("voici votre inventaire");
-        for (int i = 0; i < 2; i++) {
-            if(offensiveEquipements[i] != null) {
-                Menu.getInstance().showInformation("Emplacement "+ (i+1) + " : " + offensiveEquipements[i].getName());
+        for (int i = 1; i < 3; i++) {
+            if(offensiveEquipements.get(i) != null) {
+                Menu.getInstance().showInformation("Emplacement "+ (i) + " : " + offensiveEquipements.get(i).getName());
             } else {
-                Menu.getInstance().showInformation("Emplacement " + (i+1) + " : Vide");
+                Menu.getInstance().showInformation("Emplacement " + (i) + " : Vide");
             }
         }
     }
@@ -89,14 +104,21 @@ public abstract class MainCharacter extends Character {
     }
 
     public Boolean hasOffensiveEquipement() {
-        return offensiveEquipements[0] != null || offensiveEquipements[1] != null;
+        return !offensiveEquipements.isEmpty();
+    }
+
+    public Boolean hasOffensiveEquipementsForHisLevel() {
+        for (OffensiveEquipement offensiveEquipement : offensiveEquipements) {
+            if (offensiveEquipement != null && offensiveEquipement.getLevel() <= this.getLevel()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void resetCharacter(){
         health = maxHealth;
-        for (int i = 0; i < offensiveEquipements.length; i++) {
-            offensiveEquipements[i] = null;
-        }
+        offensiveEquipements.replaceAll(ignored -> null);
         defensiveEquipement= null;
     }
 
@@ -110,6 +132,14 @@ public abstract class MainCharacter extends Character {
 
     public Boolean getBoostAttackValue() {
         return boostAttack;
+    }
+
+    public void increaseExperience(int experience) {
+        this.experience += experience;
+    }
+
+    public void decreaseExperience(int experience) {
+        this.experience -= experience;
     }
 
     //private

@@ -2,11 +2,11 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Lightning extends Spell{
     public Lightning() {
-        super("Eclair", 3);
+        super("Eclair", 3, 1);
     }
 
     @Override
     public String toString() {
-        return "Lance des éclaires" + System.lineSeparator();
+        return "un sort Lance des éclaires de niveau 1" + System.lineSeparator();
     }
 }

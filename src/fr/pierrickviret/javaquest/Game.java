@@ -310,7 +310,7 @@ public class Game {
         Case currentCase = board.getCase(player.getPosition());
         Menu.getInstance().showInformation("\n"+ currentCase.toString());
         if( currentCase instanceof EnemyCase) {
-            StartFight(currentCase);
+            startFight((EnemyCase) currentCase);
         } else {
             Boolean stateCase = currentCase.interact(character);
             if (!stateCase) {
@@ -319,17 +319,18 @@ public class Game {
         }
     }
 
-    private void StartFight(Case currentCase) {
+    private void startFight(EnemyCase currentCase) {
         Menu.getInstance().showInformation(askForFight);
         int result = Menu.getInstance().listenResultBetween(1,3);
         switch (result) {
             case 1:
                 boolean haveFighter = fightWithEnemy(currentCase);
                 if (haveFighter) {
-                    StartFight(currentCase);
+                    startFight(currentCase);
                 }
                 break;
             case 2:
+                character.decreaseExperience(currentCase.getEnemieExperience());
                 movePlayerBackward();
                 break;
             case 3:
@@ -363,6 +364,7 @@ public class Game {
         int number = rand.nextInt(1, 7);
         player.setPosition(player.getPosition() - number);
         Menu.getInstance().showInformation("\nVous reculez de "+ number + " cases\n" + player.toString());
+        Menu.getInstance().showInformation("Votre experience passe à " + character.getExperience());
     }
 
     /**

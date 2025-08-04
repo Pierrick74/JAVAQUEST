@@ -13,12 +13,14 @@ public abstract class Character {
     Integer health;
     Integer attack;
     Integer ID;
+    int experience;
 
     //init
-    public Character(String name, Integer health, Integer attack) {
+    public Character(String name, Integer health, Integer attack, int experience) {
         this.name = name;
         this.health = health;
         this.attack = attack;
+        this.experience = experience;
     }
 
     public int getID() {
@@ -39,5 +41,13 @@ public abstract class Character {
 
     public void setCharacterHealth(Integer health) {
         this.health = health;
+    }
+
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public void decreaseExperience(int experience) {
+        experience -= experience;
     }
 }

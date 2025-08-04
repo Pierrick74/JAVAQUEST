@@ -44,8 +44,8 @@ public class Board {
     }
 
     /**
-     * retourne le nombre d'objet suivant la dificulté
-     * @return nombre d'armes / potion / enemie
+     * Retourne le nombre d'objets suivant la difficultée
+     * @return nombre d'armes / potion / enemies
      */
     private int[] getNumberOfObject(int difficultyLevel) {
         return switch (difficultyLevel) {

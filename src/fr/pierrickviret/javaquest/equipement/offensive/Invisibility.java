@@ -2,11 +2,11 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Invisibility extends Spell{
     public Invisibility() {
-        super("Invisibilité", 5);
+        super("Invisibilité", 5, 3);
     }
 
     @Override
     public String toString() {
-        return "une Invisibilité de niveau 5" + System.lineSeparator();
+        return "un sort d'invisibilité de niveau 3" + System.lineSeparator();
     }
 }

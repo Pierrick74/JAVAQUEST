@@ -45,6 +45,10 @@ public class EnemyCase extends Case {
         return true;
     }
 
+    public int getEnemieExperience() {
+        return enemy.getExperience();
+    }
+
     private void enemyAttack(MainCharacter character) {
         int attackValue = getAttackValueWithCriticalRules(enemy.getAttackValue());
         if(attackValue == 0){
@@ -77,29 +81,32 @@ public class EnemyCase extends Case {
         }
         else {
             enemy.setCharacterHealth(0);
+            int value = enemy.getExperience();
+            character.increaseExperience(enemy.getExperience());
             show(" Vous avez vaincu " + enemy.toString());
-
+            show("Votre experience passe à " + character.getExperience());
         }
     }
 
     private Integer checkAttackValue(MainCharacter character) {
-        character.showOffensiveEquipement();
         int attackValue = character.getAttackValue();
 
         if(character.hasOffensiveEquipement()){
-            Menu.getInstance().showInformation("Selectionner votre arme");
-            int result = Menu.getInstance().listenResultBetween(1,2);
-            OffensiveEquipement equipement = character.getOffensiveEquipement(result);
-            attackValue = attackValue + equipement.getValue();
+            if(character.hasOffensiveEquipementsForHisLevel()) {
+                OffensiveEquipement equipement = getOffensiveEquipement(character);
+                attackValue = attackValue + equipement.getValue();
 
-            if(enemy instanceof Dragon && equipement instanceof Bow) {
-                attackValue = attackValue + 2;
-                show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
-            }
+                if (enemy instanceof Dragon && equipement instanceof Bow) {
+                    attackValue = attackValue + 2;
+                    show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+                }
 
-            if(enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
-                show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
-                attackValue = attackValue + 3;
+                if (enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
+                    show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
+                    attackValue = attackValue + 3;
+                }
+            } else {
+                Menu.getInstance().showInformation("Vous n'avez pas d'arme compatible avec votre niveau");
             }
         }
 
@@ -112,20 +119,31 @@ public class EnemyCase extends Case {
         return attackValue;
     }
 
+    private OffensiveEquipement getOffensiveEquipement(MainCharacter character) {
+        character.showOffensiveEquipement();
+        show("Sélectionner votre arme");
+        int result = Menu.getInstance().listenResultBetween(1,2);
+        if(character.getOffensiveEquipement(result).getLevel() > character.getLevel()){
+            Menu.getInstance().showInformation("Vous ne pouvez pas prendre une arme de ce niveau actuellement");
+            return getOffensiveEquipement(character);
+        }
+        return character.getOffensiveEquipement(result);
+    }
+
     private Integer getAttackValueWithCriticalRules(Integer attackValue) {
         Dice dice = new Dice();
         Integer number = dice.getRoll(20);
         return switch (number) {
             case 1 -> {
-                Menu.getInstance().showInformation("Vous obtenez " + number + " avec le dé à 20 faces, dommage");
+                show("Vous obtenez " + number + " avec le dé à 20 faces, dommage");
                 yield 0;
             }
             case 20 -> {
-                Menu.getInstance().showInformation("Vous obtenez " + number + " avec le dé à 20 faces, super");
+                show("Vous obtenez " + number + " avec le dé à 20 faces, super");
                 yield attackValue + 2;
             }
             default -> {
-                Menu.getInstance().showInformation("Vous obtenez " + number + " avec le dé à 20 faces");
+                show("Vous obtenez " + number + " avec le dé à 20 faces");
                 yield attackValue;
             }
         };

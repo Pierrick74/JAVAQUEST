@@ -20,6 +20,7 @@ public class Warrior extends MainCharacter {
 
         return "Bonjour je suis " + this.name + " un Combatant" + System.lineSeparator()
                 + "attaque = " + this.attack + ";" + System.lineSeparator()
-                + "points de vie = " + this.health + ".";
+                + "points de vie = " + this.health + System.lineSeparator()
+                + "experience = " + this.experience + ".";
     }
 }
