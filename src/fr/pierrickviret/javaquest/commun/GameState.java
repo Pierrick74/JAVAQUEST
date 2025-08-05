@@ -14,4 +14,5 @@ public enum GameState {
         playerTurn,
         exitGame,
         gameOver,
+        selectMenu,
 }

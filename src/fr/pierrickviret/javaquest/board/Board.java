@@ -5,6 +5,7 @@ import fr.pierrickviret.javaquest.character.Dragon;
 import fr.pierrickviret.javaquest.character.Gobelin;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Sorcerer;
+import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.equipement.defensive.BigPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.SmallPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.Thunderclap;
@@ -42,6 +43,10 @@ public class Board {
 
     public void setCaseToEmpty(int id) {
         cases[id] = new EmptyCase();
+    }
+
+    public Boolean hasSaveBoard(){
+        return SQLRepository.getInstance().hasBoard();
     }
 
     private void feedBoard(int difficultyLevel) {

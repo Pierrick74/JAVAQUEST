@@ -1,6 +1,5 @@
 package fr.pierrickviret.javaquest;
 
-import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
 import fr.pierrickviret.javaquest.board.Case.EnemyCase;
@@ -12,7 +11,6 @@ import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
-import fr.pierrickviret.javaquest.db.GsonConfig;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 
 import java.util.Objects;
@@ -51,6 +49,7 @@ public class Game {
     static String gameOver = "\nVous êtes mort, Game Over";
     static String mustCreateCharacter = "\nVous devez créer un personnage avant";
     static String askForFight = "\nQue voulez vous faire?\n1. Attaquer\n2. Fuir\n3. Quitter le jeu";
+    static String askForUseBoard = "\nQue voulez vous faire?\n1. utiliser la partie sauvegardée\n2. créer une partie";
 
     //dependency
     /**
@@ -74,7 +73,13 @@ public class Game {
      * Represent l'état du jeu
      * @see GameState
      */
-    GameState gameState;
+    private GameState gameState;
+    private GameState oldGameState;
+
+    private void setGameState(GameState gameState) {
+        this.oldGameState = this.gameState;
+        this.gameState = gameState;
+    }
 
     /**
      * Permet de gere la BDD
@@ -85,7 +90,7 @@ public class Game {
      * Permet d'initialiser les dépendances
      */
     Game(){
-        this.gameState = GameState.begin;
+        setGameState(GameState.begin);
         this.dice = new Dice();
         this.mysql = SQLRepository.getInstance();
     }
@@ -102,7 +107,7 @@ public class Game {
             switch (gameState) {
                 case begin:
                     Menu.getInstance().showInformation(welcomeInformation);
-                    gameState = GameState.waitingInformation;
+                    setGameState(GameState.waitingInformation);
                     break;
 
                 case waitingInformation:
@@ -117,36 +122,54 @@ public class Game {
                             modifyCharacter();
                         }
                     }
-                    gameState = GameState.waitingInformation;
+                    if(oldGameState == GameState.startGame) {
+                        setGameState(GameState.startGame);
+                        break;
+                    }
+                    setGameState(GameState.waitingInformation);
+                    break;
+
+                case selectMenu:
+                    if(SQLRepository.getInstance().hasBoard()) {
+                        Menu.getInstance().showInformation(askForUseBoard);
+                        int result = Menu.getInstance().listenResultBetween(1,2);
+                        if(result == 1) {
+                            board = SQLRepository.getInstance().getBoard();
+                            player = SQLRepository.getInstance().getPlayerInformation();
+                            setGameState(GameState.playerTurn);
+                            break;
+                        }
+                    }
+                    setGameState(GameState.startGame);
                     break;
 
                 case startGame:
                     if ( character == null) {
-                        gameState = GameState.createCharacter;
+                        setGameState(GameState.createCharacter);
                         Menu.getInstance().showInformation(mustCreateCharacter);
                         break;
                     } else {
                         resetCharacter();
                     }
                     initGame();
-                    gameState = GameState.playerTurn;
+                    setGameState(GameState.playerTurn);
                     break;
 
                 case playerTurn:
                     changePlayerPosition();
                     if(character.getHealth() <= 0) {
-                        gameState = GameState.gameOver;
+                        setGameState(GameState.gameOver);
                     }
                     break;
 
                 case finishGame:
                     Menu.getInstance().showInformation(finishGame);
-                    gameState = GameState.waitingInformation;
+                    setGameState(GameState.waitingInformation);
                     break;
 
                 case gameOver:
                     Menu.getInstance().showInformation(gameOver);
-                    gameState = GameState.waitingInformation;
+                    setGameState(GameState.waitingInformation);
                     break;
 
                 default:
@@ -159,19 +182,14 @@ public class Game {
     //private
 
     private void initGame(){
-        Menu.getInstance().showInformation("Quelle dificultée voulez vous ?\n1\n2\n3");
+        Menu.getInstance().showInformation("Quelle difficult voulez vous ?\n1\n2\n3");
         int result = Menu.getInstance().listenResultBetween(1,3);
         board = new Board(result);
         Integer id = mysql.saveBoard(board);
         board.setId(id);
 
-        //TODO for test
-        Gson gson = GsonConfig.getInstance();
-        String boardJson = gson.toJson(board);
-        mysql.saveBoard(board);
-        board = gson.fromJson(boardJson, Board.class);
-
         player = new Player();
+        SQLRepository.getInstance().savePlayerInformation(player,character);
     }
 
     private void resetCharacter() {
@@ -295,7 +313,7 @@ public class Game {
         }
 
         if(Objects.equals(player.getPosition(), board.getSize())) {
-            gameState = GameState.finishGame;
+            setGameState(GameState.finishGame);
             return;
         }
 
@@ -386,13 +404,13 @@ public class Game {
         Menu.getInstance().showInformation(mainMenuInformation);
         switch (Menu.getInstance().listenResultBetween(1,3)) {
             case 1:
-                gameState = GameState.createCharacter;
+                setGameState(GameState.createCharacter);
                 break;
             case 2:
-                gameState = GameState.startGame;
+                setGameState(GameState.selectMenu);
                 break;
             case 3:
-                gameState = GameState.exitGame;
+                setGameState(GameState.exitGame);
                 break;
         }
     }
