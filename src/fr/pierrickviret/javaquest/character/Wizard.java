@@ -11,14 +11,14 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
  * @version 1.0
  */
 public class Wizard extends MainCharacter {
-    public Wizard(String name) {
-        super(CharacterType.Wizard, name);
+    public Wizard(String name, int id) {
+        super(CharacterType.Wizard, name, id);
     }
 
     @Override
     public String toString() {
 
-        return "Bonjour je suis " + this.name + " un magicien" + System.lineSeparator()
+        return "Bonjour je suis " + this.name + ", un magicien" + System.lineSeparator()
                 + "attaque = " + this.attack + ";" + System.lineSeparator()
                 + "points de vie = " + this.health + ".";
     }

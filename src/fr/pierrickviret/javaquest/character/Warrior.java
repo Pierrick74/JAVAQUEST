@@ -11,8 +11,8 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
  * @version 1.0
  */
 public class Warrior extends MainCharacter {
-    public Warrior(String name) {
-        super(CharacterType.Warrior,name);
+    public Warrior(String name, int id) {
+        super(CharacterType.Warrior,name, id);
     }
 
     @Override

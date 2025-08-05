@@ -3,11 +3,12 @@ import com.google.gson.Gson;
 import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.commun.CharacterType;
-import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
-import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
+import fr.pierrickviret.javaquest.character.Warrior;
+import fr.pierrickviret.javaquest.character.Wizard;
+import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class SQLRepository
 {
@@ -24,7 +25,7 @@ public class SQLRepository
     private SQLRepository() {}
 
     /**
-     * permet de récupérer le singleton
+     * Permet de récupérer le singleton
      * @return une instance de ConnectMySQL
      */
     public static SQLRepository getInstance() {
@@ -56,89 +57,100 @@ public class SQLRepository
 
     /**
      * permet de cree un nouveau personnage dans la BDD
-     * @param name {@code String} nom du personnage
-     * @param type {@code CharacterType} le type du personnage
-     * @param LifePoints {@code Integer} les points de vie
-     * @param Strength {@code Integer} la force
-     * @param OffensiveEquipement {@code OffensiveEquipment} les armes offensives, indiquer empty si null
-     * @param DefensiveEquipment {@code DefensiveEquipment} les armes defensive, indiquer empty si null
+     * @param character {@code MainCharacter} nom du personnage
      * @return {@code Integer} retourne l'ID du personnage créer
      */
-    public Integer createHeroes(String name, CharacterType type, Integer LifePoints, Integer Strength, OffensiveEquipmentType OffensiveEquipement, DefensiveEquipmentType DefensiveEquipment) {
+    public void save(MainCharacter character) {
         try {
-            int id = 0;
             conn = getConnection();
 
-            // Requête avec des paramètres (?)
-            String query = "INSERT INTO JavaquestCharacter(Name, Type, LifePoints, Strength, OffensiveEquipment, DefensiveEquipment) VALUES(?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM JavaquestCharacter WHERE id = ?");
+            pstmt.setInt(1, character.getID());
+            pstmt.executeUpdate();
 
-            PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            // Requête avec des paramètres (?)
+            String query = "INSERT INTO JavaquestCharacter(id, name, type, health, maxHealth, attack, experience, boostAttack, position, offensiveEquipment1, offensiveEquipment2) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             // Attribution des paramètres
-            pstmt.setString(1, name);
-            pstmt.setString(2, type.toString());
-            pstmt.setInt(3, LifePoints);
-            pstmt.setInt(4, Strength);
-            pstmt.setString(5, OffensiveEquipement.toString());
-            pstmt.setString(6, DefensiveEquipment.toString());
+            pstmt.setInt(1, character.getID());
+            pstmt.setString(2, character.getName());
+            pstmt.setString(3, character.getType().toString());
+            pstmt.setInt(4, character.getHealth());
+            pstmt.setInt(5, character.getMaxHealth());
+            pstmt.setInt(6, character.getAttackValue());
+            pstmt.setInt(7, character.getExperience());
+            pstmt.setBoolean(8, character.getBoostAttackValue());
+            pstmt.setInt(9, character.getPosition());
+
+            Gson gson = GsonConfig.getInstance();
+            String offensiveEquipement = gson.toJson(character.getOffensiveEquipement(1));
+            pstmt.setString(10, offensiveEquipement);
+            offensiveEquipement = gson.toJson(character.getOffensiveEquipement(2));
+            pstmt.setString(11, offensiveEquipement);
+
 
             pstmt.executeUpdate();
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-
-            //affiche l'ensemble des créations
-            //getHeroes();
             closeConnection();
-            return id;
+
         } catch(SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         } catch(Exception e) {
             System.out.println("Erreur générale : " + e.getMessage());
         }
+    }
+
+    public MainCharacter getCharacter(int id) {
+        try
+        {
+            conn = getConnection();
+            PreparedStatement pstmt;
+
+            pstmt = conn.prepareStatement("SELECT * FROM JavaquestCharacter WHERE ID=?");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int Id =  rs.getInt("id");
+                String name = rs.getString("name");
+                String type = rs.getString("type");
+                int health = rs.getInt("health");
+                int maxHealth = rs.getInt("maxHealth");
+                int attack = rs.getInt("attack");
+                int  experience = rs.getInt("experience");
+                Boolean boostAttack = rs.getBoolean("boostAttack");
+                int position = rs.getInt("position");
+                String offensiveEquipementString1 = rs.getString("offensiveEquipment1");
+                String offensiveEquipementString2 = rs.getString("offensiveEquipment2");
+
+                Gson gson = GsonConfig.getInstance();
+                OffensiveEquipement offensiveEquipement1 = gson.fromJson(offensiveEquipementString1, OffensiveEquipement.class);
+                OffensiveEquipement offensiveEquipement2 = gson.fromJson(offensiveEquipementString2, OffensiveEquipement.class);
+                ArrayList<OffensiveEquipement> offensiveEquipements = new ArrayList<>();
+                offensiveEquipements.add(offensiveEquipement1);
+                offensiveEquipements.add(offensiveEquipement2);
+
+                switch (type) {
+                    case "Wizard":
+                        Wizard wizard = new Wizard(name,id);
+                        wizard.initMainCharacter(id, name, health, maxHealth, attack, experience, boostAttack, position, offensiveEquipements);
+                        return wizard;
+
+                    case "Warrior":
+                        Warrior warrior = new Warrior(name,id);
+                        warrior.initMainCharacter(id, name, health, maxHealth, attack, experience, boostAttack, position, offensiveEquipements);
+                        return warrior;
+                }
+            }
+
+            closeConnection();
+            return null;
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
         return null;
-    }
-
-    public void editHero(MainCharacter character) {
-        try {
-            conn = getConnection();
-            PreparedStatement pstmt;
-            pstmt = conn.prepareStatement(
-                    "UPDATE JavaquestCharacter SET Name=?, Type=?, LifePoints=?, Strength=?, OffensiveEquipment=?, DefensiveEquipment=? WHERE ID=?");
-
-           // String characterOffensiveEquipment = character.getOffensiveEquipements() != null ? character.getOffensiveEquipements().getName() : OffensiveEquipmentType.empty.toString();
-            String characterDefensiveEquipment = character.getDefensiveEquipement() != null ? character.getDefensiveEquipement().getName() : DefensiveEquipmentType.empty.toString();
-
-            pstmt.setString(1, character.getName());
-            pstmt.setString(2, character.getType().toString());
-            pstmt.setInt(3, character.getHealth());
-            pstmt.setInt(4, character.getAttackValue());
-            pstmt.setString(5, character.getOffensiveEquipements().toString());
-            pstmt.setString(6, characterDefensiveEquipment);
-            pstmt.setInt(7, character.getID());
-            pstmt.executeUpdate();
-            closeConnection();
-        } catch (Exception e) {
-            System.out.println("Erreur SQL : " + e.getMessage());
-        }
-
-    }
-
-    public void changeLifePoints(MainCharacter character) {
-        try {
-            conn = getConnection();
-            PreparedStatement pstmt;
-            pstmt = conn.prepareStatement(
-                    "UPDATE JavaquestCharacter SET LifePoints=? WHERE ID=?");
-
-            pstmt.setInt(1, character.getHealth());
-            pstmt.setInt(2, character.getID());
-            pstmt.executeUpdate();
-            closeConnection();
-        } catch (Exception e) {
-            System.out.println("Erreur SQL : " + e.getMessage());
-        }
     }
 
     private Connection getConnection(){
@@ -169,59 +181,14 @@ public class SQLRepository
     // Save Board
     public Integer saveBoard(Board board) {
         try {
-            if(board.hasID()) {
-                return updateBoard(board);
-            } else {
-                return createSaveBoard(board);
-            }
-        } catch (Exception e) {
-            System.out.println("Erreur SQL : " + e.getMessage());
-        }
-        return null;
-    }
-
-    private Integer updateBoard(Board board) {
-        try {
             Integer id = 0;
             conn = getConnection();
 
-            Gson gson = GsonConfig.getInstance();
-            String boardJson = gson.toJson(board);
-
-            conn = getConnection();
-            PreparedStatement pstmt;
-
-            pstmt = conn.prepareStatement(
-                    "UPDATE JavaquestBoard SET Data=? WHERE ID=?", Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, boardJson);
-            pstmt.setInt(2, board.getId());
-
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM JavaquestBoard");
             pstmt.executeUpdate();
 
-            //get ID of board
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-
-            closeConnection();
-            return id;
-        } catch (Exception e) {
-            System.out.println("Erreur SQL : " + e.getMessage());
-        }
-        return null;
-    }
-
-    private Integer createSaveBoard(Board board) {
-        try {
-            Integer id = 0;
-            conn = getConnection();
-
             Gson gson = GsonConfig.getInstance();
             String boardJson = gson.toJson(board);
-
-            conn = getConnection();
-            PreparedStatement pstmt;
 
             pstmt = conn.prepareStatement(
                     "INSERT INTO JavaquestBoard (Data) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
@@ -243,5 +210,34 @@ public class SQLRepository
         return null;
     }
 
+    public boolean hasBoard() {
+        return getBoard() != null;
+    }
 
+    public Board getBoard() {
+        try
+        {
+            conn = getConnection();
+            PreparedStatement pstmt;
+
+            pstmt = conn.prepareStatement("SELECT * FROM JavaquestBoard");
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Récupérer les données du ResultSet
+                String boardData = rs.getString("Data"); // Remplacez par le nom de votre colonne
+
+                closeConnection();
+                Gson gson = GsonConfig.getInstance();
+                return gson.fromJson(boardData, Board.class);
+            }
+
+            closeConnection();
+            return null;
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
 }

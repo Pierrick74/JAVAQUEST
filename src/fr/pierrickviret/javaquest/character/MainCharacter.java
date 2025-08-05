@@ -22,12 +22,13 @@ public abstract class MainCharacter extends Character {
     Integer maxHealth;
     CharacterType type;
     ArrayList<OffensiveEquipement> offensiveEquipements =  new ArrayList<>();
-    DefensiveEquipement  defensiveEquipement;
     Boolean boostAttack;
+    Integer position;
 
     //init
-    public MainCharacter(CharacterType type, String name) {
+    public MainCharacter(CharacterType type, String name, int id) {
         super(name, 0, 0, 0);
+        this.setID(id);
         this.type = type;
         this.health = setHealth(this.type);
         maxHealth = this.health;
@@ -35,9 +36,23 @@ public abstract class MainCharacter extends Character {
         this.name = name;
         this.boostAttack =  false;
         this.experience = 0;
+        this.position = 0;
 
         this.offensiveEquipements.add(null);
         this.offensiveEquipements.add(null);
+    }
+
+    public void initMainCharacter(int id, String name, int health, int maxHealth, int attack, int experience, Boolean boostAttack, Integer position, ArrayList<OffensiveEquipement> offensiveEquipements) {
+        this.ID = id;
+        this.name = name;
+        this.health = health;
+        this.maxHealth = maxHealth;
+        this.type = type;
+        this.attack = attack;
+        this.experience = experience;
+        this.boostAttack = boostAttack;
+        this.position = position;
+        this.offensiveEquipements = offensiveEquipements;
     }
 
     public String getName() {
@@ -100,10 +115,6 @@ public abstract class MainCharacter extends Character {
         }
     }
 
-    public DefensiveEquipement getDefensiveEquipement() {
-        return defensiveEquipement;
-    }
-
     public Boolean hasOffensiveEquipement() {
         for (OffensiveEquipement equipement : offensiveEquipements) {
             if (equipement != null) {
@@ -126,8 +137,8 @@ public abstract class MainCharacter extends Character {
     public void resetCharacter(){
         health = maxHealth;
         Collections.fill(offensiveEquipements, null);
-        defensiveEquipement= null;
         experience = 0;
+        position = 0;
     }
 
     public void setBoostAttack() {
@@ -148,6 +159,14 @@ public abstract class MainCharacter extends Character {
 
     public void decreaseExperience(int experience) {
         this.experience -= experience;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     //private
@@ -175,6 +194,10 @@ public abstract class MainCharacter extends Character {
                 + "type = " + this.type.toString() + ";" + System.lineSeparator()
                 + "attaque = " + this.attack + ";" + System.lineSeparator()
                 + "points de vie = " + this.health + ".";
+    }
+
+    public String positionToString() {
+        return name + "est en position = " + position + ".";
     }
 }
 

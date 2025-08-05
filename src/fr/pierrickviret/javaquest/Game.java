@@ -7,9 +7,7 @@ import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.commun.CharacterType;
-import fr.pierrickviret.javaquest.commun.DefensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.GameState;
-import fr.pierrickviret.javaquest.commun.OffensiveEquipmentType;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 
@@ -53,10 +51,6 @@ public class Game {
 
     //dependency
     /**
-     * Personnage principal du jeu
-     */
-    MainCharacter character;
-    /**
      * Plateau pour ce jeu
      */
     Board board;
@@ -64,11 +58,8 @@ public class Game {
      * Permet de lancer le dé
      */
     Dice dice;
-    /**
-     * Représente le joueur
-     */
-    Player player;
 
+    MainCharacter character;
     /**
      * Represent l'état du jeu
      * @see GameState
@@ -82,17 +73,11 @@ public class Game {
     }
 
     /**
-     * Permet de gere la BDD
-     */
-    SQLRepository mysql;
-
-    /**
      * Permet d'initialiser les dépendances
      */
     Game(){
         setGameState(GameState.begin);
         this.dice = new Dice();
-        this.mysql = SQLRepository.getInstance();
     }
 
     //public
@@ -135,7 +120,7 @@ public class Game {
                         int result = Menu.getInstance().listenResultBetween(1,2);
                         if(result == 1) {
                             board = SQLRepository.getInstance().getBoard();
-                            player = SQLRepository.getInstance().getPlayerInformation();
+                            character = SQLRepository.getInstance().getCharacter(1);
                             setGameState(GameState.playerTurn);
                             break;
                         }
@@ -185,11 +170,8 @@ public class Game {
         Menu.getInstance().showInformation("Quelle difficult voulez vous ?\n1\n2\n3");
         int result = Menu.getInstance().listenResultBetween(1,3);
         board = new Board(result);
-        Integer id = mysql.saveBoard(board);
+        Integer id = SQLRepository.getInstance().saveBoard(board);
         board.setId(id);
-
-        player = new Player();
-        SQLRepository.getInstance().savePlayerInformation(player,character);
     }
 
     private void resetCharacter() {
@@ -233,7 +215,7 @@ public class Game {
         int choice = Menu.getInstance().listenResultBetween(1,3);
         if(choice == 3 ) {exitGame();}
         if(choice == 2 ) {
-            character = character.getType() == CharacterType.Warrior ? new Wizard(oldCharacter.getName()) : new Warrior(oldCharacter.getName());
+            character = character.getType() == CharacterType.Warrior ? new Wizard(oldCharacter.getName(),1) : new Warrior(oldCharacter.getName(),1);
             character.setID(oldCharacter.getID());
         }
 
@@ -249,7 +231,7 @@ public class Game {
 
         showCharacterCreated();
         //save in database
-        mysql.editHero(character);
+        SQLRepository.getInstance().save(character);
     }
 
     /**
@@ -260,15 +242,13 @@ public class Game {
     private void createCharacter( CharacterType type, String name ){
         switch (type) {
             case Warrior:
-                character = new Warrior(name);
+                character = new Warrior(name, 1);
                 break;
             case Wizard:
-                character = new Wizard(name);
+                character = new Wizard(name, 1);
                 break;
         }
-        int id = mysql.createHeroes(name, type, character.getAttackValue() , character.getHealth(), OffensiveEquipmentType.empty, DefensiveEquipmentType.empty);
-
-        character.setID(id);
+        SQLRepository.getInstance().save(character);
     }
 
     /**
@@ -295,7 +275,7 @@ public class Game {
      * Permet d'avancer le joueur de la valeur du lancé de dé
      * Si la position dépasse la limite du Board, le joueur recule
      * @see Dice
-     * @see Player
+     * @see MainCharacter
      * @see Board
      */
     private void changePlayerPosition() {
@@ -305,19 +285,19 @@ public class Game {
         Menu.getInstance().showInformation("\n"+ rollDice + turnDice.toString() + "\n");
 
         try {
-            movePlayer(player.getPosition() + turnDice);
+            movePlayer(character.getPosition() + turnDice);
         } catch (OutOfBoardException | Exception e) {
             Menu.getInstance().showInformation(e.getMessage());
-            int offset = board.getSize() - (player.getPosition() + turnDice );
-            player.setPosition(board.getSize() + offset);
+            int offset = board.getSize() - (character.getPosition() + turnDice );
+            character.setPosition(board.getSize() + offset);
         }
 
-        if(Objects.equals(player.getPosition(), board.getSize())) {
+        if(Objects.equals(character.getPosition(), board.getSize())) {
             setGameState(GameState.finishGame);
             return;
         }
 
-        Menu.getInstance().showInformation(player.toString());
+        Menu.getInstance().showInformation(character.positionToString());
         checkCase();
     }
 
@@ -325,14 +305,14 @@ public class Game {
      * Regarde la case sur laquelle le joueur est arrivé et effectue l'action
      */
     private void checkCase() {
-        Case currentCase = board.getCase(player.getPosition());
+        Case currentCase = board.getCase(character.getPosition());
         Menu.getInstance().showInformation("\n"+ currentCase.toString());
         if( currentCase instanceof EnemyCase) {
             startFight((EnemyCase) currentCase);
         } else {
             Boolean stateCase = currentCase.interact(character);
             if (!stateCase) {
-                board.setCaseToEmpty(player.getPosition());
+                board.setCaseToEmpty(character.getPosition());
             }
         }
     }
@@ -365,7 +345,7 @@ public class Game {
     private boolean fightWithEnemy(Case currentCase) {
         Boolean stateCase = currentCase.interact(character);
         if (!stateCase) {
-            board.setCaseToEmpty(player.getPosition());
+            board.setCaseToEmpty(character.getPosition());
         }
         if(character.getHealth() <= 0) {
             stateCase = false;
@@ -380,8 +360,8 @@ public class Game {
     private void movePlayerBackward(){
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
-        player.setPosition(player.getPosition() - number);
-        Menu.getInstance().showInformation("\nVous reculez de "+ number + " cases\n" + player.toString());
+        character.setPosition(character.getPosition() - number);
+        Menu.getInstance().showInformation("\nVous reculez de "+ number + " cases\n" + character.positionToString());
         Menu.getInstance().showInformation("Votre experience passe à " + character.getExperience());
     }
 
@@ -394,7 +374,7 @@ public class Game {
         if(position > board.getSize()) {
             throw new OutOfBoardException("Vous ne pouvez pas avancer plus que de case du plateau\nVous reculez\n");
         }
-        player.setPosition(position);
+        character.setPosition(position);
     }
 
     /**
