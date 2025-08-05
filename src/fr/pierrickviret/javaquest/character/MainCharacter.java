@@ -34,6 +34,9 @@ public abstract class MainCharacter extends Character {
         this.name = name;
         this.boostAttack =  false;
         this.experience = 0;
+
+        this.offensiveEquipements.add(null);
+        this.offensiveEquipements.add(null);
     }
 
     public String getName() {
@@ -63,10 +66,10 @@ public abstract class MainCharacter extends Character {
     }
 
     public int getLevel() {
-        if(experience >= 15) {
+        if(experience >= 50) {
             return 3;
         }
-        if(experience >= 10) {
+        if(experience >= 20) {
             return 2;
         }
         return 1;
@@ -77,10 +80,7 @@ public abstract class MainCharacter extends Character {
     }
 
     public void setOffensiveEquipement(OffensiveEquipement offensiveEquipement, int index) {
-        while (offensiveEquipements.size() <= index) {
-            offensiveEquipements.add(null);
-        }
-        offensiveEquipements.set(index, offensiveEquipement);
+        offensiveEquipements.set(index-1, offensiveEquipement);
     }
 
     public void showOffensiveEquipement() {
