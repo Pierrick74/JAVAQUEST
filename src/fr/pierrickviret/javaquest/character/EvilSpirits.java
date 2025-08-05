@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.character;
 
 public class EvilSpirits extends Character {
     public EvilSpirits() {
-        super("Mauvais esprits",15, 4, 8);
+        super("Mauvais esprits",10, 8, 30);
     }
 
     @Override

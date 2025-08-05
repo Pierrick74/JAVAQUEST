@@ -4,7 +4,7 @@ import fr.pierrickviret.javaquest.equipement.offensive.Spell;
 
 public class SmallPotion extends Potion {
     public SmallPotion() {
-        super("Potion de vie standards", 2);
+        super("Potion de vie standards", 8);
     }
 
     @Override

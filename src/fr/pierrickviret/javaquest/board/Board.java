@@ -9,6 +9,7 @@ import fr.pierrickviret.javaquest.equipement.defensive.BigPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.SmallPotion;
 import fr.pierrickviret.javaquest.equipement.defensive.Thunderclap;
 import fr.pierrickviret.javaquest.equipement.offensive.*;
+import  fr.pierrickviret.javaquest.character.Character;
 
 import java.util.Random;
 
@@ -43,86 +44,73 @@ public class Board {
         cases[id] = new EmptyCase();
     }
 
-    /**
-     * Retourne le nombre d'objets suivant la difficultée
-     * @return nombre d'armes / potion / enemies
-     */
-    private int[] getNumberOfObject(int difficultyLevel) {
-        return switch (difficultyLevel) {
-            case 2 -> new int[]{8, 8, 30};
-            case 3 -> new int[]{6, 6, 40};
-            default -> new int[]{10, 10, 24};
-        };
-
-    }
-
     private void feedBoard(int difficultyLevel) {
-        int[] numberOfObjects = getNumberOfObject(difficultyLevel);
-
         for (int i = 0; i < cases.length; i++) {
             cases[i] = new EmptyCase();
         }
 
-        // Massues
-        for (int i = 0; i < (numberOfObjects[0]-2)/2; i++) {
+        addWeapons(2);
+        addSpecialWeapons(2);
+
+        addPotions();
+
+        addEnemies(difficultyLevel);
+    }
+
+    private void addWeapons(int count) {
+        for (int i = 0; i < count; i++) {
             cases[giveEmptyCase()] = new WeaponCase(new Club());
-        }
-
-        // Épées
-        for (int i = 0; i < (numberOfObjects[0]-2)/2; i++) {
             cases[giveEmptyCase()] = new WeaponCase(new Sword());
-        }
-
-        // 2 Arc
-        for (int i = 0; i < 2; i++) {
-            cases[giveEmptyCase()] = new WeaponCase(new Bow());
-        }
-
-        // 5 Sorts "éclair"
-        for (int i = 0; i < (numberOfObjects[0]-2)/2; i++) {
             cases[giveEmptyCase()] = new SpellCase(new Lightning());
-        }
-
-        // 2 Sorts "boules de feu"
-        for (int i = 0; i < (numberOfObjects[0]-2)/2 ; i++) {
             cases[giveEmptyCase()] = new SpellCase(new Fireball());
         }
+    }
 
-        // 2 Sorts "Invisibilité"
-        for (int i = 0; i < 2; i++) {
+    private void addSpecialWeapons(int count) {
+        for (int i = 0; i < count; i++) {
+            cases[giveEmptyCase()] = new WeaponCase(new Bow());
             cases[giveEmptyCase()] = new SpellCase(new Invisibility());
         }
+    }
 
-        // 6 Potions standards
-        for (int i = 0; i < (numberOfObjects[1]-2)/2; i++) {
+    private void addPotions() {
+        // 6 petites potions
+        for (int i = 0; i < 6; i++) {
             cases[giveEmptyCase()] = new PotionCase(new SmallPotion());
         }
-
-        // 2 Grandes potions
-        for (int i = 0; i < (numberOfObjects[1]-2)/2; i++) {
+        // 2 grandes potions
+        for (int i = 0; i < 2; i++) {
             cases[giveEmptyCase()] = new PotionCase(new BigPotion());
         }
-
-        // 2 potions Coup de tonnerre
+        // 2 potions boost
         for (int i = 0; i < 2; i++) {
             cases[giveEmptyCase()] = new PotionCase(new Thunderclap());
         }
+    }
 
-        // CASES ENNEMIS (24 cases)
-
-        // 10 Gobelins
-        for (int i = 0; i < (numberOfObjects[2]-4)/2; i++) {
-            cases[giveEmptyCase()] = new EnemyCase(new Gobelin());
+    private void addEnemies(int difficulty) {
+        switch (difficulty) {
+            case 1:
+                addEnemyType(12, new Gobelin());
+                addEnemyType(6, new Sorcerer());
+                addEnemyType(2, new Dragon());
+                break;
+            case 2:
+                addEnemyType(12, new Gobelin());
+                addEnemyType(10, new Sorcerer());
+                addEnemyType(4, new Dragon());
+                break;
+            case 3:
+                addEnemyType(14, new Gobelin());
+                addEnemyType(12, new Sorcerer());
+                addEnemyType(6, new Dragon());
+                break;
         }
+    }
 
-        // 10 Sorciers
-        for (int i = 0; i < (numberOfObjects[0]-4)/2; i++) {
-            cases[giveEmptyCase()] = new EnemyCase(new Sorcerer());
-        }
-
-        // 4 Dragons
-        for (int i = 0; i < 4; i++) {
-            cases[giveEmptyCase()] = new EnemyCase(new Dragon());
+    private void addEnemyType(int count, Character enemyType) {
+        for (int i = 0; i < count; i++) {
+            cases[giveEmptyCase()] = new EnemyCase(enemyType);
         }
     }
 

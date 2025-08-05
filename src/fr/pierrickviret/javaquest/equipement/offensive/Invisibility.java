@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Invisibility extends Spell{
     public Invisibility() {
-        super("Invisibilité", 5, 3);
+        super("Invisibilité", 2, 3);
     }
 
     @Override

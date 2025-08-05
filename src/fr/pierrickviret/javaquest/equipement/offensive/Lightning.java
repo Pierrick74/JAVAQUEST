@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Lightning extends Spell{
     public Lightning() {
-        super("Eclair", 3, 1);
+        super("Eclair", 3, 2);
     }
 
     @Override

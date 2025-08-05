@@ -90,11 +90,11 @@ public abstract class MainCharacter extends Character {
         }
 
         Menu.getInstance().showInformation("voici votre inventaire");
-        for (int i = 1; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             if(offensiveEquipements.get(i) != null) {
-                Menu.getInstance().showInformation("Emplacement "+ (i) + " : " + offensiveEquipements.get(i).getName());
+                Menu.getInstance().showInformation("Emplacement "+ (i+1) + " : " + offensiveEquipements.get(i).getName());
             } else {
-                Menu.getInstance().showInformation("Emplacement " + (i) + " : Vide");
+                Menu.getInstance().showInformation("Emplacement " + (i+1) + " : Vide");
             }
         }
     }
@@ -146,16 +146,16 @@ public abstract class MainCharacter extends Character {
     private int setHealth(CharacterType type) {
         Random rand = new Random();
         return switch (type) {
-            case Warrior -> rand.nextInt(5, 10);
-            case Wizard -> rand.nextInt(8, 15);
+            case Warrior -> rand.nextInt(8, 12);
+            case Wizard -> rand.nextInt(6, 10);
         };
     }
 
     private int setAttack(CharacterType type) {
         Random rand = new Random();
         return switch (type) {
-            case Warrior -> rand.nextInt(8, 15);
-            case Wizard -> rand.nextInt(3, 6);
+            case Warrior -> rand.nextInt(6, 10);
+            case Wizard -> rand.nextInt(4, 8);
         };
     }
 

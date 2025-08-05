@@ -6,7 +6,7 @@ import fr.pierrickviret.javaquest.equipement.offensive.Spell;
 
 public class BigPotion extends Potion {
     public BigPotion() {
-        super("Grande potion", 5);
+        super("Grande potion", 15);
     }
 
     @Override

@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Club extends Weapon{
     public Club() {
-        super("massue", 3, 2);
+        super("massue", 2, 1);
     }
 
     @Override
