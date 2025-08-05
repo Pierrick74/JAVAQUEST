@@ -17,7 +17,6 @@ public class EnemyCase extends Case {
 
     @Override
     public String toString() {
-
         return "oh non, un "
                 + enemy.toString()
                 + System.lineSeparator();
@@ -25,7 +24,7 @@ public class EnemyCase extends Case {
 
     /**
      *
-     * @return return true si l'enemie est encore en vie
+     * @return return true si l'ennemie est encore en vie
      */
     @Override
     public Boolean interact(MainCharacter character) {
@@ -81,7 +80,6 @@ public class EnemyCase extends Case {
         }
         else {
             enemy.setCharacterHealth(0);
-            int value = enemy.getExperience();
             character.increaseExperience(enemy.getExperience());
             show(" Vous avez vaincu " + enemy.toString());
             show("Votre experience passe à " + character.getExperience());
@@ -91,23 +89,11 @@ public class EnemyCase extends Case {
     private Integer checkAttackValue(MainCharacter character) {
         int attackValue = character.getAttackValue();
 
-        if(character.hasOffensiveEquipement()){
-            if(character.hasOffensiveEquipementsForHisLevel()) {
-                OffensiveEquipement equipement = getOffensiveEquipement(character);
-                attackValue = attackValue + equipement.getValue();
 
-                if (enemy instanceof Dragon && equipement instanceof Bow) {
-                    attackValue = attackValue + 2;
-                    show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
-                }
-
-                if (enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
-                    show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
-                    attackValue = attackValue + 3;
-                }
-            } else {
-                Menu.getInstance().showInformation("Vous n'avez pas d'arme compatible avec votre niveau");
-            }
+        if(character.hasOffensiveEquipementsForHisLevel() != 0) {
+            attackValue += getWeaponValue(character);
+        } else if(character.hasOffensiveEquipement()) {
+            show("Vous n'avez pas d'arme compatible avec votre niveau");
         }
 
         attackValue = getAttackValueWithCriticalRules(attackValue);
@@ -119,13 +105,39 @@ public class EnemyCase extends Case {
         return attackValue;
     }
 
+    private int getWeaponValue(MainCharacter character) {
+        OffensiveEquipement equipement = getOffensiveEquipement(character);
+        int attackValue = equipement.getValue();
+        show("Vous prenez " + equipement);
+
+        if (enemy instanceof Dragon && equipement instanceof Bow) {
+            attackValue = attackValue + 2;
+            show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+        }
+
+        if (enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
+            show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
+            attackValue = attackValue + 3;
+        }
+        return attackValue;
+    }
+
     private OffensiveEquipement getOffensiveEquipement(MainCharacter character) {
-        character.showOffensiveEquipement();
-        show("Sélectionner votre arme");
-        int result = Menu.getInstance().listenResultBetween(1,2);
-        if(character.getOffensiveEquipement(result).getLevel() > character.getLevel()){
-            Menu.getInstance().showInformation("Vous ne pouvez pas prendre une arme de ce niveau actuellement");
-            return getOffensiveEquipement(character);
+        int result;
+        if(character.hasOffensiveEquipementsForHisLevel() == 1 ) {
+            if (character.getOffensiveEquipement(1) != null){
+                result = 1;
+            } else {
+                result = 2;
+            }
+        } else {
+            character.showOffensiveEquipement();
+            show("Sélectionner votre arme");
+            result = Menu.getInstance().listenResultBetween(1,2);
+            if(character.getOffensiveEquipement(result).getLevel() > character.getLevel()){
+                Menu.getInstance().showInformation("Vous ne pouvez pas prendre une arme de ce niveau actuellement");
+                return getOffensiveEquipement(character);
+            }
         }
         return character.getOffensiveEquipement(result);
     }

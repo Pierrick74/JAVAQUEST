@@ -7,6 +7,6 @@ public class Fireball extends Spell{
 
     @Override
     public String toString() {
-        return "un sort:lance des boules de feu de niveau 2" + System.lineSeparator();
+        return "lance des boules de feu de niveau 2" + System.lineSeparator();
     }
 }

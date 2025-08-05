@@ -105,22 +105,29 @@ public abstract class MainCharacter extends Character {
     }
 
     public Boolean hasOffensiveEquipement() {
-        return !offensiveEquipements.isEmpty();
-    }
-
-    public Boolean hasOffensiveEquipementsForHisLevel() {
-        for (OffensiveEquipement offensiveEquipement : offensiveEquipements) {
-            if (offensiveEquipement != null && offensiveEquipement.getLevel() <= this.getLevel()) {
+        for (OffensiveEquipement equipement : offensiveEquipements) {
+            if (equipement != null) {
                 return true;
             }
         }
         return false;
     }
 
+    public int hasOffensiveEquipementsForHisLevel() {
+        int count = 0;
+        for (OffensiveEquipement offensiveEquipement : offensiveEquipements) {
+            if (offensiveEquipement != null && offensiveEquipement.getLevel() <= this.getLevel()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public void resetCharacter(){
         health = maxHealth;
         Collections.fill(offensiveEquipements, null);
         defensiveEquipement= null;
+        experience = 0;
     }
 
     public void setBoostAttack() {
