@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.character;
 
 public class Dragon extends Character {
     public Dragon() {
-        super("dragon",18, 10, 50);
+        super("dragon", 14, 7, 8);
     }
 
     @Override

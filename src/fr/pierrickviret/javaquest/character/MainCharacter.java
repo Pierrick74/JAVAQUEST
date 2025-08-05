@@ -6,6 +6,7 @@ import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -20,7 +21,7 @@ public abstract class MainCharacter extends Character {
     //variable
     Integer maxHealth;
     CharacterType type;
-    ArrayList<OffensiveEquipement> offensiveEquipements =  new ArrayList<OffensiveEquipement>();
+    ArrayList<OffensiveEquipement> offensiveEquipements =  new ArrayList<>();
     DefensiveEquipement  defensiveEquipement;
     Boolean boostAttack;
 
@@ -62,7 +63,7 @@ public abstract class MainCharacter extends Character {
     public Integer getMaxHealth() {return maxHealth;}
 
     public OffensiveEquipement getOffensiveEquipement(int index) {
-        return offensiveEquipements.get(index);
+        return offensiveEquipements.get(index-1);
     }
 
     public int getLevel() {
@@ -118,7 +119,7 @@ public abstract class MainCharacter extends Character {
 
     public void resetCharacter(){
         health = maxHealth;
-        offensiveEquipements.replaceAll(ignored -> null);
+        Collections.fill(offensiveEquipements, null);
         defensiveEquipement= null;
     }
 

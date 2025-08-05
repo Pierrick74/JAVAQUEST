@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Sword extends Weapon {
     public Sword() {
-        super("Epée",3, 2);
+        super("Epée", 4, 2);
     }
 
     @Override
