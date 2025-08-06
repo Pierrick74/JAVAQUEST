@@ -75,7 +75,7 @@ public class Game {
     /**
      * Permet d'initialiser les dépendances
      */
-    Game(){
+    public Game(){
         setGameState(GameState.begin);
         this.dice = new Dice();
     }
