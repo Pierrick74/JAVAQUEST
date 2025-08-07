@@ -1,5 +1,6 @@
 package fr.pierrickviret.javaquest.javafx;
 
+import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,16 +14,17 @@ import javafx.scene.text.FontWeight;
 
 
 public class nameOfCharacterView extends VBox {
-    private final Label titre = new Label("Veuillez Choisir un nom");
-    private final ImageView imageView =  new ImageView();
-    private final TextField name = new TextField();
-    private final Button button = new Button("Valider");
-
-    private final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
-    private final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
 
     public nameOfCharacterView(CharacterType type) {
         super(15);
+        final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
+        final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
+
+        Label titre = new Label("Veuillez Choisir un nom");
+        ImageView imageView =  new ImageView();
+        TextField name = new TextField();
+        Button button = new Button("Valider");
+
         String imagePath = type == CharacterType.Warrior ? warriorImagePath : wizardImagePath;
 
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
@@ -36,7 +38,12 @@ public class nameOfCharacterView extends VBox {
         name.setPromptText("Veuillez choisir un nom");
         name.setAlignment(Pos.CENTER);
 
-        button.setOnAction(e -> StageRepository.getInstance().replaceScene(new MainMenuView()));
+        button.setOnAction(e -> {
+            if (!name.getText().isEmpty()) {
+                Game.getInstance().createCharacter(type, name.getText());
+                StageRepository.getInstance().replaceScene(new MainMenuView());
+            }
+        });
 
         this.getChildren().addAll(titre,imageView,  name, button);
         this.setAlignment(Pos.CENTER);

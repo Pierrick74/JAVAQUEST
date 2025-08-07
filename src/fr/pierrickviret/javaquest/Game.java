@@ -35,8 +35,6 @@ import static java.lang.System.exit;
 public class Game {
     // information to display
     static String welcomeInformation = "Bienvenue dans le jeu\nJAVA QUEST";
-    static String mainMenuInformation = "\nVeuillez choisir:\n1. création du personnage\n2. Démarrer la partie\n3. Quitter le jeu";
-    static String createCharacterInformation = "Quel personnage voulez-vous créer ?\n1. Combattant\n2. Mage\n3. Quitter le jeu";
     static String askForCharacterName = "Quel est le nom de votre Personnage";
     static String showCharacterCreated = "\nVoici le personnage crée";
     static String askForCharacterModification = "\nVoulez vous modifier le personnage\n1. utiliser le personnage\n2. Modifier le personnage";
@@ -104,45 +102,33 @@ public class Game {
             if (isSomethingToShow) {
                 switch (gameState) {
                     case begin:
-                        Platform.runLater(() -> {
-                            StageRepository.getInstance().replaceScene(new MainView(20));
-                        });
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainView(20)));
                         Menu.getInstance().showInformation(welcomeInformation);
 
                         //setGameState(GameState.waitingInformation);
                         break;
 
                     case waitingInformation:
-                        Platform.runLater(() -> {
-                            StageRepository.getInstance().replaceScene(new MainMenuView());
-                        });
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
                         //manageWaitingInformation();
                         break;
 
                     case selectCharacterToCreate:
                         if (character == null) {
-                            Platform.runLater(() -> {
-                                StageRepository.getInstance().replaceScene(new createCharacterMenu());
-                            });
+                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new createCharacterMenu()));
                         } else {
                             if (isModifyCharacter()) {
                                 modifyCharacter();
                             }
                         }
-                        /*
-                        if (oldGameState == GameState.startGame) {
-                            setGameState(GameState.startGame);
-                            break;
-                        }
-                        */
                         break;
 
                     case createCharacter:
-                        Platform.runLater(() -> {
-                            StageRepository.getInstance().replaceScene(new nameOfCharacterView(selectedType));
-                        });
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new nameOfCharacterView(selectedType)));
                         break;
 
+                    case showCharacter:
+                        break;
                     case selectMenu:
                         if (SQLRepository.getInstance().hasBoard()) {
                             Menu.getInstance().showInformation(askForUseBoard);
@@ -228,24 +214,6 @@ public class Game {
         exit(0);
     }
 
-    /**
-     * Récupère les informations du joueur et appel la création du personnage.
-     * @see MainCharacter
-     * @see Menu
-     */
-    private void createCharacter(){
-        Menu.getInstance().showInformation(createCharacterInformation);
-        int choice = Menu.getInstance().listenResultBetween(1,3);
-        if(choice == 3 ) {exitGame();}
-        CharacterType type = choice == 1 ? CharacterType.Warrior : CharacterType.Wizard;
-
-        Menu.getInstance().showInformation(askForCharacterName);
-        String name = Menu.getInstance().listenString();
-
-        createCharacter(type, name);
-        showCharacterCreated();
-    }
-
     private void modifyCharacter(){
 
         MainCharacter oldCharacter = character;
@@ -280,7 +248,7 @@ public class Game {
      * @param type indique le type du personnage
      * @param name indique le nom du personnage
      */
-    private void createCharacter( CharacterType type, String name ){
+    public void createCharacter( CharacterType type, String name ){
         switch (type) {
             case Warrior:
                 character = new Warrior(name, 1);
@@ -418,21 +386,4 @@ public class Game {
         character.setPosition(position);
     }
 
-    /**
-     *
-     */
-    private void manageWaitingInformation() {
-        Menu.getInstance().showInformation(mainMenuInformation);
-        switch (Menu.getInstance().listenResultBetween(1,3)) {
-            case 1:
-                setGameState(GameState.createCharacter);
-                break;
-            case 2:
-                setGameState(GameState.selectMenu);
-                break;
-            case 3:
-                setGameState(GameState.exitGame);
-                break;
-        }
-    }
 }

@@ -17,4 +17,5 @@ public enum GameState {
         selectMenu,
         selectCharacterToCreate,
         selectNameForCharacter,
+        showCharacter
 }
