@@ -1,4 +1,5 @@
 package fr.pierrickviret.javaquest.javafx;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,6 +10,7 @@ import javafx.scene.text.FontWeight;
 
 public class MainView extends VBox {
     private Label label;
+    private Label titre;
     private Button button;
     private ImageView imageView;
 
@@ -17,10 +19,10 @@ public class MainView extends VBox {
         initializeComponents();
         setupActions();
 
-        this.getChildren().addAll(imageView,label,button);
+        this.getChildren().addAll(imageView,label, titre,button);
 
         this.setStyle(
-                "-fx-background-color: #16cc16; " +
+                "-fx-background-color: #e8f1e8; " +
                         "-fx-alignment: center; "
         );
     }
@@ -30,8 +32,13 @@ public class MainView extends VBox {
         button.setDefaultButton(true);
         button.setFont(Font.font("impact", FontWeight.LIGHT, 15.0));
 
-        label = new Label("Bienvenue dans JavaQuest !");
-        label.setFont(Font.font("impact", FontWeight.BOLD, 30.0));
+        label = new Label("Bienvenue dans");
+        label.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 30.0));
+        label.setAlignment(Pos.CENTER);
+
+        titre = new Label("JavaQuest !");
+        titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 50.0));
+        titre.setAlignment(Pos.CENTER);
 
         Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/epeetbouclier.png");
         imageView = new ImageView();

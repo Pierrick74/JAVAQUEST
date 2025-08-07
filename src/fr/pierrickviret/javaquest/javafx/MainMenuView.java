@@ -15,7 +15,7 @@ public class MainMenuView extends VBox {
        this.getChildren().addAll(creation, game);
        this.setAlignment(Pos.CENTER);
        this.setStyle(
-               "-fx-background-color: #3caf3c; " +
+               "-fx-background-color: #e8f1e8; " +
                        "-fx-alignment: center; "
        );
    }

@@ -11,13 +11,15 @@ public class createCharacterMenu extends VBox {
     public createCharacterMenu() {
         super(15);
         Label titre = new Label("Veuillez choisir votre personnage");
-        titre.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
+
         bigMenu warrior = new bigMenu("Combatant", "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG", new MainView(10) );
         bigMenu wizard = new bigMenu("Magicien", "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG", new MainView(10) );
+
         this.getChildren().addAll(titre, warrior, wizard);
         this.setAlignment(Pos.CENTER);
         this.setStyle(
-                "-fx-background-color: #3caf3c; " +
+                "-fx-background-color: #e8f1e8; " +
                         "-fx-alignment: center; "
         );
     }
