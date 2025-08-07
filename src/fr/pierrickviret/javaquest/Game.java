@@ -10,6 +10,7 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
+import fr.pierrickviret.javaquest.javafx.MainMenuView;
 import fr.pierrickviret.javaquest.javafx.MainView;
 import fr.pierrickviret.javaquest.javafx.StageRepository;
 import javafx.application.Platform;
@@ -112,6 +113,9 @@ public class Game {
                         break;
 
                     case waitingInformation:
+                        Platform.runLater(() -> {
+                            StageRepository.getInstance().replaceScene(new MainMenuView());
+                        });
                         manageWaitingInformation();
                         break;
 
@@ -177,6 +181,12 @@ public class Game {
                         break;
                 }
                 isSomethingToShow = false;
+            }
+            // éviter de bloquer le CPU
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         exitGame();
