@@ -20,9 +20,12 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.DECORATED);
         StageRepository.getInstance().setStage(primaryStage);
 
-        // Organisation des éléments
-        VBox root = new MainView(20);
-
-        StageRepository.getInstance().replaceScene(root);
+        // Lancer le jeu dans un thread séparé
+        Thread gameThread = new Thread(() -> {
+            Game game = Game.getInstance();
+            game.start();
+        });
+        gameThread.setDaemon(true); // Se termine avec l'application
+        gameThread.start();
     }
 }

@@ -1,4 +1,6 @@
 package fr.pierrickviret.javaquest.javafx;
+import fr.pierrickviret.javaquest.Game;
+import fr.pierrickviret.javaquest.commun.GameState;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,6 +51,6 @@ public class MainView extends VBox {
 
     private void setupActions() {
         // Action sur le bouton - maintenant dans une méthode
-        button.setOnAction(e -> StageRepository.getInstance().replaceScene(new MainMenuView()));
+        button.setOnAction(e -> Game.getInstance().setGameState(GameState.waitingInformation));
     }
 }

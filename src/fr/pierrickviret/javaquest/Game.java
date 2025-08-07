@@ -10,6 +10,9 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
+import fr.pierrickviret.javaquest.javafx.MainView;
+import fr.pierrickviret.javaquest.javafx.StageRepository;
+import javafx.application.Platform;
 
 import java.util.Objects;
 import java.util.Random;
@@ -66,17 +69,25 @@ public class Game {
      */
     private GameState gameState;
     private GameState oldGameState;
+    private Boolean isSomethingToShow = true;
 
-    private void setGameState(GameState gameState) {
+    public void setGameState(GameState gameState) {
         this.oldGameState = this.gameState;
         this.gameState = gameState;
+        isSomethingToShow = true;
     }
 
+    private static Game instance;
+
+    public static Game getInstance() {
+        return instance==null?instance = new Game():instance;
+    }
     /**
      * Permet d'initialiser les dépendances
      */
-    public Game(){
-        setGameState(GameState.begin);
+    private Game(){
+        this.gameState = GameState.begin;
+        this.oldGameState = GameState.waitingInformation;
         this.dice = new Dice();
     }
 
@@ -89,76 +100,83 @@ public class Game {
      */
     public void start() {
         while (gameState != GameState.exitGame) {
-            switch (gameState) {
-                case begin:
-                    Menu.getInstance().showInformation(welcomeInformation);
-                    setGameState(GameState.waitingInformation);
-                    break;
+            if (isSomethingToShow) {
+                switch (gameState) {
+                    case begin:
+                        Platform.runLater(() -> {
+                            StageRepository.getInstance().replaceScene(new MainView(20));
+                        });
+                        Menu.getInstance().showInformation(welcomeInformation);
 
-                case waitingInformation:
-                    manageWaitingInformation();
-                    break;
-
-                case createCharacter:
-                    if( character == null) {
-                        createCharacter();
-                    } else {
-                        if(isModifyCharacter()){
-                            modifyCharacter();
-                        }
-                    }
-                    if(oldGameState == GameState.startGame) {
-                        setGameState(GameState.startGame);
+                        //setGameState(GameState.waitingInformation);
                         break;
-                    }
-                    setGameState(GameState.waitingInformation);
-                    break;
 
-                case selectMenu:
-                    if(SQLRepository.getInstance().hasBoard()) {
-                        Menu.getInstance().showInformation(askForUseBoard);
-                        int result = Menu.getInstance().listenResultBetween(1,2);
-                        if(result == 1) {
-                            board = SQLRepository.getInstance().getBoard();
-                            character = SQLRepository.getInstance().getCharacter(1);
-                            setGameState(GameState.playerTurn);
+                    case waitingInformation:
+                        manageWaitingInformation();
+                        break;
+
+                    case createCharacter:
+                        if (character == null) {
+                            createCharacter();
+                        } else {
+                            if (isModifyCharacter()) {
+                                modifyCharacter();
+                            }
+                        }
+                        if (oldGameState == GameState.startGame) {
+                            setGameState(GameState.startGame);
                             break;
                         }
-                    }
-                    setGameState(GameState.startGame);
-                    break;
-
-                case startGame:
-                    if ( character == null) {
-                        setGameState(GameState.createCharacter);
-                        Menu.getInstance().showInformation(mustCreateCharacter);
+                        setGameState(GameState.waitingInformation);
                         break;
-                    } else {
-                        resetCharacter();
-                    }
-                    initGame();
-                    setGameState(GameState.playerTurn);
-                    break;
 
-                case playerTurn:
-                    changePlayerPosition();
-                    if(character.getHealth() <= 0) {
-                        setGameState(GameState.gameOver);
-                    }
-                    break;
+                    case selectMenu:
+                        if (SQLRepository.getInstance().hasBoard()) {
+                            Menu.getInstance().showInformation(askForUseBoard);
+                            int result = Menu.getInstance().listenResultBetween(1, 2);
+                            if (result == 1) {
+                                board = SQLRepository.getInstance().getBoard();
+                                character = SQLRepository.getInstance().getCharacter(1);
+                                setGameState(GameState.playerTurn);
+                                break;
+                            }
+                        }
+                        setGameState(GameState.startGame);
+                        break;
 
-                case finishGame:
-                    Menu.getInstance().showInformation(finishGame);
-                    setGameState(GameState.waitingInformation);
-                    break;
+                    case startGame:
+                        if (character == null) {
+                            setGameState(GameState.createCharacter);
+                            Menu.getInstance().showInformation(mustCreateCharacter);
+                            break;
+                        } else {
+                            resetCharacter();
+                        }
+                        initGame();
+                        setGameState(GameState.playerTurn);
+                        break;
 
-                case gameOver:
-                    Menu.getInstance().showInformation(gameOver);
-                    setGameState(GameState.waitingInformation);
-                    break;
+                    case playerTurn:
+                        changePlayerPosition();
+                        if (character.getHealth() <= 0) {
+                            setGameState(GameState.gameOver);
+                        }
+                        break;
 
-                default:
-                    break;
+                    case finishGame:
+                        Menu.getInstance().showInformation(finishGame);
+                        setGameState(GameState.waitingInformation);
+                        break;
+
+                    case gameOver:
+                        Menu.getInstance().showInformation(gameOver);
+                        setGameState(GameState.waitingInformation);
+                        break;
+
+                    default:
+                        break;
+                }
+                isSomethingToShow = false;
             }
         }
         exitGame();
