@@ -1,7 +1,5 @@
 package fr.pierrickviret.javaquest.javafx.composants;
 
-import fr.pierrickviret.javaquest.Game;
-import fr.pierrickviret.javaquest.commun.GameState;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

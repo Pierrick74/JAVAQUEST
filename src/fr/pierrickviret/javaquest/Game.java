@@ -128,7 +128,9 @@ public class Game {
                         break;
 
                     case showCharacter:
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new showCharacter(character)));
                         break;
+
                     case selectMenu:
                         if (SQLRepository.getInstance().hasBoard()) {
                             Menu.getInstance().showInformation(askForUseBoard);

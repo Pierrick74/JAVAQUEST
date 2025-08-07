@@ -2,6 +2,7 @@ package fr.pierrickviret.javaquest.javafx;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.CharacterType;
+import fr.pierrickviret.javaquest.commun.GameState;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,7 +42,7 @@ public class nameOfCharacterView extends VBox {
         button.setOnAction(e -> {
             if (!name.getText().isEmpty()) {
                 Game.getInstance().createCharacter(type, name.getText());
-                StageRepository.getInstance().replaceScene(new MainMenuView());
+                Game.getInstance().setGameState(GameState.showCharacter);
             }
         });
 
