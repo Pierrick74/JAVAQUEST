@@ -113,7 +113,7 @@ public class Game {
                         //manageWaitingInformation();
                         break;
 
-                    case selectCharacterToCreate:
+                    case checkIfCharacterIsAlreadyCreated:
                         if (character == null) {
                             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new createCharacterMenu()));
                         } else {
@@ -132,6 +132,10 @@ public class Game {
 
                     case showCharacter:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new showCharacter(character)));
+                        break;
+
+                    case modifyCharacter:
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new ModifyCharacter(character)));
                         break;
 
                     case selectMenu:
@@ -196,6 +200,9 @@ public class Game {
         this.selectedType = type;
     }
 
+    public void deleteCharacter() {
+        this.character = null;
+    }
     //private
 
     private void initGame(){

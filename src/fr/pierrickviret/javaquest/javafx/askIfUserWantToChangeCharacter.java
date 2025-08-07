@@ -16,11 +16,10 @@ public class askIfUserWantToChangeCharacter extends VBox {
         Label titre = new Label("Que voulez vous faire ?");
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
 
-        HBox creation = new bigMenu("Modifier le personnage actuel", "fr/pierrickviret/javaquest/javafx/assets/editCharacter.PNG", () -> {
-            Game.getInstance().setGameState(GameState.waitingInformation);
-        });
+        HBox creation = new bigMenu("Modifier le personnage actuel", "fr/pierrickviret/javaquest/javafx/assets/editCharacter.PNG", () -> Game.getInstance().setGameState(GameState.modifyCharacter));
         HBox game = new bigMenu("Créer un nouveau", "fr/pierrickviret/javaquest/javafx/assets/newCharacter.PNG", () -> {
-            Game.getInstance().setGameState(GameState.selectCharacterToCreate);
+            Game.getInstance().deleteCharacter();
+            Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated);
         });
         this.getChildren().addAll(titre,creation, game);
         this.setAlignment(Pos.CENTER);

@@ -15,7 +15,8 @@ public enum GameState {
         exitGame,
         gameOver,
         selectMenu,
-        selectCharacterToCreate,
+        checkIfCharacterIsAlreadyCreated,
         selectNameForCharacter,
-        showCharacter
+        showCharacter,
+        modifyCharacter
 }
