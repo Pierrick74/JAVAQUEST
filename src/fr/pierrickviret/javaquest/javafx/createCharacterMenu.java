@@ -8,13 +8,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class createCharacterMenu extends VBox {
+    private final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
+    private final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
+
     public createCharacterMenu() {
         super(15);
         Label titre = new Label("Veuillez choisir votre personnage");
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
 
-        bigMenu warrior = new bigMenu("Combatant", "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG", new MainView(10) );
-        bigMenu wizard = new bigMenu("Magicien", "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG", new MainView(10) );
+        bigMenu warrior = new bigMenu("Combatant", warriorImagePath, new nameOfCharacterView(warriorImagePath) );
+        bigMenu wizard = new bigMenu("Magicien", wizardImagePath, new nameOfCharacterView(wizardImagePath));
 
         this.getChildren().addAll(titre, warrior, wizard);
         this.setAlignment(Pos.CENTER);
