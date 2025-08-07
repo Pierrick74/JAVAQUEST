@@ -22,13 +22,14 @@ public class nameOfCharacterView extends VBox {
         final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
 
         Label titre = new Label("Veuillez Choisir un nom");
+        titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
         ImageView imageView =  new ImageView();
         TextField name = new TextField();
         Button button = new Button("Valider");
 
         String imagePath = type == CharacterType.Warrior ? warriorImagePath : wizardImagePath;
 
-        titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
+
 
         Image image = new Image(imagePath);
         imageView.setImage(image);

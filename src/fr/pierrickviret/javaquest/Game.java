@@ -117,9 +117,12 @@ public class Game {
                         if (character == null) {
                             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new createCharacterMenu()));
                         } else {
+                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new askIfUserWantToChangeCharacter()));
+                            /*
                             if (isModifyCharacter()) {
                                 modifyCharacter();
                             }
+                            */
                         }
                         break;
 
