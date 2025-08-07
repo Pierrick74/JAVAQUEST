@@ -14,9 +14,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 
-public class nameOfCharacterView extends VBox {
+public class NameOfCharacterView extends VBox {
 
-    public nameOfCharacterView(CharacterType type) {
+    public NameOfCharacterView(CharacterType type) {
         super(15);
         final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
         final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";

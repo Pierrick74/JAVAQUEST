@@ -4,8 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class StageRepository {
-    private static StageRepository instance;
+public class StageRepositoryView {
+    private static StageRepositoryView instance;
     private Stage stage;
 
     // Dimensions communes
@@ -13,14 +13,14 @@ public class StageRepository {
     private static final double SCENE_HEIGHT = 700;
     private static final Color BACKGROUND_COLOR = Color.BLACK;
 
-    private StageRepository() {}
+    private StageRepositoryView() {}
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public static StageRepository getInstance() {
-        return instance==null?instance=new StageRepository():instance;
+    public static StageRepositoryView getInstance() {
+        return instance==null?instance=new StageRepositoryView():instance;
     }
 
     public void replaceScene(javafx.scene.Parent scene) {

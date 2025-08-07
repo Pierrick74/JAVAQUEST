@@ -1,9 +1,7 @@
 package fr.pierrickviret.javaquest;
 
-import fr.pierrickviret.javaquest.javafx.MainView;
-import fr.pierrickviret.javaquest.javafx.StageRepository;
+import fr.pierrickviret.javaquest.javafx.StageRepositoryView;
 import javafx.application.Application;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,7 +16,7 @@ public class Main extends Application {
         Font.loadFont(getClass().getResourceAsStream(
                 "/fr/pierrickviret/javaquest/commun/font/SNOW BLUE.ttf"), 12);
         primaryStage.initStyle(StageStyle.DECORATED);
-        StageRepository.getInstance().setStage(primaryStage);
+        StageRepositoryView.getInstance().setStage(primaryStage);
 
         // Lancer le jeu dans un thread séparé
         Thread gameThread = new Thread(() -> {

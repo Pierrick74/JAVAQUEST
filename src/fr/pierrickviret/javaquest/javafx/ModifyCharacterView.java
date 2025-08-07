@@ -15,12 +15,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class ModifyCharacter extends VBox {
+public class ModifyCharacterView extends VBox {
     CharacterType type;
     Button warrior;
     Button wizard;
 
-    public ModifyCharacter(MainCharacter character) {
+    public ModifyCharacterView(MainCharacter character) {
         super(15);
         final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
         final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";

@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.javafx;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
-import fr.pierrickviret.javaquest.javafx.composants.bigMenu;
+import fr.pierrickviret.javaquest.javafx.composants.BigMenu;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -17,8 +17,8 @@ public class MainMenuView extends VBox {
        Label titre = new Label("Que voulez vous faire ?");
        titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
 
-       bigMenu creation = new bigMenu("Création du personnage", "fr/pierrickviret/javaquest/javafx/assets/createCharactere.PNG", () -> Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated));
-       bigMenu game = new bigMenu("Démarer le jeu", "fr/pierrickviret/javaquest/javafx/assets/startGame.PNG", () -> Game.getInstance().setGameState(GameState.begin));
+       BigMenu creation = new BigMenu("Création du personnage", "fr/pierrickviret/javaquest/javafx/assets/createCharactere.PNG", () -> Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated));
+       BigMenu game = new BigMenu("Démarer le jeu", "fr/pierrickviret/javaquest/javafx/assets/startGame.PNG", () -> Game.getInstance().setGameState(GameState.selectMenu));
        this.getChildren().addAll(titre, creation, game);
        this.setAlignment(Pos.CENTER);
        this.setStyle(

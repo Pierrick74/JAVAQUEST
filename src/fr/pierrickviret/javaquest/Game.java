@@ -102,43 +102,41 @@ public class Game {
             if (isSomethingToShow) {
                 switch (gameState) {
                     case begin:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainView(20)));
+                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new MainView(20)));
                         Menu.getInstance().showInformation(welcomeInformation);
 
                         //setGameState(GameState.waitingInformation);
                         break;
 
                     case waitingInformation:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
+                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new MainMenuView()));
                         //manageWaitingInformation();
                         break;
 
                     case checkIfCharacterIsAlreadyCreated:
                         if (character == null) {
-                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new createCharacterMenu()));
+                            Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new CreateCharacterMenuView()));
                         } else {
-                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new askIfUserWantToChangeCharacter()));
-                            /*
-                            if (isModifyCharacter()) {
-                                modifyCharacter();
-                            }
-                            */
+                            Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new AskIfUserWantToChangeCharacterView()));
                         }
                         break;
 
                     case createCharacter:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new nameOfCharacterView(selectedType)));
+                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new NameOfCharacterView(selectedType)));
                         break;
 
                     case showCharacter:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new showCharacter(character)));
+                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new showCharacterView(character)));
                         break;
 
                     case modifyCharacter:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new ModifyCharacter(character)));
+                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new ModifyCharacterView(character)));
                         break;
 
                     case selectMenu:
+                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new AskForSaveOrNewGameView()));
+
+                        /*
                         if (SQLRepository.getInstance().hasBoard()) {
                             Menu.getInstance().showInformation(askForUseBoard);
                             int result = Menu.getInstance().listenResultBetween(1, 2);
@@ -150,6 +148,8 @@ public class Game {
                             }
                         }
                         setGameState(GameState.startGame);
+                        */
+
                         break;
 
                     case startGame:

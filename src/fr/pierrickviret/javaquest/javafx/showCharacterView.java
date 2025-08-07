@@ -14,9 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class showCharacter extends VBox {
+public class showCharacterView extends VBox {
 
-    public showCharacter(MainCharacter character) {
+    public showCharacterView(MainCharacter character) {
         super(15);
 
         Label titre = new Label("Votre personnage créé");

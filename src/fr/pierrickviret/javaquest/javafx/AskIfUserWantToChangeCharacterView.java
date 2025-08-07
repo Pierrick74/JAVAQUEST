@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.javafx;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
-import fr.pierrickviret.javaquest.javafx.composants.bigMenu;
+import fr.pierrickviret.javaquest.javafx.composants.BigMenu;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -10,14 +10,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class askIfUserWantToChangeCharacter extends VBox {
-    public askIfUserWantToChangeCharacter() {
+public class AskIfUserWantToChangeCharacterView extends VBox {
+    public AskIfUserWantToChangeCharacterView() {
         super(15);
         Label titre = new Label("Que voulez vous faire ?");
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
 
-        HBox creation = new bigMenu("Modifier le personnage actuel", "fr/pierrickviret/javaquest/javafx/assets/editCharacter.PNG", () -> Game.getInstance().setGameState(GameState.modifyCharacter));
-        HBox game = new bigMenu("Créer un nouveau", "fr/pierrickviret/javaquest/javafx/assets/newCharacter.PNG", () -> {
+        HBox creation = new BigMenu("Modifier le personnage actuel", "fr/pierrickviret/javaquest/javafx/assets/editCharacter.PNG", () -> Game.getInstance().setGameState(GameState.modifyCharacter));
+        HBox game = new BigMenu("Créer un nouveau", "fr/pierrickviret/javaquest/javafx/assets/newCharacter.PNG", () -> {
             Game.getInstance().deleteCharacter();
             Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated);
         });

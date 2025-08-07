@@ -11,12 +11,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 
-public class bigMenu extends HBox {
+public class BigMenu extends HBox {
     private final Button button = new Button();
     private final ImageView imageView =  new ImageView();
     private final String imagePath;
 
-    public bigMenu(String title, String imagePath, Runnable action) {
+    public BigMenu(String title, String imagePath, Runnable action) {
         this.imagePath = imagePath;
         Label label = new Label(title);
         label.setText(title);
