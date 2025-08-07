@@ -1,8 +1,8 @@
 package fr.pierrickviret.javaquest.javafx.composants;
 
-import fr.pierrickviret.javaquest.javafx.StageRepository;
+import fr.pierrickviret.javaquest.Game;
+import fr.pierrickviret.javaquest.commun.GameState;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -18,13 +18,13 @@ public class bigMenu extends HBox {
     private final ImageView imageView =  new ImageView();
     private final String imagePath;
 
-    public bigMenu(String title, String imagePath,Parent nextView) {
+    public bigMenu(String title, String imagePath, Runnable action) {
         this.imagePath = imagePath;
         Label label = new Label(title);
         label.setText(title);
         label.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
-        createButton(nextView);
+        createButton(action);
 
         TilePane tileLayout = new TilePane();
         tileLayout.setHgap(5);
@@ -37,7 +37,7 @@ public class bigMenu extends HBox {
         this.getChildren().addAll(tileLayout);
     }
 
-    private void createButton(Parent nextView) {
+    private void createButton( Runnable action) {
         Image image = new Image(imagePath);
         imageView.setImage(image);
         imageView.setFitWidth(100);
@@ -46,6 +46,8 @@ public class bigMenu extends HBox {
         button.setStyle(
                 "-fx-background-color: #000000; " +
                         "-fx-alignment: center; ");
-        button.setOnAction(e -> StageRepository.getInstance().replaceScene(nextView));
+        button.setOnAction(e -> {
+            if (action != null) action.run();
+        } );
     }
 }

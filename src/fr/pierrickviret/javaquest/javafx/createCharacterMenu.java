@@ -1,5 +1,8 @@
 package fr.pierrickviret.javaquest.javafx;
 
+import fr.pierrickviret.javaquest.Game;
+import fr.pierrickviret.javaquest.commun.CharacterType;
+import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.javafx.composants.bigMenu;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -16,8 +19,14 @@ public class createCharacterMenu extends VBox {
         Label titre = new Label("Veuillez choisir votre personnage");
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
 
-        bigMenu warrior = new bigMenu("Combatant", warriorImagePath, new nameOfCharacterView(warriorImagePath) );
-        bigMenu wizard = new bigMenu("Magicien", wizardImagePath, new nameOfCharacterView(wizardImagePath));
+        bigMenu warrior = new bigMenu("Combatant", warriorImagePath, () -> {
+            Game.getInstance().SetSelectedCharacter(CharacterType.Warrior);
+            Game.getInstance().setGameState(GameState.createCharacter);
+        });
+        bigMenu wizard = new bigMenu("Magicien", wizardImagePath, () -> {
+            Game.getInstance().SetSelectedCharacter(CharacterType.Wizard);
+            Game.getInstance().setGameState(GameState.createCharacter);
+        });
 
         this.getChildren().addAll(titre, warrior, wizard);
         this.setAlignment(Pos.CENTER);

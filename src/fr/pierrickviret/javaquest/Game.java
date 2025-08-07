@@ -10,9 +10,7 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
-import fr.pierrickviret.javaquest.javafx.MainMenuView;
-import fr.pierrickviret.javaquest.javafx.MainView;
-import fr.pierrickviret.javaquest.javafx.StageRepository;
+import fr.pierrickviret.javaquest.javafx.*;
 import javafx.application.Platform;
 
 import java.util.Objects;
@@ -64,6 +62,8 @@ public class Game {
     Dice dice;
 
     MainCharacter character;
+    CharacterType selectedType;
+
     /**
      * Represent l'état du jeu
      * @see GameState
@@ -116,22 +116,31 @@ public class Game {
                         Platform.runLater(() -> {
                             StageRepository.getInstance().replaceScene(new MainMenuView());
                         });
-                        manageWaitingInformation();
+                        //manageWaitingInformation();
                         break;
 
-                    case createCharacter:
+                    case selectCharacterToCreate:
                         if (character == null) {
-                            createCharacter();
+                            Platform.runLater(() -> {
+                                StageRepository.getInstance().replaceScene(new createCharacterMenu());
+                            });
                         } else {
                             if (isModifyCharacter()) {
                                 modifyCharacter();
                             }
                         }
+                        /*
                         if (oldGameState == GameState.startGame) {
                             setGameState(GameState.startGame);
                             break;
                         }
-                        setGameState(GameState.waitingInformation);
+                        */
+                        break;
+
+                    case createCharacter:
+                        Platform.runLater(() -> {
+                            StageRepository.getInstance().replaceScene(new nameOfCharacterView(selectedType));
+                        });
                         break;
 
                     case selectMenu:
@@ -190,6 +199,10 @@ public class Game {
             }
         }
         exitGame();
+    }
+
+    public void SetSelectedCharacter(CharacterType type) {
+        this.selectedType = type;
     }
 
     //private
