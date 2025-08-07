@@ -9,12 +9,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.nio.file.Paths;
+
 public class MainView extends VBox {
     private Label label;
     private Button button;
     private final Stage stage;
 
-    private String nomImage="/assets/epeetbouclier.jpg";
+    private String nomImage="assets/epeetbouclier.jpg";
     private ImageView imageView;
 
     public MainView(double spacing, Stage primaryStage) {
@@ -32,7 +34,7 @@ public class MainView extends VBox {
         );
     }
 
-    private void initializeComponents() {
+    private void initializeComponents()  {
         button = new Button("Commencer le jeu");
         button.setDefaultButton(true);
         button.setFont(Font.font("impact", FontWeight.LIGHT, 15.0));
@@ -40,15 +42,16 @@ public class MainView extends VBox {
         label = new Label("Bienvenue dans JavaQuest !");
         label.setFont(Font.font("impact", FontWeight.BOLD, 30.0));
 
-        System.out.println(nomImage);
+        System.out.println("file:" + Paths.get(nomImage).toAbsolutePath().toString());
 
-
-        Image image = new Image(getClass().getResource(nomImage).toExternalForm());
-        System.out.println(getClass().getResource(nomImage).toExternalForm());
-        ImageView imageView = new ImageView();
+        //Image image = new Image("file:" + Paths.get(nomImage).toAbsolutePath().toString());
+        //Image image = new Image(getClass().getResource("assets/epeetbouclier.jpg").toExternalForm());
+        //Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/epeetbouclier.jpg");
+        Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/epeetbouclier.png");
+        imageView = new ImageView();
         imageView.setImage(image);
         System.out.println(imageView);
-        imageView.setFitWidth(200);
+        imageView.setFitWidth(300);
         imageView.setPreserveRatio(true);
     }
 
