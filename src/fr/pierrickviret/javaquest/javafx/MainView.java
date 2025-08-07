@@ -1,5 +1,4 @@
 package fr.pierrickviret.javaquest.javafx;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -7,26 +6,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
-
-import java.nio.file.Paths;
 
 public class MainView extends VBox {
     private Label label;
     private Button button;
-    private final Stage stage;
-
-    private String nomImage="assets/epeetbouclier.jpg";
     private ImageView imageView;
 
-    public MainView(double spacing, Stage primaryStage) {
+    public MainView(double spacing) {
         super(spacing);
-        this.stage = primaryStage;
         initializeComponents();
         setupActions();
 
-        ObservableList components = this.getChildren();
-        components.addAll(imageView,label,button);
+        this.getChildren().addAll(imageView,label,button);
 
         this.setStyle(
                 "-fx-background-color: #16cc16; " +
@@ -42,24 +33,15 @@ public class MainView extends VBox {
         label = new Label("Bienvenue dans JavaQuest !");
         label.setFont(Font.font("impact", FontWeight.BOLD, 30.0));
 
-        System.out.println("file:" + Paths.get(nomImage).toAbsolutePath().toString());
-
-        //Image image = new Image("file:" + Paths.get(nomImage).toAbsolutePath().toString());
-        //Image image = new Image(getClass().getResource("assets/epeetbouclier.jpg").toExternalForm());
-        //Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/epeetbouclier.jpg");
         Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/epeetbouclier.png");
         imageView = new ImageView();
         imageView.setImage(image);
-        System.out.println(imageView);
         imageView.setFitWidth(300);
         imageView.setPreserveRatio(true);
     }
 
     private void setupActions() {
         // Action sur le bouton - maintenant dans une méthode
-        button.setOnAction(e -> {
-            VBox nextView = new MainMenuView(stage);
-            StageRepository.getInstance().replaceScene(nextView);
-        });
+        button.setOnAction(e -> StageRepository.getInstance().replaceScene(new MainMenuView()));
     }
 }
