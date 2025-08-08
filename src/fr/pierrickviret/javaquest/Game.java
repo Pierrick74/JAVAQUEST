@@ -8,10 +8,13 @@ import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
+import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
-import fr.pierrickviret.javaquest.javafx.Game.startGameView;
+import fr.pierrickviret.javaquest.javafx.Game.BoardView;
+import fr.pierrickviret.javaquest.javafx.Game.movingView;
+import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
 import javafx.application.Platform;
@@ -150,7 +153,7 @@ public class Game {
                     case uploadGame:
                         board = SQLRepository.getInstance().getBoard();
                         character = SQLRepository.getInstance().getCharacter(1);
-                        setGameState(GameState.startGame);
+                        setGameState(GameState.launchDice);
                         break;
 
                     case startGame:
@@ -164,8 +167,12 @@ public class Game {
                         isSomethingToShow = false;
                         break;
 
+                    case launchDice:
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new movingView("Que la fortune vous sourie", ThemeConfig.diceImagePath, "Lancer le dé", () -> Game.getInstance().setGameState(GameState.playerTurn) )));
+                        break;
+
                     case playerTurn:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new movingView("ok", ThemeConfig.diceImagePath, "Lancer le dé", null)));
                         changePlayerPosition();
                         if (character.getHealth() <= 0) {
                             setGameState(GameState.gameOver);
@@ -208,6 +215,10 @@ public class Game {
 
     public void initBoard(int difficultyLevel) {
         board = new Board(difficultyLevel);
+    }
+
+    public MainCharacter getCharacter() {
+        return character;
     }
 
 

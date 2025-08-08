@@ -1,4 +1,4 @@
-package fr.pierrickviret.javaquest.javafx.Game;
+package fr.pierrickviret.javaquest.javafx.selectGame;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
@@ -25,17 +25,17 @@ public class startGameView extends VBox {
 
         Button button1 = createButton("Level 1", () -> {
             Game.getInstance().initBoard(1);
-            Game.getInstance().setGameState(GameState.playerTurn);
+            Game.getInstance().setGameState(GameState.launchDice);
         });
 
         Button button2 = createButton("Level 2", () -> {
             Game.getInstance().initBoard(2);
-            Game.getInstance().setGameState(GameState.playerTurn);
+            Game.getInstance().setGameState(GameState.launchDice);
         });
 
         Button button3 = createButton("Level 3", () -> {
             Game.getInstance().initBoard(3);
-            Game.getInstance().setGameState(GameState.playerTurn);
+            Game.getInstance().setGameState(GameState.launchDice);
         });
 
         HBox hbox = new HBox(30);

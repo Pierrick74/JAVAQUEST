@@ -19,5 +19,6 @@ public enum GameState {
         selectNameForCharacter,
         showCharacter,
         modifyCharacter,
-        uploadGame
+        uploadGame,
+        launchDice
 }

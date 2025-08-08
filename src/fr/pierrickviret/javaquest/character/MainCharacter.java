@@ -2,7 +2,6 @@ package fr.pierrickviret.javaquest.character;
 
 import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.commun.CharacterType;
-import fr.pierrickviret.javaquest.equipement.DefensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.Random;
  */
 public abstract class MainCharacter extends Character {
     //variable
-    Integer maxHealth;
     CharacterType type;
     ArrayList<OffensiveEquipement> offensiveEquipements =  new ArrayList<>();
     Boolean boostAttack;
@@ -31,7 +29,6 @@ public abstract class MainCharacter extends Character {
         this.setID(id);
         this.type = type;
         this.health = setHealth(this.type);
-        maxHealth = this.health;
         this.attack = setAttack(this.type);
         this.name = name;
         this.boostAttack =  false;
@@ -47,16 +44,11 @@ public abstract class MainCharacter extends Character {
         this.name = name;
         this.health = health;
         this.maxHealth = maxHealth;
-        this.type = type;
         this.attack = attack;
         this.experience = experience;
         this.boostAttack = boostAttack;
         this.position = position;
         this.offensiveEquipements = offensiveEquipements;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
@@ -67,15 +59,9 @@ public abstract class MainCharacter extends Character {
         return type;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
     public void setHealth(int health) {
         this.health = health;
     }
-
-    public Integer getMaxHealth() {return maxHealth;}
 
     public OffensiveEquipement getOffensiveEquipement(int index) {
         return offensiveEquipements.get(index-1);

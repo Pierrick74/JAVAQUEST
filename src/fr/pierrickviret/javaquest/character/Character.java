@@ -14,6 +14,7 @@ public abstract class Character {
     Integer attack;
     Integer ID;
     int experience;
+    Integer maxHealth;
 
     //init
     public Character(String name, Integer health, Integer attack, int experience) {
@@ -21,6 +22,11 @@ public abstract class Character {
         this.health = health;
         this.attack = attack;
         this.experience = experience;
+        maxHealth = this.health;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getID() {
@@ -38,6 +44,9 @@ public abstract class Character {
     public Integer getCharacterHealthValue() {
         return health;
     }
+    public int getHealth() {
+        return health;
+    }
 
     public void setCharacterHealth(Integer health) {
         this.health = health;
@@ -50,4 +59,6 @@ public abstract class Character {
     public void decreaseExperience(int experience) {
         experience -= experience;
     }
+
+    public Integer getMaxHealth() {return maxHealth;}
 }
