@@ -18,5 +18,6 @@ public enum GameState {
         checkIfCharacterIsAlreadyCreated,
         selectNameForCharacter,
         showCharacter,
-        modifyCharacter
+        modifyCharacter,
+        uploadGame
 }

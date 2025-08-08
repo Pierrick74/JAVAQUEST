@@ -1,4 +1,4 @@
-package fr.pierrickviret.javaquest.javafx.selectGame;
+package fr.pierrickviret.javaquest.javafx.Game;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
@@ -12,16 +12,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class AskForSaveOrNewGameView extends VBox {
-    public AskForSaveOrNewGameView() {
+public class startGameView extends VBox {
+    public startGameView() {
         super(15);
-        Label titre = new Label("Une partie est sauvegardée ?");
+        Label titre = new Label("Start Game");
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
 
-        HBox creation = new BigMenu("Charger la partie\nsauvegardée", "fr/pierrickviret/javaquest/javafx/assets/saveGame.PNG", () -> Game.getInstance().setGameState(GameState.uploadGame));
-        HBox game = new BigMenu("Créer une nouvelle\npartie", "fr/pierrickviret/javaquest/javafx/assets/newFile.PNG", () -> Game.getInstance().setGameState(GameState.startGame));
-        this.getChildren().addAll(titre,creation, game);
+     this.getChildren().addAll(titre);
         this.setAlignment(Pos.CENTER);
 
         ThemeConfig.applyDarkBackground(this);

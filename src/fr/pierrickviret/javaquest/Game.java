@@ -11,6 +11,7 @@ import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
+import fr.pierrickviret.javaquest.javafx.Game.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
 import javafx.application.Platform;
@@ -107,54 +108,56 @@ public class Game {
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainView()));
                         Menu.getInstance().showInformation(welcomeInformation);
 
-                        //setGameState(GameState.waitingInformation);
+                        isSomethingToShow = false;
                         break;
 
                     case waitingInformation:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
-                        //manageWaitingInformation();
+                        isSomethingToShow = false;
                         break;
 
                     case checkIfCharacterIsAlreadyCreated:
                         if (character == null) {
                             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CreateCharacterMenuView()));
+                            isSomethingToShow = false;
                         } else {
                             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new AskIfUserWantToChangeCharacterView()));
+                            isSomethingToShow = false;
                         }
                         break;
 
                     case createCharacter:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new NameOfCharacterView(selectedType)));
+                        isSomethingToShow = false;
                         break;
 
                     case showCharacter:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new showCharacterView(character)));
+                        isSomethingToShow = false;
                         break;
 
                     case modifyCharacter:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new ModifyCharacterView(character)));
+                        isSomethingToShow = false;
                         break;
 
                     case selectMenu:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new AskForSaveOrNewGameView()));
-
-                        /*
                         if (SQLRepository.getInstance().hasBoard()) {
-                            Menu.getInstance().showInformation(askForUseBoard);
-                            int result = Menu.getInstance().listenResultBetween(1, 2);
-                            if (result == 1) {
-                                board = SQLRepository.getInstance().getBoard();
-                                character = SQLRepository.getInstance().getCharacter(1);
-                                setGameState(GameState.playerTurn);
-                                break;
-                            }
+                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new AskForSaveOrNewGameView()));
+                            isSomethingToShow = false;
+                            break;
                         }
                         setGameState(GameState.startGame);
-                        */
+                        break;
 
+                    case uploadGame:
+                        board = SQLRepository.getInstance().getBoard();
+                        character = SQLRepository.getInstance().getCharacter(1);
+                        setGameState(GameState.startGame);
                         break;
 
                     case startGame:
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new startGameView()));
                         if (character == null) {
                             setGameState(GameState.createCharacter);
                             Menu.getInstance().showInformation(mustCreateCharacter);
@@ -164,6 +167,7 @@ public class Game {
                         }
                         initGame();
                         setGameState(GameState.playerTurn);
+                        isSomethingToShow = false;
                         break;
 
                     case playerTurn:
@@ -184,9 +188,9 @@ public class Game {
                         break;
 
                     default:
+                        isSomethingToShow = false;
                         break;
                 }
-                isSomethingToShow = false;
             }
             // éviter de bloquer le CPU
             try {
@@ -205,6 +209,7 @@ public class Game {
     public void deleteCharacter() {
         this.character = null;
     }
+
     //private
 
     private void initGame(){
