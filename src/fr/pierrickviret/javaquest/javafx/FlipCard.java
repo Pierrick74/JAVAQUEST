@@ -12,7 +12,8 @@ public class FlipCard extends StackPane {
     private ImageView backCard;
     private RotateTransition flipTransition;
     public boolean isFlipped = false;
-    private Runnable onFlipComplete;
+    private final Runnable onFlipComplete;
+    private int finishFace = 1;
 
     public FlipCard(String backImagePath, String frontImagePath, Runnable onFlipComplete) {
         createCards(backImagePath, frontImagePath);
@@ -43,6 +44,7 @@ public class FlipCard extends StackPane {
 
     public void flip() {
         if (!isFlipped) {
+            frontCard.setImage(getFrontImage());
             flipTransition.setFromAngle(0);
             flipTransition.setToAngle(90);
             flipTransition.setOnFinished(e -> {
@@ -61,6 +63,20 @@ public class FlipCard extends StackPane {
                 flip2.play();
             });
             flipTransition.play();
+        }
+    }
+
+    public void setFinishFace(int finishFace) {
+        this.finishFace = finishFace;
+    }
+
+    private Image getFrontImage() {
+        switch (finishFace) {
+            case 1:
+                return new Image("fr/pierrickviret/javaquest/javafx/assets/dice.png");
+                case 2: return new Image( "fr/pierrickviret/javaquest/javafx/assets/Character/Dragon.png");
+                default: return new Image( "fr/pierrickviret/javaquest/javafx/assets/Character/Gobelin.png");
+
         }
     }
 }

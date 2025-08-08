@@ -1,5 +1,6 @@
 package fr.pierrickviret.javaquest.javafx;
 
+import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -36,6 +37,7 @@ public class CardDiceView extends VBox {
 
         card.setOnMouseClicked(e -> {
             if (!card.isFlipped) {
+                card.setFinishFace(Game.getInstance().rollDice());
                 card.flip();
             }
         });

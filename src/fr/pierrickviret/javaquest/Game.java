@@ -12,7 +12,6 @@ import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
-import fr.pierrickviret.javaquest.javafx.Game.BoardView;
 import fr.pierrickviret.javaquest.javafx.Game.movingView;
 import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
@@ -63,6 +62,8 @@ public class Game {
      * Permet de lancer le dé
      */
     Dice dice;
+
+    int diceValue;
 
     MainCharacter character;
     CharacterType selectedType;
@@ -220,6 +221,11 @@ public class Game {
 
     public MainCharacter getCharacter() {
         return character;
+    }
+
+    public int rollDice(){
+        diceValue = dice.getRoll(6);
+        return diceValue;
     }
 
 
