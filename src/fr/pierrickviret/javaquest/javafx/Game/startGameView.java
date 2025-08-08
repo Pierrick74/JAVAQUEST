@@ -3,8 +3,8 @@ package fr.pierrickviret.javaquest.javafx.Game;
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
-import fr.pierrickviret.javaquest.javafx.composants.BigMenu;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,14 +14,47 @@ import javafx.scene.text.FontWeight;
 
 public class startGameView extends VBox {
     public startGameView() {
-        super(15);
+        super(30);
         Label titre = new Label("Start Game");
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
 
-     this.getChildren().addAll(titre);
+        Label description = new Label("Quel niveau voulez-vous ?");
+        description.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
+        description.setFont(Font.font("Almendra", FontWeight.BOLD, 20.0));
+
+        Button button1 = createButton("Level 1", () -> {
+            Game.getInstance().initBoard(1);
+            Game.getInstance().setGameState(GameState.playerTurn);
+        });
+
+        Button button2 = createButton("Level 2", () -> {
+            Game.getInstance().initBoard(2);
+            Game.getInstance().setGameState(GameState.playerTurn);
+        });
+
+        Button button3 = createButton("Level 3", () -> {
+            Game.getInstance().initBoard(3);
+            Game.getInstance().setGameState(GameState.playerTurn);
+        });
+
+        HBox hbox = new HBox(30);
+        hbox.setAlignment(Pos.CENTER);
+        hbox.getChildren().addAll(button1, button2, button3);
+
+        this.getChildren().addAll(titre, description, hbox);
         this.setAlignment(Pos.CENTER);
 
         ThemeConfig.applyDarkBackground(this);
     }
+
+    private Button createButton(String text, Runnable action) {
+        Button button = new Button(text);
+        button.setOnAction(e -> {
+            if (action != null) action.run();
+        } );
+        ThemeConfig.applyButtonStyle(button);
+        return button;
+    }
+
 }

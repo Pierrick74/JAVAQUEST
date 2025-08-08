@@ -39,6 +39,7 @@ public class Board {
         this.size = 64;
         this.cases = new Case[size+1];
         feedBoard(difficultyLevel);
+        SQLRepository.getInstance().saveBoard(this);
     }
 
     public void setCaseToEmpty(int id) {

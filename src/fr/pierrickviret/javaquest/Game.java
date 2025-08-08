@@ -50,7 +50,6 @@ public class Game {
     static String gameOver = "\nVous êtes mort, Game Over";
     static String mustCreateCharacter = "\nVous devez créer un personnage avant";
     static String askForFight = "\nQue voulez vous faire?\n1. Attaquer\n2. Fuir\n3. Quitter le jeu";
-    static String askForUseBoard = "\nQue voulez vous faire?\n1. utiliser la partie sauvegardée\n2. créer une partie";
 
     //dependency
     /**
@@ -107,7 +106,6 @@ public class Game {
                     case begin:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainView()));
                         Menu.getInstance().showInformation(welcomeInformation);
-
                         isSomethingToShow = false;
                         break;
 
@@ -119,11 +117,10 @@ public class Game {
                     case checkIfCharacterIsAlreadyCreated:
                         if (character == null) {
                             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CreateCharacterMenuView()));
-                            isSomethingToShow = false;
                         } else {
                             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new AskIfUserWantToChangeCharacterView()));
-                            isSomethingToShow = false;
                         }
+                        isSomethingToShow = false;
                         break;
 
                     case createCharacter:
@@ -157,24 +154,23 @@ public class Game {
                         break;
 
                     case startGame:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new startGameView()));
                         if (character == null) {
-                            setGameState(GameState.createCharacter);
-                            Menu.getInstance().showInformation(mustCreateCharacter);
+                            setGameState(GameState.checkIfCharacterIsAlreadyCreated);
                             break;
                         } else {
                             resetCharacter();
                         }
-                        initGame();
-                        setGameState(GameState.playerTurn);
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new startGameView()));
                         isSomethingToShow = false;
                         break;
 
                     case playerTurn:
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
                         changePlayerPosition();
                         if (character.getHealth() <= 0) {
                             setGameState(GameState.gameOver);
                         }
+                        isSomethingToShow = false;
                         break;
 
                     case finishGame:
@@ -210,15 +206,10 @@ public class Game {
         this.character = null;
     }
 
-    //private
-
-    private void initGame(){
-        Menu.getInstance().showInformation("Quelle difficult voulez vous ?\n1\n2\n3");
-        int result = Menu.getInstance().listenResultBetween(1,3);
-        board = new Board(result);
-        Integer id = SQLRepository.getInstance().saveBoard(board);
-        board.setId(id);
+    public void initBoard(int difficultyLevel) {
+        board = new Board(difficultyLevel);
     }
+
 
     private void resetCharacter() {
         character.resetCharacter();
@@ -231,35 +222,6 @@ public class Game {
     private void exitGame() {
         Menu.getInstance().showInformation(endGame);
         exit(0);
-    }
-
-    private void modifyCharacter(){
-
-        MainCharacter oldCharacter = character;
-
-        // change type
-        String information = character.getType() == CharacterType.Warrior ? askIfUserWantToChangeCharacterTypeToWizard : askIfUserWantToChangeCharacterTypeToWarrior;
-        Menu.getInstance().showInformation(information);
-        int choice = Menu.getInstance().listenResultBetween(1,3);
-        if(choice == 3 ) {exitGame();}
-        if(choice == 2 ) {
-            character = character.getType() == CharacterType.Warrior ? new Wizard(oldCharacter.getName(),1) : new Warrior(oldCharacter.getName(),1);
-            character.setID(oldCharacter.getID());
-        }
-
-        //change name
-        Menu.getInstance().showInformation(askIfUserWantToChangeName);
-        choice = Menu.getInstance().listenResultBetween(1,3);
-        if(choice == 3 ) {exitGame();}
-        if(choice == 2 ) {
-            Menu.getInstance().showInformation(askForCharacterName);
-            String name = Menu.getInstance().listenString();
-            character.setName(name);
-        }
-
-        showCharacterCreated();
-        //save in database
-        SQLRepository.getInstance().save(character);
     }
 
     /**
@@ -277,16 +239,6 @@ public class Game {
                 break;
         }
         SQLRepository.getInstance().save(character);
-    }
-
-    /**
-     * Demande à l'utilisateur s'il veut modifier le personnage qu'il a créé.
-     * @return boolean  si il veut modifier
-     */
-    private Boolean isModifyCharacter() {
-        showCharacterCreated();
-        Menu.getInstance().showInformation(askForCharacterModification);
-        return Menu.getInstance().listenResultBetween(1,2) == 2;
     }
 
     /**
