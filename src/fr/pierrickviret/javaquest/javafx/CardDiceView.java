@@ -31,18 +31,19 @@ public class CardDiceView extends VBox {
                 "fr/pierrickviret/javaquest/javafx/assets/dice.png",
                 () -> {
                     titre.setText("Vous obtenez");
-                    actionButton.setText("Suivant");
-                    actionButton.setOnAction(event -> diceAction.run());
+                    actionButton.setVisible(true);
                 });
 
-        actionButton = new Button("Retourner la carte");
-        ThemeConfig.applyButtonStyle(actionButton);
-
-        actionButton.setOnAction(e -> {
+        card.setOnMouseClicked(e -> {
             if (!card.isFlipped) {
                 card.flip();
             }
         });
+
+        actionButton = new Button("Avancez");
+        ThemeConfig.applyButtonStyle(actionButton);
+        actionButton.setVisible(false); // Masquer au début
+        actionButton.setOnAction(event -> diceAction.run());
 
         this.getChildren().addAll(titre, card, actionButton);
     }
