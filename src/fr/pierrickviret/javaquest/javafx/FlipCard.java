@@ -14,14 +14,11 @@ public class FlipCard extends StackPane {
     public boolean isFlipped = false;
     private Runnable onFlipComplete;
 
-    public FlipCard(String backImagePath, String frontImagePath) {
+    public FlipCard(String backImagePath, String frontImagePath, Runnable onFlipComplete) {
         createCards(backImagePath, frontImagePath);
         setupAnimation();
+        this.onFlipComplete = onFlipComplete;
         this.setPrefSize(120, 180);
-    }
-
-    public void setOnFlipComplete(Runnable callback) {
-        this.onFlipComplete = callback;
     }
 
     private void createCards(String backPath, String frontPath) {
