@@ -1,11 +1,10 @@
 package fr.pierrickviret.javaquest.javafx.Game;
 
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
+import fr.pierrickviret.javaquest.javafx.CardDiceView;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,11 +18,11 @@ public class movingView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
-        ImageView imageView =  new ImageView();
-        Image image = new Image(imagePath);
-        imageView.setImage(image);
-        imageView.setFitWidth(100);
-        imageView.setPreserveRatio(true);
+        CardDiceView view = new CardDiceView(
+                "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG",
+                "fr/pierrickviret/javaquest/javafx/assets/dice.png",
+                () -> System.out.println("Dé lancé!")
+        );
 
         Button button = new Button(buttontextDisplay);
         ThemeConfig.applyButtonStyle(button);
@@ -32,7 +31,7 @@ public class movingView extends VBox {
             if (action != null) action.run();
         } );
 
-        this.getChildren().addAll(titre,imageView , button);
+        this.getChildren().addAll(titre, view, button);
         this.setAlignment(Pos.CENTER);
         ThemeConfig.applyDarkBackground(this);
     }
