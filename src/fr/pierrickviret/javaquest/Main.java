@@ -1,6 +1,6 @@
 package fr.pierrickviret.javaquest;
 
-import fr.pierrickviret.javaquest.javafx.StageRepositoryView;
+import fr.pierrickviret.javaquest.javafx.StageRepository;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -13,10 +13,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/SNOW BLUE.ttf"), 12);
+       getFont();
+
         primaryStage.initStyle(StageStyle.DECORATED);
-        StageRepositoryView.getInstance().setStage(primaryStage);
+        StageRepository.getInstance().setStage(primaryStage);
 
         // Lancer le jeu dans un thread séparé
         Thread gameThread = new Thread(() -> {
@@ -25,5 +25,20 @@ public class Main extends Application {
         });
         gameThread.setDaemon(true); // Se termine avec l'application
         gameThread.start();
+    }
+
+    private void getFont() {
+        Font.loadFont(getClass().getResourceAsStream(
+                "/fr/pierrickviret/javaquest/commun/font/SNOW BLUE.ttf"), 12);
+        Font.loadFont(getClass().getResourceAsStream(
+                "/fr/pierrickviret/javaquest/commun/font/MedievalSharp-Regular.ttf"), 12);
+        Font.loadFont(getClass().getResourceAsStream(
+                "/fr/pierrickviret/javaquest/commun/font/Almendra-Bold.ttf"), 12);
+        Font.loadFont(getClass().getResourceAsStream(
+                "/fr/pierrickviret/javaquest/commun/font/Almendra-BoldItalic.ttf"), 12);
+        Font.loadFont(getClass().getResourceAsStream(
+                "/fr/pierrickviret/javaquest/commun/font/Almendra-Italic.ttf"), 12);
+        Font.loadFont(getClass().getResourceAsStream(
+                "/fr/pierrickviret/javaquest/commun/font/Almendra-Regular.ttf"), 12);
     }
 }

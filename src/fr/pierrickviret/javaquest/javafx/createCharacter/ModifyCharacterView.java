@@ -1,9 +1,10 @@
-package fr.pierrickviret.javaquest.javafx;
+package fr.pierrickviret.javaquest.javafx.createCharacter;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
+import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -22,20 +24,19 @@ public class ModifyCharacterView extends VBox {
 
     public ModifyCharacterView(MainCharacter character) {
         super(15);
-        final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
-        final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
 
         Label titre = new Label("Modifier votre Personnage");
-        titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 40.0));
+        titre.setFont(Font.font("MedievalSharp", FontWeight.BOLD, 40.0));
+        titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
 
         this.type = character.getType();
-        warrior = createButton(warriorImagePath, type == CharacterType.Warrior , () -> {
+        warrior = createButton(ThemeConfig.warriorImagePath, type == CharacterType.Warrior , () -> {
             type = CharacterType.Warrior;
             warrior.setStyle("-fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #FF0000 ");
             wizard.setStyle("-fx-border-width: 0; -fx-border-style: none; -fx-border-color: #FF0000 ");
         });
-        wizard = createButton(wizardImagePath,type == CharacterType.Wizard,  () -> {
+        wizard = createButton(ThemeConfig.wizardImagePath,type == CharacterType.Wizard,  () -> {
             type = CharacterType.Wizard;
             warrior.setStyle("-fx-border-width: 0; -fx-border-style: none; -fx-border-color: #FF0000 ");
             wizard.setStyle("-fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #FF0000 ");
@@ -47,7 +48,7 @@ public class ModifyCharacterView extends VBox {
 
         Label label = new Label();
         label.setText("Modifier le nom");
-        label.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        label.setFont(Font.font("Almendra", FontWeight.BOLD, 20));
 
         TextField name = new TextField();
         name.setMaxWidth(300);
@@ -65,10 +66,7 @@ public class ModifyCharacterView extends VBox {
 
         this.getChildren().addAll(titre,picture, label, name, button);
         this.setAlignment(Pos.CENTER);
-        this.setStyle(
-                "-fx-background-color: #e8f1e8; " +
-                        "-fx-alignment: center; "
-        );
+        ThemeConfig.applyDarkBackground(this);
     }
 
     private Button createButton( String imagePath, Boolean actif,  Runnable action) {

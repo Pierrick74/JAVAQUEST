@@ -1,44 +1,47 @@
 package fr.pierrickviret.javaquest.javafx;
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
+import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class MainView extends VBox {
-    private Label label;
+    private Label bienvenue;
     private Label titre;
     private Button button;
     private ImageView imageView;
 
-    public MainView(double spacing) {
-        super(spacing);
+    public MainView() {
+        super(25);
         initializeComponents();
         setupActions();
 
-        this.getChildren().addAll(imageView,label, titre,button);
+        this.getChildren().addAll(imageView,bienvenue, titre,button);
 
-        this.setStyle(
-                "-fx-background-color: #e8f1e8; " +
-                        "-fx-alignment: center; "
-        );
+        ThemeConfig.applyDarkBackground(this);
     }
 
     private void initializeComponents()  {
         button = new Button("Commencer le jeu");
         button.setDefaultButton(true);
-        button.setFont(Font.font("impact", FontWeight.LIGHT, 15.0));
+        button.setFont(Font.font("Almendra", FontWeight.LIGHT, 15.0));
+        ThemeConfig.applyButtonStyle(button);
 
-        label = new Label("Bienvenue dans");
-        label.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 30.0));
-        label.setAlignment(Pos.CENTER);
+        bienvenue = new Label("Bienvenue dans");
+        bienvenue.setFont(Font.font("Almendra", FontWeight.BOLD, 30.0));
+        bienvenue.setAlignment(Pos.CENTER);
+        bienvenue.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
-        titre = new Label("JavaQuest !");
+        titre = new Label("JavaQuest");
+        titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
+
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 50.0));
         titre.setAlignment(Pos.CENTER);
 

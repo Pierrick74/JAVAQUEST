@@ -11,6 +11,8 @@ import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
+import fr.pierrickviret.javaquest.javafx.createCharacter.*;
+import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
 import javafx.application.Platform;
 
 import java.util.Objects;
@@ -102,39 +104,39 @@ public class Game {
             if (isSomethingToShow) {
                 switch (gameState) {
                     case begin:
-                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new MainView(20)));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainView()));
                         Menu.getInstance().showInformation(welcomeInformation);
 
                         //setGameState(GameState.waitingInformation);
                         break;
 
                     case waitingInformation:
-                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new MainMenuView()));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
                         //manageWaitingInformation();
                         break;
 
                     case checkIfCharacterIsAlreadyCreated:
                         if (character == null) {
-                            Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new CreateCharacterMenuView()));
+                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CreateCharacterMenuView()));
                         } else {
-                            Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new AskIfUserWantToChangeCharacterView()));
+                            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new AskIfUserWantToChangeCharacterView()));
                         }
                         break;
 
                     case createCharacter:
-                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new NameOfCharacterView(selectedType)));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new NameOfCharacterView(selectedType)));
                         break;
 
                     case showCharacter:
-                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new showCharacterView(character)));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new showCharacterView(character)));
                         break;
 
                     case modifyCharacter:
-                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new ModifyCharacterView(character)));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new ModifyCharacterView(character)));
                         break;
 
                     case selectMenu:
-                        Platform.runLater(() -> StageRepositoryView.getInstance().replaceScene(new AskForSaveOrNewGameView()));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new AskForSaveOrNewGameView()));
 
                         /*
                         if (SQLRepository.getInstance().hasBoard()) {
