@@ -168,7 +168,8 @@ public class Game {
                         break;
 
                     case launchDice:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new movingView("Que la fortune vous sourie", ThemeConfig.diceImagePath, "Lancer le dé", () -> Game.getInstance().setGameState(GameState.playerTurn) )));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CardDiceView(() -> Game.getInstance().setGameState(GameState.playerTurn)) ));
+                        isSomethingToShow = false;
                         break;
 
                     case playerTurn:

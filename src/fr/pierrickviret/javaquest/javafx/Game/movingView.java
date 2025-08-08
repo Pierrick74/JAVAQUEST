@@ -18,12 +18,6 @@ public class movingView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
-        CardDiceView view = new CardDiceView(
-                "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG",
-                "fr/pierrickviret/javaquest/javafx/assets/dice.png",
-                () -> System.out.println("Dé lancé!")
-        );
-
         Button button = new Button(buttontextDisplay);
         ThemeConfig.applyButtonStyle(button);
 
@@ -31,7 +25,7 @@ public class movingView extends VBox {
             if (action != null) action.run();
         } );
 
-        this.getChildren().addAll(titre, view, button);
+        this.getChildren().addAll(titre, button);
         this.setAlignment(Pos.CENTER);
         ThemeConfig.applyDarkBackground(this);
     }

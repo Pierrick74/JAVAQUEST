@@ -11,12 +11,17 @@ public class FlipCard extends StackPane {
     private ImageView frontCard;
     private ImageView backCard;
     private RotateTransition flipTransition;
-    private boolean isFlipped = false;
+    public boolean isFlipped = false;
+    private Runnable onFlipComplete;
 
     public FlipCard(String backImagePath, String frontImagePath) {
         createCards(backImagePath, frontImagePath);
         setupAnimation();
         this.setPrefSize(120, 180);
+    }
+
+    public void setOnFlipComplete(Runnable callback) {
+        this.onFlipComplete = callback;
     }
 
     private void createCards(String backPath, String frontPath) {
@@ -47,17 +52,18 @@ public class FlipCard extends StackPane {
                 backCard.setVisible(false);
                 frontCard.setVisible(true);
 
-                RotateTransition secondHalf = new RotateTransition(Duration.millis(300), this);
-                secondHalf.setAxis(Rotate.Y_AXIS);
-                secondHalf.setFromAngle(90);
-                secondHalf.setToAngle(0);
-                secondHalf.setOnFinished(event -> {
-                    this.setRotate(0);
+                RotateTransition flip2 = new RotateTransition(Duration.millis(300), this);
+                flip2.setAxis(Rotate.Y_AXIS);
+                flip2.setFromAngle(90);
+                flip2.setToAngle(0);
+                flip2.setOnFinished(event -> {
+                    isFlipped = true;
+                    // Callback pour notifier la fin
+                    if (onFlipComplete != null) onFlipComplete.run();
                 });
-                secondHalf.play();
+                flip2.play();
             });
             flipTransition.play();
-            isFlipped = true;
         }
     }
 }
