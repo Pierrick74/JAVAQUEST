@@ -40,17 +40,12 @@ import static java.lang.System.exit;
 public class Game {
     // information to display
     static String welcomeInformation = "Bienvenue dans le jeu\nJAVA QUEST";
-    static String askForCharacterName = "Quel est le nom de votre Personnage";
     static String showCharacterCreated = "\nVoici le personnage crée";
     static String askForCharacterModification = "\nVoulez vous modifier le personnage\n1. utiliser le personnage\n2. Modifier le personnage";
     static String finishGame = "\nVous avez fini le jeu, Bravo !";
     static String rollDice = "Vous avez lancé le dé : ";
     static String endGame = "Au revoir";
-    static String askIfUserWantToChangeCharacterTypeToWarrior = "\nVoulez vous modifier le type du personnage\n1. utiliser le type actuel\n2. Transformer en Combatant\n3. Quitter le jeu";
-    static String askIfUserWantToChangeCharacterTypeToWizard = "\nVoulez vous modifier le type du personnage\n1. utiliser le type actuel\n2. Transformer en Magicien\n3. Quitter le jeu";
-    static String askIfUserWantToChangeName = "\nVoulez vous modifier le nom du personnage\n1. utiliser le nom actuel\n2. Changer le nom\n3. Quitter le jeu";
     static String gameOver = "\nVous êtes mort, Game Over";
-    static String mustCreateCharacter = "\nVous devez créer un personnage avant";
     static String askForFight = "\nQue voulez vous faire?\n1. Attaquer\n2. Fuir\n3. Quitter le jeu";
 
     //dependency
@@ -62,7 +57,6 @@ public class Game {
      * Permet de lancer le dé
      */
     Dice dice;
-
     int diceValue;
 
     MainCharacter character;

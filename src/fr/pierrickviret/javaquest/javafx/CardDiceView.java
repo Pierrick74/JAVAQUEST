@@ -29,7 +29,7 @@ public class CardDiceView extends VBox {
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
         card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/warrior.PNG",
-                "fr/pierrickviret/javaquest/javafx/assets/dice.png",
+                "fr/pierrickviret/javaquest/javafx/assets/dice/dice.png",
                 () -> {
                     titre.setText("Vous obtenez");
                     actionButton.setVisible(true);
@@ -44,7 +44,7 @@ public class CardDiceView extends VBox {
 
         actionButton = new Button("Avancez");
         ThemeConfig.applyButtonStyle(actionButton);
-        actionButton.setVisible(false); // Masquer au début
+        actionButton.setVisible(false);
         actionButton.setOnAction(event -> diceAction.run());
 
         this.getChildren().addAll(titre, card, actionButton);

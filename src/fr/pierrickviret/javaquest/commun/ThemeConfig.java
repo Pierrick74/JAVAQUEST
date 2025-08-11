@@ -19,7 +19,6 @@ public class ThemeConfig {
                     "-fx-background-radius: 10;" +
                     "-fx-alignment: center;" +
                     "-fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 5, 5);";
-            ;
 
     public static final String BUTTON_STYLE =
             "-fx-background-color: " + BUTTON_BROWN + ";" +
@@ -54,6 +53,6 @@ public class ThemeConfig {
     public static final String orcsImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Orcs.png";
     public static final String sorcererImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Sorcerer.png";
 
-    public static final String diceImagePath = "fr/pierrickviret/javaquest/javafx/assets/dice.png";
+    public static final String diceImagePath = "fr/pierrickviret/javaquest/javafx/assets/dice/dice.png";
 
 }

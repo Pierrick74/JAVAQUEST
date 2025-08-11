@@ -71,12 +71,14 @@ public class FlipCard extends StackPane {
     }
 
     private Image getFrontImage() {
-        switch (finishFace) {
-            case 1:
-                return new Image("fr/pierrickviret/javaquest/javafx/assets/dice.png");
-                case 2: return new Image( "fr/pierrickviret/javaquest/javafx/assets/Character/Dragon.png");
-                default: return new Image( "fr/pierrickviret/javaquest/javafx/assets/Character/Gobelin.png");
-
-        }
+        return switch (finishFace) {
+            case 1 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceOne.png");
+            case 2 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceTwo.png");
+            case 3 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceTwo.png");
+            case 4 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceFour.png");
+            case 5 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceFive.png");
+            case 6 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceFive.png");
+            default -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/dice.png");
+        };
     }
 }
