@@ -17,9 +17,7 @@ public class EnemyCase extends Case {
 
     @Override
     public String toString() {
-        return "oh non, un "
-                + enemy.toString()
-                + System.lineSeparator();
+        return enemy.toString();
     }
 
     /**

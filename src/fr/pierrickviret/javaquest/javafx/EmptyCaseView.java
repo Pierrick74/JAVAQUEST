@@ -9,12 +9,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class EmptyCase extends VBox {
+public class EmptyCaseView extends VBox {
     private Label titre;
     private Button actionButton;
     private FlipCard card;
 
-    public EmptyCase(Runnable buttonAction) {
+    public EmptyCaseView(Runnable buttonAction) {
         super(30);
         createComponents(buttonAction);
         this.setAlignment(Pos.CENTER);

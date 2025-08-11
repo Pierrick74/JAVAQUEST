@@ -2,6 +2,7 @@ package fr.pierrickviret.javaquest;
 
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.Case;
+import fr.pierrickviret.javaquest.board.Case.EmptyCase;
 import fr.pierrickviret.javaquest.board.Case.EnemyCase;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
@@ -11,6 +12,7 @@ import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
+import fr.pierrickviret.javaquest.javafx.Case.EnemyCaseView;
 import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
@@ -280,24 +282,34 @@ public class Game {
             setGameState(GameState.finishGame);
             return;
         }
-        Boolean finalIsStepBack = isStepBack;
-        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, finalIsStepBack, new EmptyCase(()-> Game.getInstance().setGameState(GameState.launchDice)))));
-        //checkCase();
+        checkCase(isStepBack);
     }
 
     /**
      * Regarde la case sur laquelle le joueur est arrivé et effectue l'action
      */
-    private void checkCase() {
+    private void checkCase(Boolean isStepBack) {
         Case currentCase = board.getCase(character.getPosition());
-        Menu.getInstance().showInformation("\n"+ currentCase.toString());
+        if (currentCase instanceof EmptyCase) {
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
+        }
+
         if( currentCase instanceof EnemyCase) {
-            startFight((EnemyCase) currentCase);
+            Runnable fightAction = () -> {
+                Menu.getInstance().showInformation("fight");
+            };
+
+            Runnable runAwayAction = () -> {
+                Menu.getInstance().showInformation("runAway");
+            };
+
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EnemyCaseView((EnemyCase) currentCase,fightAction, runAwayAction))));
         } else {
-            Boolean stateCase = currentCase.interact(character);
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
+            /*Boolean stateCase = currentCase.interact(character);
             if (!stateCase) {
                 board.setCaseToEmpty(character.getPosition());
-            }
+            }*/
         }
     }
 
@@ -312,7 +324,7 @@ public class Game {
                 }
                 break;
             case 2:
-                character.decreaseExperience(currentCase.getEnemieExperience());
+                this.character.decreaseExperience(((EnemyCase) currentCase).getEnemieExperience());
                 movePlayerBackward();
                 break;
             case 3:
