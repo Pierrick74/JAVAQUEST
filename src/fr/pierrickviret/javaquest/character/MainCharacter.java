@@ -30,6 +30,7 @@ public abstract class MainCharacter extends Character {
         this.type = type;
         this.health = setHealth(this.type);
         this.attack = setAttack(this.type);
+        this.maxHealth = this.health;
         this.name = name;
         this.boostAttack =  false;
         this.experience = 0;
@@ -183,7 +184,7 @@ public abstract class MainCharacter extends Character {
     }
 
     public String positionToString() {
-        return name + " est en position = " + position;
+        return name + " est en position " + position;
     }
 }
 
