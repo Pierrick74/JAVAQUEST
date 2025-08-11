@@ -44,7 +44,6 @@ public class FlipCard extends StackPane {
 
     public void flip() {
         if (!isFlipped) {
-            frontCard.setImage(getFrontImage());
             flipTransition.setFromAngle(0);
             flipTransition.setToAngle(90);
             flipTransition.setOnFinished(e -> {
@@ -68,6 +67,7 @@ public class FlipCard extends StackPane {
 
     public void setFinishFace(int finishFace) {
         this.finishFace = finishFace;
+        frontCard.setImage(getFrontImage());
     }
 
     private Image getFrontImage() {

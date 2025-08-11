@@ -8,11 +8,9 @@ import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
-import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
-import fr.pierrickviret.javaquest.javafx.Game.movingView;
 import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
@@ -41,7 +39,6 @@ public class Game {
     // information to display
     static String welcomeInformation = "Bienvenue dans le jeu\nJAVA QUEST";
     static String showCharacterCreated = "\nVoici le personnage crée";
-    static String askForCharacterModification = "\nVoulez vous modifier le personnage\n1. utiliser le personnage\n2. Modifier le personnage";
     static String finishGame = "\nVous avez fini le jeu, Bravo !";
     static String rollDice = "Vous avez lancé le dé : ";
     static String endGame = "Au revoir";
@@ -168,7 +165,6 @@ public class Game {
                         break;
 
                     case playerTurn:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new movingView("ok", ThemeConfig.diceImagePath, "Lancer le dé", null)));
                         changePlayerPosition();
                         if (character.getHealth() <= 0) {
                             setGameState(GameState.gameOver);
@@ -271,16 +267,12 @@ public class Game {
      * @see Board
      */
     private void changePlayerPosition() {
-        Menu.getInstance().showInformation("\nAppuyer sur entrée pour lancer le dé");
-        Menu.getInstance().listenString();
-        Integer turnDice = dice.getRoll(6);
-        Menu.getInstance().showInformation("\n"+ rollDice + turnDice.toString() + "\n");
-
+        Boolean isStepBack = false;
         try {
-            movePlayer(character.getPosition() + turnDice);
+            movePlayer(character.getPosition() + diceValue);
         } catch (OutOfBoardException | Exception e) {
-            Menu.getInstance().showInformation(e.getMessage());
-            int offset = board.getSize() - (character.getPosition() + turnDice );
+            isStepBack =  true;
+            int offset = board.getSize() - (character.getPosition() + diceValue );
             character.setPosition(board.getSize() + offset);
         }
 
@@ -288,9 +280,9 @@ public class Game {
             setGameState(GameState.finishGame);
             return;
         }
-
-        Menu.getInstance().showInformation(character.positionToString());
-        checkCase();
+        Boolean finalIsStepBack = isStepBack;
+        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, finalIsStepBack, new EmptyCase(()-> Game.getInstance().setGameState(GameState.launchDice)))));
+        //checkCase();
     }
 
     /**

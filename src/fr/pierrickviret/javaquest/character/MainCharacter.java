@@ -183,7 +183,7 @@ public abstract class MainCharacter extends Character {
     }
 
     public String positionToString() {
-        return name + "est en position = " + position + ".";
+        return name + " est en position = " + position;
     }
 }
 
