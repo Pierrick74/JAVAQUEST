@@ -53,6 +53,8 @@ public class ThemeConfig {
     public static final String orcsImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Orcs.png";
     public static final String sorcererImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Sorcerer.png";
 
-    public static final String diceImagePath = "fr/pierrickviret/javaquest/javafx/assets/dice/dice.png";
+    public static final String potionImagePath = "fr/pierrickviret/javaquest/javafx/assets/potion.png";
+
+    public static final String diceImagePath = "fr/pierrickviret/javaquest/javafx/assets/dice/Dice3D.png";
 
 }

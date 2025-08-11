@@ -7,6 +7,6 @@ public class Thunderclap extends Potion {
 
     @Override
     public String toString() {
-        return "Potion coup de tonnerre";
+        return "une Potion coup de tonnerre";
     }
 }

@@ -6,6 +6,7 @@ import fr.pierrickviret.javaquest.equipement.defensive.Thunderclap;
 
 public class PotionCase extends Case {
     Potion potion;
+    String descriptionOfInteraction;
 
     public PotionCase(Potion potion) {
         this.potion = potion;
@@ -13,9 +14,7 @@ public class PotionCase extends Case {
 
     @Override
     public String toString() {
-        return "Yes, "
-        + potion.toString()
-        +", enfin" + System.lineSeparator();
+        return potion.toString();
     }
 
     @Override
@@ -27,19 +26,23 @@ public class PotionCase extends Case {
         return treatTheSick(character);
     }
 
+    public String getDescriptionOfInteraction() {
+        return descriptionOfInteraction;
+    }
+
     private Boolean treatTheSick(MainCharacter character) {
         int health = character.getHealth() + potion.getValue();
         if(character.getHealth() == character.getMaxHealth()) {
-            show("Votre vie est au maximum, vous laissez la potion");
+            descriptionOfInteraction =  "Votre vie est au maximum, vous laissez la potion";
             return true;
         }
 
         if(health > character.getMaxHealth()) {
             character.setHealth(character.getMaxHealth());
-            show("Votre vie est au maximum");
+            descriptionOfInteraction = "Votre vie est au maximum";
         } else {
             character.setHealth(health);
-            show("Votre vie remonte à " + health);
+            descriptionOfInteraction = "Votre vie remonte à " + health;
         }
         return false;
     }

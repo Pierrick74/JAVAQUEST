@@ -1,6 +1,7 @@
-package fr.pierrickviret.javaquest.javafx;
+package fr.pierrickviret.javaquest.javafx.Case;
 
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
+import fr.pierrickviret.javaquest.javafx.FlipCard;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

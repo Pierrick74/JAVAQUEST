@@ -1,9 +1,7 @@
 package fr.pierrickviret.javaquest;
 
 import fr.pierrickviret.javaquest.board.Board;
-import fr.pierrickviret.javaquest.board.Case.Case;
-import fr.pierrickviret.javaquest.board.Case.EmptyCase;
-import fr.pierrickviret.javaquest.board.Case.EnemyCase;
+import fr.pierrickviret.javaquest.board.Case.*;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
@@ -12,7 +10,9 @@ import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
 import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.*;
+import fr.pierrickviret.javaquest.javafx.Case.EmptyCaseView;
 import fr.pierrickviret.javaquest.javafx.Case.EnemyCaseView;
+import fr.pierrickviret.javaquest.javafx.Case.PotionCaseView;
 import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
@@ -42,7 +42,6 @@ public class Game {
     static String welcomeInformation = "Bienvenue dans le jeu\nJAVA QUEST";
     static String showCharacterCreated = "\nVoici le personnage crée";
     static String finishGame = "\nVous avez fini le jeu, Bravo !";
-    static String rollDice = "Vous avez lancé le dé : ";
     static String endGame = "Au revoir";
     static String gameOver = "\nVous êtes mort, Game Over";
     static String askForFight = "\nQue voulez vous faire?\n1. Attaquer\n2. Fuir\n3. Quitter le jeu";
@@ -220,6 +219,9 @@ public class Game {
         return diceValue;
     }
 
+    public Board getBoard() {
+        return board;
+    }
 
     private void resetCharacter() {
         character.resetCharacter();
@@ -304,12 +306,14 @@ public class Game {
             };
 
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EnemyCaseView((EnemyCase) currentCase,fightAction, runAwayAction))));
-        } else {
+        }
+
+        if( currentCase instanceof PotionCase) {
+                Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new PotionCaseView((PotionCase) currentCase, () -> Game.getInstance().setGameState(GameState.launchDice)))));
+        }
+
+        if( currentCase instanceof SpellCase || currentCase instanceof WeaponCase) {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
-            /*Boolean stateCase = currentCase.interact(character);
-            if (!stateCase) {
-                board.setCaseToEmpty(character.getPosition());
-            }*/
         }
     }
 
@@ -371,6 +375,15 @@ public class Game {
             throw new OutOfBoardException("Vous ne pouvez pas avancer plus que de case du plateau\nVous reculez\n");
         }
         character.setPosition(position);
+    }
+
+    public String getInteractionWithPotion(PotionCase currentCase) {
+         Boolean stateCase = currentCase.interact(character);
+         String result = currentCase.getDescriptionOfInteraction();
+         if (!stateCase) {
+             board.setCaseToEmpty(character.getPosition());
+         }
+         return result;
     }
 
 }
