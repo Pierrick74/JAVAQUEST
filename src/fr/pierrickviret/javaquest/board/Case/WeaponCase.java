@@ -16,7 +16,7 @@ public class WeaponCase extends Case {
         return weapon.toString();
     }
 
-    public Boolean interact(MainCharacter character, Integer choice) {
+    public Boolean interactWithCase(MainCharacter character, Integer choice) {
         switch(choice) {
             case 1:
                 character.setOffensiveEquipement(weapon, 1);

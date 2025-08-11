@@ -1,7 +1,9 @@
 package fr.pierrickviret.javaquest.javafx.Case;
 
 import fr.pierrickviret.javaquest.Game;
+import fr.pierrickviret.javaquest.board.Case.Case;
 import fr.pierrickviret.javaquest.board.Case.WeaponCase;
+import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import fr.pierrickviret.javaquest.javafx.FlipCard;
 import javafx.geometry.Pos;
@@ -16,9 +18,10 @@ import javafx.scene.text.FontWeight;
 public class WeaponCaseView  extends VBox {
     private final Label titre;
     HBox buttonBox;
+    private final Label description;
     private final FlipCard card;
 
-    public WeaponCaseView(WeaponCase currentCase) {
+    public WeaponCaseView(Case currentCase) {
         super(30);
 
         titre = new Label("Retournez la carte");
@@ -30,6 +33,7 @@ public class WeaponCaseView  extends VBox {
                 () -> {
                     titre.setText(getTitleInformation(currentCase));
                     buttonBox.setVisible(true);
+                    isCanTakeWeapon(currentCase);
                 });
 
         card.setOnMouseClicked(e -> {
@@ -38,25 +42,42 @@ public class WeaponCaseView  extends VBox {
             }
         });
 
-        buttonBox = createButtonArea(currentCase);
+        buttonBox = Game.getInstance().isCanTakeWeapon(currentCase) ? createButtonArea(currentCase) : createButton();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setVisible(false);
 
-        this.getChildren().addAll(titre, card, buttonBox);
+        description = new Label("Vous êtes un " + Game.getInstance().getCharacter().getType() + ", vous ne pouvez pas prendre" );
+        description.setFont(Font.font("Almendra", FontWeight.BOLD, 20));
+        description.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
+        description.setVisible(false);
+
+        this.getChildren().addAll(titre, card, description, buttonBox);
 
         this.setAlignment(Pos.CENTER);
         ThemeConfig.applyDarkBackground(this);
     }
 
-    private String getFrontImage(WeaponCase currentCase) {
+    private String getFrontImage(Case currentCase) {
         return switch (currentCase.toString().toLowerCase()) {
             case "un arc" -> ThemeConfig.bowImagePath;
             case "une massue" -> ThemeConfig.clubImagePath;
+            case "un sort:des boules de feu" -> ThemeConfig.fireballImagePath;
+            case "un sort d'invisibilité" -> ThemeConfig.invisibilityImagePath;
+            case "un sort: des éclaires" -> ThemeConfig.lightningImagePath;
             default -> ThemeConfig.swordImagePath;
         };
     }
 
-    private HBox createButtonArea(WeaponCase currentCase) {
+    private HBox createButton() {
+        HBox buttonArea = new HBox(10);
+        Button button = new Button("Lancer le dé");
+        ThemeConfig.applyButtonStyle(button);
+        button.setOnAction(event -> Game.getInstance().setGameState(GameState.launchDice));
+        buttonArea.getChildren().addAll(button);
+        return buttonArea;
+    }
+
+    private HBox createButtonArea(Case currentCase) {
         HBox buttonArea = new HBox(10);
 
         Button inventaire1 = new Button("Récupérer dans l'inventaire 1");
@@ -75,12 +96,21 @@ public class WeaponCaseView  extends VBox {
         return buttonArea;
     }
 
-    private String getTitleInformation(WeaponCase currentCase) {
+    private String getTitleInformation(Case currentCase) {
         String base = "Vous tombez sur ";
         return switch (currentCase.toString().toLowerCase()) {
             case "un arc" -> base + "un Arc de niveau 3";
             case "une massue" -> base + "une Massue de niveau 2";
+            case "un sort:des boules de feu" -> base + "un sort: boules de feu de niveau 2";
+            case "un sort d'invisibilité" -> base + "un sort d'invisibilité de niveau 3";
+            case "un sort: des éclaires" -> base + "un sort: des éclaires de niveau 1";
             default -> base + "une Epée de niveau 1";
         };
+    }
+
+    private void isCanTakeWeapon(Case currentCase) {
+        if(!Game.getInstance().isCanTakeWeapon(currentCase)) {
+            description.setVisible(true);
+        }
     }
 }

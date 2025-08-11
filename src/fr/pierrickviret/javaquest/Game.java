@@ -317,13 +317,16 @@ public class Game {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
         }
 
-        if( currentCase instanceof WeaponCase) {
-            if(((WeaponCase) currentCase).isCharacterCanInteract(character)) {
-                Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new WeaponCaseView((WeaponCase)  currentCase))));
-            } else {
-                Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
-            }
+        if (currentCase instanceof WeaponCase || currentCase instanceof SpellCase) {
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new WeaponCaseView(currentCase))));
         }
+    }
+
+
+    public Boolean isCanTakeWeapon(Case currentCase) {
+        if(currentCase instanceof WeaponCase && character.getType() == CharacterType.Warrior) {return true;}
+        if(currentCase instanceof SpellCase && character.getType() == CharacterType.Wizard) {return true;}
+        return false;
     }
 
     private void startFight(EnemyCase currentCase) {
@@ -369,7 +372,11 @@ public class Game {
     private void movePlayerBackward(){
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
-        character.setPosition(character.getPosition() - number);
+        if(character.getPosition() - number > 0) {
+            character.setPosition(character.getPosition() - number);
+        } else {
+            character.setPosition(0);
+        }
         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new RunAwayView(()->Game.getInstance().setGameState(GameState.launchDice), number)));
 
         /*
@@ -399,8 +406,14 @@ public class Game {
          return result;
     }
 
-    public void getInteractionWithWeapon(WeaponCase currentCase, Integer choice) {
-        Boolean stateCase = currentCase.interact(character, choice);
+    public void getInteractionWithWeapon(Case currentCase, Integer choice) {
+        Boolean stateCase = null;
+        if (currentCase instanceof WeaponCase) {
+            stateCase = ((WeaponCase) currentCase).interactWithCase(character, choice);
+        } else if (currentCase instanceof SpellCase) {
+            stateCase = ((SpellCase) currentCase).interactWithCase(character, choice);
+        }
+
         if (!stateCase) {
             board.setCaseToEmpty(character.getPosition());
         }
