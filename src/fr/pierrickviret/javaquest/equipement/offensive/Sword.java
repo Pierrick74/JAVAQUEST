@@ -7,6 +7,6 @@ public class Sword extends Weapon {
 
     @Override
     public String toString() {
-        return "une épée de niveau 1" + System.lineSeparator();
+        return "une Epée";
     }
 }

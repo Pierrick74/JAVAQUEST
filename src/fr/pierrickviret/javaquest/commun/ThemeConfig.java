@@ -59,4 +59,8 @@ public class ThemeConfig {
 
     public static final String runAwayImagePath = "fr/pierrickviret/javaquest/javafx/assets/runAway.png";
 
+    public static final String swordImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Sword.png";
+    public static final String bowImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Bow.png";
+    public static final String clubImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Club.png";
+
 }

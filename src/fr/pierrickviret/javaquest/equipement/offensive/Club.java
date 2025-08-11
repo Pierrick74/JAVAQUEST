@@ -7,6 +7,6 @@ public class Club extends Weapon{
 
     @Override
     public String toString() {
-        return "une massue de niveau 2" + System.lineSeparator();
+        return "une Massue";
     }
 }

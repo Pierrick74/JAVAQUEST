@@ -15,8 +15,7 @@ public class SpellCase extends Case {
     @Override
     public String toString() {
 
-        return "Coup de chance, une nouveau sort pour le magicien :"
-                +spell.toString();
+        return spell.toString();
     }
 
     @Override

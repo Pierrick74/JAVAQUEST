@@ -1,4 +1,4 @@
-package fr.pierrickviret.javaquest.javafx;
+package fr.pierrickviret.javaquest.javafx.Game;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;

@@ -13,6 +13,8 @@ import fr.pierrickviret.javaquest.javafx.*;
 import fr.pierrickviret.javaquest.javafx.Case.EmptyCaseView;
 import fr.pierrickviret.javaquest.javafx.Case.EnemyCaseView;
 import fr.pierrickviret.javaquest.javafx.Case.PotionCaseView;
+import fr.pierrickviret.javaquest.javafx.Case.WeaponCaseView;
+import fr.pierrickviret.javaquest.javafx.Game.RunAwayView;
 import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;
@@ -298,6 +300,7 @@ public class Game {
 
         if( currentCase instanceof EnemyCase) {
             Runnable fightAction = () -> {
+                //TODO a faire le lien
                 Menu.getInstance().showInformation("fight");
             };
 
@@ -310,8 +313,16 @@ public class Game {
                 Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new PotionCaseView((PotionCase) currentCase, () -> Game.getInstance().setGameState(GameState.launchDice)))));
         }
 
-        if( currentCase instanceof SpellCase || currentCase instanceof WeaponCase) {
+        if( currentCase instanceof SpellCase) {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
+        }
+
+        if( currentCase instanceof WeaponCase) {
+            if(((WeaponCase) currentCase).isCharacterCanInteract(character)) {
+                Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new WeaponCaseView((WeaponCase)  currentCase))));
+            } else {
+                Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EmptyCaseView(()-> Game.getInstance().setGameState(GameState.launchDice)))));
+            }
         }
     }
 
@@ -386,6 +397,19 @@ public class Game {
              board.setCaseToEmpty(character.getPosition());
          }
          return result;
+    }
+
+    public void getInteractionWithWeapon(WeaponCase currentCase, Integer choice) {
+        Boolean stateCase = currentCase.interact(character, choice);
+        if (!stateCase) {
+            board.setCaseToEmpty(character.getPosition());
+        }
+
+        if(choice == 3) {
+            setGameState(GameState.launchDice);
+        } else {
+            //TODO cree la vue show equipement
+        }
     }
 
 }

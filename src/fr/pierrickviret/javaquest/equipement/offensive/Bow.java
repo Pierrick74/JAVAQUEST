@@ -7,6 +7,6 @@ public class Bow extends Weapon{
 
     @Override
     public String toString() {
-        return "un arc de niveau 3" + System.lineSeparator();
+        return "un Arc";
     }
 }
