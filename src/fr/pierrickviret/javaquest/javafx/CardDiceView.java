@@ -28,7 +28,7 @@ public class CardDiceView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/warrior.PNG",
+        card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/dice/Dice3D.png",
                 "fr/pierrickviret/javaquest/javafx/assets/dice/dice.png",
                 () -> {
                     titre.setText("Vous obtenez");
