@@ -301,9 +301,7 @@ public class Game {
                 Menu.getInstance().showInformation("fight");
             };
 
-            Runnable runAwayAction = () -> {
-                Menu.getInstance().showInformation("runAway");
-            };
+            Runnable runAwayAction = this::movePlayerBackward;
 
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EnemyCaseView((EnemyCase) currentCase,fightAction, runAwayAction))));
         }
@@ -361,8 +359,12 @@ public class Game {
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
         character.setPosition(character.getPosition() - number);
+        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new RunAwayView(()->Game.getInstance().setGameState(GameState.launchDice), number)));
+
+        /*
         Menu.getInstance().showInformation("\nVous reculez de "+ number + " cases\n" + character.positionToString());
         Menu.getInstance().showInformation("Votre experience passe à " + character.getExperience());
+         */
     }
 
     /**

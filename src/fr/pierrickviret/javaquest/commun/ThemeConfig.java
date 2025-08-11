@@ -57,4 +57,6 @@ public class ThemeConfig {
 
     public static final String diceImagePath = "fr/pierrickviret/javaquest/javafx/assets/dice/Dice3D.png";
 
+    public static final String runAwayImagePath = "fr/pierrickviret/javaquest/javafx/assets/runAway.png";
+
 }
