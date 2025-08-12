@@ -96,10 +96,8 @@ public class PlayerPanel extends BorderPane {
             return ((MainCharacter) character).getLevel();
         }
         return switch (character.getName().toLowerCase()) {
-            case "dragon" -> 3;
-            case "mauvais esprits" -> 3;
-            case "sorcerer" -> 2;
-            case "orcs" -> 2;
+            case "dragon", "mauvais esprits" -> 3;
+            case "sorcerer", "orcs" -> 2;
             default -> 1;
         };
     }
