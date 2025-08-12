@@ -2,9 +2,7 @@ package fr.pierrickviret.javaquest;
 
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.board.Case.*;
-import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.character.Warrior;
-import fr.pierrickviret.javaquest.character.Wizard;
+import fr.pierrickviret.javaquest.character.*;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.exception.OutOfBoardException;
@@ -47,7 +45,6 @@ public class Game {
     static String finishGame = "\nVous avez fini le jeu, Bravo !";
     static String endGame = "Au revoir";
     static String gameOver = "\nVous êtes mort, Game Over";
-    static String askForFight = "\nQue voulez vous faire?\n1. Attaquer\n2. Fuir\n3. Quitter le jeu";
 
     //dependency
     /**
@@ -176,6 +173,18 @@ public class Game {
                         isSomethingToShow = false;
                         break;
 
+                    case moveBack:
+                        if(board.getCase(character.getPosition()) instanceof EnemyCase){
+                            Game.getInstance().movePlayerBackward((EnemyCase) board.getCase(character.getPosition()));
+                        }
+                        isSomethingToShow = false;
+                        break;
+
+                    case fight:
+                        startFight();
+                        isSomethingToShow = false;
+                        break;
+
                     case finishGame:
                         Menu.getInstance().showInformation(finishGame);
                         setGameState(GameState.waitingInformation);
@@ -301,11 +310,12 @@ public class Game {
 
         if( currentCase instanceof EnemyCase) {
             Runnable fightAction = () -> {
-                //TODO a faire le lien
-                Menu.getInstance().showInformation("fight");
+                Game.getInstance().setGameState(GameState.fight);
             };
 
-            Runnable runAwayAction = this::movePlayerBackward;
+            Runnable runAwayAction = () -> {
+                Game.getInstance().setGameState(GameState.moveBack);
+            };
 
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EnemyCaseView((EnemyCase) currentCase,fightAction, runAwayAction))));
         }
@@ -330,23 +340,10 @@ public class Game {
         return false;
     }
 
-    private void startFight(EnemyCase currentCase) {
-        Menu.getInstance().showInformation(askForFight);
-        int result = Menu.getInstance().listenResultBetween(1,3);
-        switch (result) {
-            case 1:
-                boolean haveFighter = fightWithEnemy(currentCase);
-                if (haveFighter) {
-                    startFight(currentCase);
-                }
-                break;
-            case 2:
-                this.character.decreaseExperience(((EnemyCase) currentCase).getEnemieExperience());
-                movePlayerBackward();
-                break;
-            case 3:
-                exitGame();
-                break;
+    private void startFight() {
+        Case currentCase = board.getCase(character.getPosition());
+        if(currentCase instanceof EnemyCase) {
+            fightWithEnemy((EnemyCase)   currentCase);
         }
     }
 
@@ -355,22 +352,21 @@ public class Game {
      * @param currentCase la case actuel
      * @return si un combat peut encore avoir lieux
      */
-    private boolean fightWithEnemy(Case currentCase) {
-        Boolean stateCase = currentCase.interact(character);
-        if (!stateCase) {
-            board.setCaseToEmpty(character.getPosition());
-        }
+    private void fightWithEnemy(EnemyCase currentCase) {
+        currentCase.interact(character);
+
         if(character.getHealth() <= 0) {
-            stateCase = false;
+            setActualyCaseToEmpty();
         }
-        return stateCase;
     }
 
     /**
      * Permet de faire reculer le joueur d’un nombre de cases aléatoires (entre 1 et 6)
      * lors d'une fuite de combat
      */
-    private void movePlayerBackward(){
+    private void movePlayerBackward(EnemyCase currentCase) {
+        this.character.decreaseExperience((currentCase).getEnemieExperience());
+
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
         if(character.getPosition() - number > 0) {
@@ -379,11 +375,6 @@ public class Game {
             character.setPosition(0);
         }
         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new RunAwayView(()->Game.getInstance().setGameState(GameState.launchDice), number)));
-
-        /*
-        Menu.getInstance().showInformation("\nVous reculez de "+ number + " cases\n" + character.positionToString());
-        Menu.getInstance().showInformation("Votre experience passe à " + character.getExperience());
-         */
     }
 
     /**
@@ -399,11 +390,8 @@ public class Game {
     }
 
     public String getInteractionWithPotion(PotionCase currentCase) {
-         Boolean stateCase = currentCase.interact(character);
+         currentCase.interact(character);
          String result = currentCase.getDescriptionOfInteraction();
-         if (!stateCase) {
-             board.setCaseToEmpty(character.getPosition());
-         }
          return result;
     }
 
@@ -424,5 +412,9 @@ public class Game {
         } else {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new addEquipementView(() -> Game.getInstance().setGameState(GameState.launchDice))));
         }
+    }
+
+    public void setActualyCaseToEmpty() {
+        board.setCaseToEmpty(character.getPosition());
     }
 }

@@ -1,5 +1,6 @@
 package fr.pierrickviret.javaquest.board.Case;
 
+import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.equipement.defensive.Potion;
 import fr.pierrickviret.javaquest.equipement.defensive.Thunderclap;
@@ -18,23 +19,22 @@ public class PotionCase extends Case {
     }
 
     @Override
-    public Boolean interact(MainCharacter character) {
+    public void interact(MainCharacter character) {
         if(potion instanceof Thunderclap) {
             character.setBoostAttack();
-            return false;
+            Game.getInstance().setActualyCaseToEmpty();
         }
-        return treatTheSick(character);
+        treatTheSick(character);
     }
 
     public String getDescriptionOfInteraction() {
         return descriptionOfInteraction;
     }
 
-    private Boolean treatTheSick(MainCharacter character) {
+    private void treatTheSick(MainCharacter character) {
         int health = character.getHealth() + potion.getValue();
         if(character.getHealth() == character.getMaxHealth()) {
             descriptionOfInteraction =  "Votre vie est au maximum, vous laissez la potion";
-            return true;
         }
 
         if(health > character.getMaxHealth()) {
@@ -44,6 +44,6 @@ public class PotionCase extends Case {
             character.setHealth(health);
             descriptionOfInteraction = "Votre vie remonte à " + health;
         }
-        return false;
+        Game.getInstance().setActualyCaseToEmpty();
     }
 }

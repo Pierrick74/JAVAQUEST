@@ -19,7 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import fr.pierrickviret.javaquest.character.Character;
 
-// Panel du joueur (gauche)
 public class PlayerPanel extends BorderPane {
     private ImageView picture;
     private Label  playerName;

@@ -142,6 +142,9 @@ public abstract class MainCharacter extends Character {
 
     public void decreaseExperience(int experience) {
         this.experience -= experience;
+        if(this.experience < 0) {
+            this.experience = 0;
+        }
     }
 
     public int getPosition() {

@@ -37,7 +37,6 @@ public class SpellCase extends Case {
     }
 
     @Override
-    public Boolean interact(MainCharacter character) {
-        return null;
+    public void interact(MainCharacter character) {
     }
 }

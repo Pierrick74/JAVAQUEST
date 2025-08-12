@@ -1,15 +1,22 @@
 package fr.pierrickviret.javaquest.board.Case;
 
 import fr.pierrickviret.javaquest.Dice;
-import fr.pierrickviret.javaquest.Menu;
+import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.character.*;
 import fr.pierrickviret.javaquest.character.Character;
+import fr.pierrickviret.javaquest.commun.ButtonInformationView;
+import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.offensive.Bow;
 import fr.pierrickviret.javaquest.equipement.offensive.Invisibility;
+import fr.pierrickviret.javaquest.javafx.Game.CombatView;
+import fr.pierrickviret.javaquest.javafx.Game.FightView;
+import fr.pierrickviret.javaquest.javafx.StageRepository;
+import javafx.application.Platform;
 
 public class EnemyCase extends Case {
     Character enemy;
+    private String fightNewspaper = "";
 
     public EnemyCase(Character enemy) {
         this.enemy = enemy;
@@ -20,36 +27,98 @@ public class EnemyCase extends Case {
         return enemy.toString();
     }
 
-    /**
-     *
-     * @return return true si l'ennemie est encore en vie
-     */
-    @Override
-    public Boolean interact(MainCharacter character) {
+    public Boolean isEnemyAlive() {
+        return enemy.getHealth() > 0;
+    }
 
-        if(character instanceof Wizard && enemy instanceof Orcs) {
-            return true;
-        }
-        if(character instanceof Warrior && enemy instanceof EvilSpirits) {
-            return true;
-        }
+    private void setFightNewspaper(String fightNewspaper) {
+        this.fightNewspaper += "\n" + fightNewspaper;
+    }
 
-        characterAttack(character);
-        if(enemy.getCharacterHealthValue() <= 0){
-            return false;
-        }
-        enemyAttack(character);
-        return true;
+    private void resetFightNewspaper() {
+        this.fightNewspaper = "";
     }
 
     public int getEnemieExperience() {
         return enemy.getExperience();
     }
 
+    public Character getEnemy() {
+        return enemy;
+    }
+
+    /**
+     *
+     * @return return true si l'ennemie est encore en vie
+     */
+    @Override
+    public void interact(MainCharacter character) {
+        resetFightNewspaper();
+
+        if(character instanceof Wizard && enemy instanceof Orcs) {
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
+                            new CombatView(character, enemy, "Un Orcs, vos sorts ne peuvent pas l'atteindre"),
+                            new ButtonInformationView("Vous partez", ()-> Game.getInstance().setGameState(GameState.moveBack)),
+                    null
+                    )));
+            return;
+        }
+        if(character instanceof Warrior && enemy instanceof EvilSpirits) {
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
+                    new CombatView(character, enemy, "Les mauvais esprits ne peuvent pas être touché avec vos armes"),
+                    new ButtonInformationView("Vous partez", ()-> Game.getInstance().setGameState(GameState.moveBack)),
+                    null
+                    )));
+            return;
+        }
+        if(!character.hasOffensiveEquipement()) {
+            setFightNewspaper("Vous n'avez pas d'arme dans votre sac, vous attaquez à main nu");
+            startFight(character, 0);
+            return;
+        }
+
+        if(character.hasOffensiveEquipementsForHisLevel() == 0) {
+            setFightNewspaper("Vous n'avez pas d'arme compatible avec votre niveau dans votre sac, vous attaquez à main nu");
+            startFight(character, 0);
+            return;
+        }
+
+        if(character.hasOffensiveEquipementsForHisLevel() == 1 ) {
+            if (character.getOffensiveEquipement(1) != null){
+                startFight(character, 1);
+                return;
+            } else {
+                startFight(character, 2);
+                return;
+            }
+        }
+        setFightNewspaper("Quelle arme voulez vous utiliser?");
+        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
+                new CombatView(character, enemy, fightNewspaper),
+                new ButtonInformationView(character.getOffensiveEquipement(1).getName(), ()-> startFight(character, 1)),
+                new ButtonInformationView(character.getOffensiveEquipement(1).getName(), ()-> startFight(character, 2))
+                )));
+    }
+
+    private void startFight(MainCharacter character, Integer equipementNumber) {
+        characterAttack(character, equipementNumber);
+        if(enemy.getCharacterHealthValue() <= 0){
+            setFightNewspaper("Vous avec vaincu " + enemy.getName());
+        }
+        enemyAttack(character);
+        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
+                new CombatView(character, enemy, fightNewspaper),
+                new ButtonInformationView("Réattaquer", ()-> startFight(character, equipementNumber)),
+                new ButtonInformationView("Vous enfuire",()-> Game.getInstance().setGameState(GameState.moveBack)
+        ))));
+    }
+
+
+
     private void enemyAttack(MainCharacter character) {
         int attackValue = getAttackValueWithCriticalRules(enemy.getAttackValue());
         if(attackValue == 0){
-            show(enemy.toString() + " ne peux pas vous attaquer");
+            setFightNewspaper(enemy.toString() + " ne peux pas vous attaquer");
             return;
         }
 
@@ -58,40 +127,37 @@ public class EnemyCase extends Case {
             health = 0;
         }
         character.setHealth(health);
-        show(enemy.toString() + " vous attaque de " + attackValue);
-        show("votre santé est à " + character.getHealth());
+        setFightNewspaper(enemy.toString() + " vous attaque de " + attackValue);
+        setFightNewspaper("votre santé est à " + character.getHealth());
     }
 
-    private void characterAttack(MainCharacter character) {
-        int attackValue = checkAttackValue(character);
+    private void characterAttack(MainCharacter character, Integer equipementNumber) {
+        int attackValue = checkAttackValue(character, equipementNumber);
 
         if(attackValue == 0){
-            show("Vous ne pouvez pas attaquer");
+            setFightNewspaper("Vous ne pouvez pas attaquer");
             return;
         }
 
         int health = enemy.getCharacterHealthValue() - attackValue;
-        show(" vous attaquez " + enemy.toString() + " avec une force de " + attackValue);
+        setFightNewspaper("Vous attaquez " + enemy.toString() + " avec une force de " + attackValue);
         if (health > 0) {
             enemy.setCharacterHealth(health);
-            show("la santé de "+ enemy.toString() + " passe à " + enemy.getCharacterHealthValue() );
+            setFightNewspaper("la santé de "+ enemy.toString() + " passe à " + enemy.getCharacterHealthValue() );
         }
         else {
             enemy.setCharacterHealth(0);
             character.increaseExperience(enemy.getExperience());
-            show(" Vous avez vaincu " + enemy.toString());
-            show("Votre experience passe à " + character.getExperience());
+            setFightNewspaper(" Vous avez vaincu " + enemy.toString());
+            setFightNewspaper("Votre experience passe à " + character.getExperience());
         }
     }
 
-    private Integer checkAttackValue(MainCharacter character) {
+    private Integer checkAttackValue(MainCharacter character, Integer equipementNumber) {
         int attackValue = character.getAttackValue();
 
-
-        if(character.hasOffensiveEquipementsForHisLevel() != 0) {
-            attackValue += getWeaponValue(character);
-        } else if(character.hasOffensiveEquipement()) {
-            show("Vous n'avez pas d'arme compatible avec votre niveau");
+        if(equipementNumber != 0 ) {
+            attackValue += getWeaponValue(character, equipementNumber);
         }
 
         attackValue = getAttackValueWithCriticalRules(attackValue);
@@ -103,41 +169,21 @@ public class EnemyCase extends Case {
         return attackValue;
     }
 
-    private int getWeaponValue(MainCharacter character) {
-        OffensiveEquipement equipement = getOffensiveEquipement(character);
+    private int getWeaponValue(MainCharacter character, Integer equipementNumber) {
+        OffensiveEquipement equipement = character.getOffensiveEquipement(equipementNumber);
         int attackValue = equipement.getValue();
-        show("Vous prenez " + equipement);
+        setFightNewspaper("Vous prenez " + equipement);
 
         if (enemy instanceof Dragon && equipement instanceof Bow) {
             attackValue = attackValue + 2;
-            show("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+            setFightNewspaper("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
         }
 
         if (enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
-            show("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
+            setFightNewspaper("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
             attackValue = attackValue + 3;
         }
         return attackValue;
-    }
-
-    private OffensiveEquipement getOffensiveEquipement(MainCharacter character) {
-        int result;
-        if(character.hasOffensiveEquipementsForHisLevel() == 1 ) {
-            if (character.getOffensiveEquipement(1) != null){
-                result = 1;
-            } else {
-                result = 2;
-            }
-        } else {
-            character.showOffensiveEquipement();
-            show("Sélectionner votre arme");
-            result = Menu.getInstance().listenResultBetween(1,2);
-            if(character.getOffensiveEquipement(result).getLevel() > character.getLevel()){
-                Menu.getInstance().showInformation("Vous ne pouvez pas prendre une arme de ce niveau actuellement");
-                return getOffensiveEquipement(character);
-            }
-        }
-        return character.getOffensiveEquipement(result);
     }
 
     private Integer getAttackValueWithCriticalRules(Integer attackValue) {
@@ -145,15 +191,15 @@ public class EnemyCase extends Case {
         Integer number = dice.getRoll(20);
         return switch (number) {
             case 1 -> {
-                show("Vous obtenez " + number + " avec le dé à 20 faces, dommage");
+                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces, dommage");
                 yield 0;
             }
             case 20 -> {
-                show("Vous obtenez " + number + " avec le dé à 20 faces, super");
+                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces, super");
                 yield attackValue + 2;
             }
             default -> {
-                show("Vous obtenez " + number + " avec le dé à 20 faces");
+                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces");
                 yield attackValue;
             }
         };

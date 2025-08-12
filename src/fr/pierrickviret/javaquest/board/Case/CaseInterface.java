@@ -7,5 +7,5 @@ import fr.pierrickviret.javaquest.character.MainCharacter;
  * retourne l'etat de l'objet dans la case
  */
 public interface CaseInterface {
-        Boolean interact(MainCharacter character);
+        void interact(MainCharacter character);
 }
