@@ -7,6 +7,6 @@ public class Lightning extends Spell{
 
     @Override
     public String toString() {
-        return "un sort: des éclaires" + System.lineSeparator();
+        return "un sort: des éclaires";
     }
 }

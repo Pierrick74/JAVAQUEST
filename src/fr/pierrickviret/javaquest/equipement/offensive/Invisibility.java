@@ -7,6 +7,6 @@ public class Invisibility extends Spell{
 
     @Override
     public String toString() {
-        return "un sort d'invisibilité" + System.lineSeparator();
+        return "un sort d'invisibilité";
     }
 }
