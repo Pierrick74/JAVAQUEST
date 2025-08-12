@@ -78,10 +78,6 @@ public abstract class MainCharacter extends Character {
         return 1;
     }
 
-    public ArrayList<OffensiveEquipement> getOffensiveEquipements() {
-        return offensiveEquipements;
-    }
-
     public void setOffensiveEquipement(OffensiveEquipement offensiveEquipement, int index) {
         offensiveEquipements.set(index-1, offensiveEquipement);
     }

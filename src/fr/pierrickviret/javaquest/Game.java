@@ -15,6 +15,7 @@ import fr.pierrickviret.javaquest.javafx.Case.EnemyCaseView;
 import fr.pierrickviret.javaquest.javafx.Case.PotionCaseView;
 import fr.pierrickviret.javaquest.javafx.Case.WeaponCaseView;
 import fr.pierrickviret.javaquest.javafx.Game.RunAwayView;
+import fr.pierrickviret.javaquest.javafx.Game.addEquipementView;
 import fr.pierrickviret.javaquest.javafx.selectGame.startGameView;
 import fr.pierrickviret.javaquest.javafx.createCharacter.*;
 import fr.pierrickviret.javaquest.javafx.selectGame.AskForSaveOrNewGameView;

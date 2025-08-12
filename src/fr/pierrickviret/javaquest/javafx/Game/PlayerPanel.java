@@ -3,6 +3,8 @@ package fr.pierrickviret.javaquest.javafx.Game;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
+import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
+import fr.pierrickviret.javaquest.equipement.offensive.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -10,6 +12,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -31,6 +34,10 @@ public class PlayerPanel extends BorderPane {
         root.getChildren().addAll(picture, playerName, healthBar, healthText, level);
         root.setAlignment(Pos.CENTER);
 
+        if(character instanceof MainCharacter) {
+            HBox equipments = createEquipementBox((MainCharacter) character);
+            root.getChildren().addAll(equipments);
+        }
         this.setPrefWidth(250);
         ThemeConfig.applyPlayerTheme(this);
         this.setPadding(new Insets(15));
@@ -77,9 +84,9 @@ public class PlayerPanel extends BorderPane {
         }
         return switch (character.getName().toLowerCase()) {
             case "dragon" -> ThemeConfig.dragonImagePath;
-            case "Mauvais esprits" -> ThemeConfig.evilSpiritsImagePath;
-            case "Sorcerer" -> ThemeConfig.sorcererImagePath;
-            case "Orcs" -> ThemeConfig.orcsImagePath;
+            case "mauvais esprits" -> ThemeConfig.evilSpiritsImagePath;
+            case "sorcerer" -> ThemeConfig.sorcererImagePath;
+            case "orcs" -> ThemeConfig.orcsImagePath;
             default -> ThemeConfig.gobelinImagePath;
         };
     }
@@ -90,10 +97,51 @@ public class PlayerPanel extends BorderPane {
         }
         return switch (character.getName().toLowerCase()) {
             case "dragon" -> 3;
-            case "Mauvais esprits" -> 3;
-            case "Sorcerer" -> 2;
-            case "Orcs" -> 2;
+            case "mauvais esprits" -> 3;
+            case "sorcerer" -> 2;
+            case "orcs" -> 2;
             default -> 1;
         };
+    }
+
+    private HBox createEquipementBox(MainCharacter character) {
+        ImageView imageView1 = createEquipementPicture(character, 1);
+        ImageView imageView2 = createEquipementPicture(character, 2);
+        HBox equipments = new HBox(10);
+        equipments.setAlignment(Pos.CENTER);
+        equipments.getChildren().addAll(imageView1, imageView2);
+        return equipments;
+    }
+
+    private ImageView createEquipementPicture(MainCharacter character, Integer index) {
+        OffensiveEquipement equipement = character.getOffensiveEquipement(index);
+        String imagePath = equipement == null ? "fr/pierrickviret/javaquest/javafx/assets/bag.png" : getImagePath(equipement);
+
+        Image image = new Image(imagePath);
+        picture = new ImageView(image);
+        picture.setFitWidth(70);
+        picture.setPreserveRatio(true);
+        return  picture;
+    }
+
+    private String getImagePath(OffensiveEquipement equipement) {
+        if(equipement instanceof Bow) {
+            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Bow.png";
+        }
+        if(equipement instanceof Club) {
+            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Club.png";
+        }
+        if(equipement instanceof Fireball) {
+            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Fireball.png";
+        }
+        if(equipement instanceof Invisibility) {
+            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/invisibilitySpell.png";
+        }
+        if(equipement instanceof Lightning) {
+            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Lightning.png";
+        }
+
+        //default
+        return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Sword.png";
     }
 }

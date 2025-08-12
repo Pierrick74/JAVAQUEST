@@ -1,4 +1,4 @@
-package fr.pierrickviret.javaquest.javafx;
+package fr.pierrickviret.javaquest.javafx.Game;
 
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import javafx.geometry.Pos;
@@ -23,7 +23,7 @@ public class addEquipementView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        imageView = new ImageView(new Image("fr/pierrickviret/javaquest/javafx/assets/chest.png"));
+        imageView = new ImageView(new Image("fr/pierrickviret/javaquest/javafx/assets/bag.png"));
         imageView.setFitWidth(120);
         imageView.setPreserveRatio(true);
 
