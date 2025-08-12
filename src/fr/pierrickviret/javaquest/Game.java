@@ -421,8 +421,7 @@ public class Game {
         if(choice == 3) {
             setGameState(GameState.launchDice);
         } else {
-            //TODO cree la vue show equipement
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new addEquipementView(() -> Game.getInstance().setGameState(GameState.launchDice))));
         }
     }
-
 }
