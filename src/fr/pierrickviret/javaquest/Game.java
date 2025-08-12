@@ -39,13 +39,6 @@ import static java.lang.System.exit;
  */
 
 public class Game {
-    // information to display
-    static String welcomeInformation = "Bienvenue dans le jeu\nJAVA QUEST";
-    static String showCharacterCreated = "\nVoici le personnage crée";
-    static String finishGame = "\nVous avez fini le jeu, Bravo !";
-    static String endGame = "Au revoir";
-    static String gameOver = "\nVous êtes mort, Game Over";
-
     //dependency
     /**
      * Plateau pour ce jeu
@@ -65,11 +58,9 @@ public class Game {
      * @see GameState
      */
     private GameState gameState;
-    private GameState oldGameState;
     private Boolean isSomethingToShow = true;
 
     public void setGameState(GameState gameState) {
-        this.oldGameState = this.gameState;
         this.gameState = gameState;
         isSomethingToShow = true;
     }
@@ -84,7 +75,6 @@ public class Game {
      */
     private Game(){
         this.gameState = GameState.begin;
-        this.oldGameState = GameState.waitingInformation;
         this.dice = new Dice();
     }
 
@@ -101,7 +91,6 @@ public class Game {
                 switch (gameState) {
                     case begin:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainView()));
-                        Menu.getInstance().showInformation(welcomeInformation);
                         isSomethingToShow = false;
                         break;
 
@@ -183,13 +172,13 @@ public class Game {
                         break;
 
                     case finishGame:
-
-                        Menu.getInstance().showInformation(finishGame);
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FinishGameView()));
+                        isSomethingToShow = false;
                         break;
 
                     case gameOver:
-                        Menu.getInstance().showInformation(gameOver);
-                        setGameState(GameState.waitingInformation);
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new GameOverView()));
+                        isSomethingToShow = false;
                         break;
 
                     default:
@@ -241,7 +230,6 @@ public class Game {
      * affiche un message de sortie
      */
     private void exitGame() {
-        Menu.getInstance().showInformation(endGame);
         exit(0);
     }
 
@@ -263,16 +251,6 @@ public class Game {
     }
 
     /**
-     * Permet d'afficher les informations du personnage crée
-     * @see MainCharacter
-     */
-    private void showCharacterCreated() {
-        Menu.getInstance().showInformation(showCharacterCreated);
-        Menu.getInstance().showInformation(character.toString());
-        Menu.getInstance().showInformation("");
-    }
-
-    /**
      * Permet d'avancer le joueur de la valeur du lancé de dé
      * Si la position dépasse la limite du Board, le joueur recule
      * @see Dice
@@ -280,7 +258,7 @@ public class Game {
      * @see Board
      */
     private void changePlayerPosition() {
-        Boolean isStepBack = false;
+        boolean isStepBack = false;
         try {
             movePlayer(character.getPosition() + diceValue);
         } catch (OutOfBoardException | Exception e) {
@@ -306,13 +284,9 @@ public class Game {
         }
 
         if( currentCase instanceof EnemyCase) {
-            Runnable fightAction = () -> {
-                Game.getInstance().setGameState(GameState.fight);
-            };
+            Runnable fightAction = () -> Game.getInstance().setGameState(GameState.fight);
 
-            Runnable runAwayAction = () -> {
-                Game.getInstance().setGameState(GameState.moveBack);
-            };
+            Runnable runAwayAction = () -> Game.getInstance().setGameState(GameState.moveBack);
 
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, isStepBack, new EnemyCaseView((EnemyCase) currentCase,fightAction, runAwayAction))));
         }
@@ -347,7 +321,6 @@ public class Game {
     /**
      * Permet de combattre avec un enemy
      * @param currentCase la case actuel
-     * @return si un combat peut encore avoir lieux
      */
     private void fightWithEnemy(EnemyCase currentCase) {
         currentCase.interact(character);
@@ -366,11 +339,7 @@ public class Game {
 
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
-        if(character.getPosition() - number > 0) {
-            character.setPosition(character.getPosition() - number);
-        } else {
-            character.setPosition(0);
-        }
+        character.setPosition(Math.max(character.getPosition() - number, 0));
         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new RunAwayView(()->Game.getInstance().setGameState(GameState.launchDice), number)));
     }
 
