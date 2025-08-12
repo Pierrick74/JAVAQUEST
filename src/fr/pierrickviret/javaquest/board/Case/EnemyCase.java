@@ -104,8 +104,24 @@ public class EnemyCase extends Case {
         characterAttack(character, equipementNumber);
         if(enemy.getCharacterHealthValue() <= 0){
             setFightNewspaper("Vous avec vaincu " + enemy.getName());
+            Game.getInstance().setActualyCaseToEmpty();
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
+                    new CombatView(character, enemy, fightNewspaper),
+                    new ButtonInformationView("Retour au plateau", ()-> Game.getInstance().setGameState(GameState.launchDice)),
+                    null
+                    )));
+            return;
         }
         enemyAttack(character);
+        if (character.getHealth() <= 0) {
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
+                    new CombatView(character, enemy, fightNewspaper),
+                    new ButtonInformationView("Retour au plateau", ()-> Game.getInstance().setGameState(GameState.gameOver)),
+                    null
+            )));
+            return;
+        }
+
         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
                 new CombatView(character, enemy, fightNewspaper),
                 new ButtonInformationView("Réattaquer", ()-> startFight(character, equipementNumber)),

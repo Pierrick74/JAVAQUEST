@@ -167,9 +167,6 @@ public class Game {
 
                     case playerTurn:
                         changePlayerPosition();
-                        if (character.getHealth() <= 0) {
-                            setGameState(GameState.gameOver);
-                        }
                         isSomethingToShow = false;
                         break;
 
@@ -186,8 +183,8 @@ public class Game {
                         break;
 
                     case finishGame:
+
                         Menu.getInstance().showInformation(finishGame);
-                        setGameState(GameState.waitingInformation);
                         break;
 
                     case gameOver:
