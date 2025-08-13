@@ -74,7 +74,7 @@ public class FlipCard extends StackPane {
         return switch (finishFace) {
             case 1 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceOne.png");
             case 2 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceTwo.png");
-            case 3 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceTwo.png");
+            case 3 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceThree.png");
             case 4 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceFour.png");
             case 5 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceFive.png");
             case 6 -> new Image("fr/pierrickviret/javaquest/javafx/assets/dice/diceSix.png");
