@@ -97,31 +97,26 @@ Exécutez le script SQL suivant pour créer les tables nécessaires :
 
 ```sql
 -- Table des personnages
-CREATE TABLE IF NOT EXISTS characters (
+CREATE TABLE IF NOT EXISTS JavaquestCharacter (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50) NOT NULL,
     health INT NOT NULL,
+    maxHealth INT NOT NULL,
     attack INT NOT NULL,
+    experience INT NOT NULL,
+    boostAttack INT NOT NULL,
+    position INT NOT NULL,
+    offensiveEquipment1 VARCHAR(100),
+    offensiveEquipment2 VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table des parties sauvegardées
-CREATE TABLE IF NOT EXISTS saved_games (
+-- Table du plateau de jeu
+CREATE TABLE IF NOT EXISTS JavaquestBoard (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    character_id INT,
-    board_position INT,
-    game_state JSON,
-    saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (character_id) REFERENCES characters(id)
-);
-
--- Table des scores
-CREATE TABLE IF NOT EXISTS scores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    player_name VARCHAR(100),
-    score INT,
-    game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    data JSON NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
