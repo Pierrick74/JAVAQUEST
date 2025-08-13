@@ -14,11 +14,12 @@ import javafx.scene.text.FontWeight;
 
 public class EnemyCaseView extends VBox {
     private final Label titre;
-    HBox buttonBox;
+    private HBox buttonBox;
+    private VBox infoArea;
     private final FlipCard card;
 
     public EnemyCaseView(EnemyCase currentCase, Runnable fightAction, Runnable runAwayAction) {
-        super(30);
+        super(20);
 
         titre = new Label("Retournez la carte");
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
@@ -29,6 +30,7 @@ public class EnemyCaseView extends VBox {
                 () -> {
                     titre.setText(getTitleInformation(currentCase));
                     buttonBox.setVisible(true);
+                    infoArea.setVisible(true);
                 });
 
         card.setOnMouseClicked(e -> {
@@ -37,27 +39,19 @@ public class EnemyCaseView extends VBox {
             }
         });
 
+        infoArea = createEnemyInformation(currentCase);
+        infoArea.setAlignment(Pos.CENTER);
+        infoArea.setVisible(false);
+
         buttonBox = createButtonArea(fightAction, runAwayAction);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setVisible(false);
 
-        this.getChildren().addAll(titre, card, buttonBox);
+        this.getChildren().addAll(titre, card, infoArea, buttonBox);
 
         this.setAlignment(Pos.CENTER);
         ThemeConfig.applyDarkBackground(this);
     }
-
-    /*
-    private String getFrontImage(EnemyCase currentCase) {
-        return switch (currentCase.toString().toLowerCase()) {
-            case "dragon" -> ThemeConfig.dragonImagePath;
-            case "mauvais esprits" -> ThemeConfig.evilSpiritsImagePath;
-            case "sorcerer" -> ThemeConfig.sorcererImagePath;
-            case "orcs" -> ThemeConfig.orcsImagePath;
-            default -> ThemeConfig.gobelinImagePath;
-        };
-    }
-     */
 
     private HBox createButtonArea(Runnable fightAction, Runnable runAwayAction) {
         HBox buttonArea = new HBox(10);
@@ -72,6 +66,20 @@ public class EnemyCaseView extends VBox {
 
         buttonArea.getChildren().addAll(runAwayButton, fightButton);
         return buttonArea;
+    }
+
+    private VBox createEnemyInformation(EnemyCase currentCase) {
+        Label attaque = new Label("Attaque: " + currentCase.getEnemy().getAttackValue());
+        attaque.setFont(Font.font("Almendra", FontWeight.BOLD, 20));
+        attaque.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
+
+        Label health = new Label("Points de vie: " + currentCase.getEnemy().getHealth());
+        health.setFont(Font.font("Almendra", FontWeight.BOLD, 20));
+        health.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
+
+        VBox area = new VBox(10);
+        area.getChildren().addAll(attaque, health);
+        return area;
     }
 
     private String getTitleInformation(EnemyCase currentCase) {
