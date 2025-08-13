@@ -351,7 +351,7 @@ public class Game {
      * @throws OutOfBoardException si le joueur dépasse la valeur max du board
      */
     private void movePlayer(Integer position) throws OutOfBoardException {
-        if(position > board.getSize()+1) {
+        if(position > board.getSize()) {
             throw new OutOfBoardException("Vous ne pouvez pas avancer plus que de case du plateau\nVous reculez\n");
         }
         character.setPosition(position);
