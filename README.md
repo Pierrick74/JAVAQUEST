@@ -97,7 +97,7 @@ Exécutez le script SQL suivant pour créer les tables nécessaires :
 
 ```sql
 -- Table des personnages
-CREATE TABLE IF NOT EXISTS JavaquestCharacters (
+CREATE TABLE IF NOT EXISTS JavaquestCharacter (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50) NOT NULL,
