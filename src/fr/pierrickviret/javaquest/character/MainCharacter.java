@@ -24,8 +24,8 @@ public abstract class MainCharacter extends Character {
     Integer position;
 
     //init
-    public MainCharacter(CharacterType type, String name, int id) {
-        super(name, 0, 0, 0);
+    public MainCharacter(CharacterType type, String name, int id, String imagePath) {
+        super(name, 0, 0, 0, imagePath);
         this.setID(id);
         this.type = type;
         this.health = setHealth(this.type);

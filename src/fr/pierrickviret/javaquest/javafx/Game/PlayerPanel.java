@@ -1,7 +1,6 @@
 package fr.pierrickviret.javaquest.javafx.Game;
 
 import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 import fr.pierrickviret.javaquest.equipement.offensive.*;
@@ -46,8 +45,7 @@ public class PlayerPanel extends BorderPane {
     private void initializeComponents(Character character) {
 
         // init picture
-        String imagePath = getImagePath(character);
-        Image image = new Image(imagePath);
+        Image image = new Image(character.getImagePath());
         picture = new ImageView(image);
         picture.setFitWidth(100);
         picture.setPreserveRatio(true);
@@ -75,19 +73,6 @@ public class PlayerPanel extends BorderPane {
 
         level = new Label("Level: " + getLevel(character));
         level.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
-    }
-
-    private String getImagePath(Character character) {
-        if(character instanceof MainCharacter) {
-            return ((MainCharacter) character).getType() == CharacterType.Warrior ? ThemeConfig.warriorImagePath : ThemeConfig.wizardImagePath;
-        }
-        return switch (character.getName().toLowerCase()) {
-            case "dragon" -> ThemeConfig.dragonImagePath;
-            case "mauvais esprits" -> ThemeConfig.evilSpiritsImagePath;
-            case "sorcerer" -> ThemeConfig.sorcererImagePath;
-            case "orcs" -> ThemeConfig.orcsImagePath;
-            default -> ThemeConfig.gobelinImagePath;
-        };
     }
 
     private int getLevel(Character character) {

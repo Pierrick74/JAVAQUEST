@@ -10,7 +10,8 @@ import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
  * @version 1.0
  */
 public class Spell extends OffensiveEquipement {
-    public Spell(String name, Integer value,  int level) {
-        super(name, value, level);
+    public Spell(String name, Integer value,  int level,  String imagePath) {
+
+        super(name, value, level,  imagePath);
     }
 }

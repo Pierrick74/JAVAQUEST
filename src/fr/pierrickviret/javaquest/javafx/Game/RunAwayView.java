@@ -28,7 +28,7 @@ public class RunAwayView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        Image image = new Image(ThemeConfig.runAwayImagePath);
+        Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/runAway.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(100);
         imageView.setPreserveRatio(true);

@@ -10,11 +10,13 @@ public abstract class OffensiveEquipement {
     protected  Integer value;
     String name;
     int level;
+    String imagePath;
 
-    public OffensiveEquipement(String name, Integer value, int level) {
+    public OffensiveEquipement(String name, Integer value, int level, String imagePath) {
         this.name = name;
         this.value = value;
         this.level = level;
+        this.imagePath = imagePath;
     }
 
     public String getName() {
@@ -24,4 +26,6 @@ public abstract class OffensiveEquipement {
     public Integer getValue() {return value;}
 
     public Integer getLevel() {return level;}
+
+    public String getImagePath() {return imagePath;}
 }

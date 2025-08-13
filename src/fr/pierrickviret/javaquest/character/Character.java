@@ -15,14 +15,16 @@ public abstract class Character {
     Integer ID;
     int experience;
     Integer maxHealth;
+    String imagePath;
 
     //init
-    public Character(String name, Integer health, Integer attack, int experience) {
+    public Character(String name, Integer health, Integer attack, int experience, String imagePath) {
         this.name = name;
         this.health = health;
         this.attack = attack;
         this.experience = experience;
         maxHealth = this.health;
+        this.imagePath = imagePath;
     }
 
     public String getName() {
@@ -48,6 +50,7 @@ public abstract class Character {
         return health;
     }
 
+    public String getImagePath() {return imagePath;}
     public void setCharacterHealth(Integer health) {
         this.health = health;
     }
@@ -57,7 +60,7 @@ public abstract class Character {
     }
 
     public void decreaseExperience(int experience) {
-        experience -= experience;
+        this.experience -= experience;
     }
 
     public Integer getMaxHealth() {return maxHealth;}

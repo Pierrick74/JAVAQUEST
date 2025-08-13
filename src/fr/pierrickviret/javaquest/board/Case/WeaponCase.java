@@ -36,6 +36,10 @@ public class WeaponCase extends Case {
         return character instanceof Warrior;
     }
 
+    public String getImagePath() {
+        return weapon.getImagePath();
+    }
+
     @Override
     public void interact(MainCharacter character) {
 

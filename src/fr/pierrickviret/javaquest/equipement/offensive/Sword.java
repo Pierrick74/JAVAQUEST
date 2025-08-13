@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Sword extends Weapon {
     public Sword() {
-        super("Epée", 4, 2);
+        super("Epée", 4, 2, "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Sword.png" );
     }
 
     @Override

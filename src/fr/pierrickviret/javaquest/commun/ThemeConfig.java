@@ -44,27 +44,4 @@ public class ThemeConfig {
     public static void applyButtonStyle(Button button) {
         button.setStyle(BUTTON_STYLE);
     }
-
-    public static final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
-    public static final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
-    public static final String dragonImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Dragon.png";
-    public static final String evilSpiritsImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Dragon.png";
-    public static final String gobelinImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Gobelin.png";
-    public static final String orcsImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Orcs.png";
-    public static final String sorcererImagePath = "fr/pierrickviret/javaquest/javafx/assets/Character/Sorcerer.png";
-
-    public static final String potionImagePath = "fr/pierrickviret/javaquest/javafx/assets/potion.png";
-
-    public static final String diceImagePath = "fr/pierrickviret/javaquest/javafx/assets/dice/Dice3D.png";
-
-    public static final String runAwayImagePath = "fr/pierrickviret/javaquest/javafx/assets/runAway.png";
-
-    public static final String swordImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Sword.png";
-    public static final String bowImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Bow.png";
-    public static final String clubImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Club.png";
-    public static final String fireballImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Fireball.png";
-    public static final String invisibilityImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/invisibilitySpell.png";
-    public static final String lightningImagePath = "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Lightning.png";
-
-
 }

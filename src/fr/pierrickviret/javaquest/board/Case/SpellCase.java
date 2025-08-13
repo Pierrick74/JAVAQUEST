@@ -36,6 +36,10 @@ public class SpellCase extends Case {
         return character instanceof Wizard;
     }
 
+    public String getImagePath() {
+        return spell.getImagePath();
+    }
+
     @Override
     public void interact(MainCharacter character) {
     }

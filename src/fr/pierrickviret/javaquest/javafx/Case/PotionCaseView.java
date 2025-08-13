@@ -26,7 +26,7 @@ public class PotionCaseView extends VBox {
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
         card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/box.png",
-                ThemeConfig.potionImagePath,
+                "fr/pierrickviret/javaquest/javafx/assets/potion.png",
                 () -> {
                     titre.setText("Vous tombez sur " + currentCase.toString());
                     button.setVisible(true);

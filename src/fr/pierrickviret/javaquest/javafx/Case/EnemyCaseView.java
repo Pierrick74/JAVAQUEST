@@ -25,7 +25,7 @@ public class EnemyCaseView extends VBox {
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
         card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/box.png",
-                getFrontImage(currentCase),
+                currentCase.getEnemyImagePath(),
                 () -> {
                     titre.setText(getTitleInformation(currentCase));
                     buttonBox.setVisible(true);
@@ -47,6 +47,7 @@ public class EnemyCaseView extends VBox {
         ThemeConfig.applyDarkBackground(this);
     }
 
+    /*
     private String getFrontImage(EnemyCase currentCase) {
         return switch (currentCase.toString().toLowerCase()) {
             case "dragon" -> ThemeConfig.dragonImagePath;
@@ -56,6 +57,7 @@ public class EnemyCaseView extends VBox {
             default -> ThemeConfig.gobelinImagePath;
         };
     }
+     */
 
     private HBox createButtonArea(Runnable fightAction, Runnable runAwayAction) {
         HBox buttonArea = new HBox(10);

@@ -31,12 +31,12 @@ public class ModifyCharacterView extends VBox {
 
 
         this.type = character.getType();
-        warrior = createButton(ThemeConfig.warriorImagePath, type == CharacterType.Warrior , () -> {
+        warrior = createButton("fr/pierrickviret/javaquest/javafx/assets/Character/warrior.PNG", type == CharacterType.Warrior , () -> {
             type = CharacterType.Warrior;
             warrior.setStyle("-fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #FF0000 ");
             wizard.setStyle("-fx-border-width: 0; -fx-border-style: none; -fx-border-color: #FF0000 ");
         });
-        wizard = createButton(ThemeConfig.wizardImagePath,type == CharacterType.Wizard,  () -> {
+        wizard = createButton("fr/pierrickviret/javaquest/javafx/assets/Character/wizard.PNG",type == CharacterType.Wizard,  () -> {
             type = CharacterType.Wizard;
             warrior.setStyle("-fx-border-width: 0; -fx-border-style: none; -fx-border-color: #FF0000 ");
             wizard.setStyle("-fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #FF0000 ");

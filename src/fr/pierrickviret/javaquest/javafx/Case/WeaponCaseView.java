@@ -2,6 +2,7 @@ package fr.pierrickviret.javaquest.javafx.Case;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.board.Case.Case;
+import fr.pierrickviret.javaquest.board.Case.SpellCase;
 import fr.pierrickviret.javaquest.board.Case.WeaponCase;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
@@ -58,14 +59,11 @@ public class WeaponCaseView  extends VBox {
     }
 
     private String getFrontImage(Case currentCase) {
-        return switch (currentCase.toString().toLowerCase()) {
-            case "un arc" -> ThemeConfig.bowImagePath;
-            case "une massue" -> ThemeConfig.clubImagePath;
-            case "un sort:des boules de feu" -> ThemeConfig.fireballImagePath;
-            case "un sort d'invisibilité" -> ThemeConfig.invisibilityImagePath;
-            case "un sort: des éclaires" -> ThemeConfig.lightningImagePath;
-            default -> ThemeConfig.swordImagePath;
-        };
+        if(currentCase instanceof WeaponCase){
+            return ((WeaponCase) currentCase).getImagePath();
+        } else {
+            return ((SpellCase) currentCase).getImagePath();
+        }
     }
 
     private HBox createButton() {

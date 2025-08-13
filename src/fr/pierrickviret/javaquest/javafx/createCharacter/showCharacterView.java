@@ -1,9 +1,7 @@
 package fr.pierrickviret.javaquest.javafx.createCharacter;
 
-
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.character.MainCharacter;
-import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.commun.GameState;
 import fr.pierrickviret.javaquest.commun.ThemeConfig;
 import javafx.geometry.Pos;
@@ -25,13 +23,10 @@ public class showCharacterView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
-        String imagePath = character.getType() == CharacterType.Warrior ? ThemeConfig.warriorImagePath : ThemeConfig.wizardImagePath;
-
-        Image image = new Image(imagePath);
+        Image image = new Image(character.getImagePath());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(100);
         imageView.setPreserveRatio(true);
-
 
         Label name = new Label("Votre Nom : " + character.getName());
         setupText(name);

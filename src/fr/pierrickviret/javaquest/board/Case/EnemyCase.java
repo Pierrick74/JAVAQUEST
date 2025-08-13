@@ -43,13 +43,15 @@ public class EnemyCase extends Case {
         return enemy.getExperience();
     }
 
+    public String getEnemyImagePath() {
+        return enemy.getImagePath();
+    }
+
     public Character getEnemy() {
         return enemy;
     }
 
     /**
-     *
-     * @return return true si l'ennemie est encore en vie
      */
     @Override
     public void interact(MainCharacter character) {
@@ -128,8 +130,6 @@ public class EnemyCase extends Case {
                 new ButtonInformationView("Vous enfuire",()-> Game.getInstance().setGameState(GameState.moveBack)
         ))));
     }
-
-
 
     private void enemyAttack(MainCharacter character) {
         int attackValue = getAttackValueWithCriticalRules(enemy.getAttackValue());
