@@ -26,7 +26,6 @@ public class FinishGameView extends VBox {
 
         Button actionButton = new Button("Recommencer");
         ThemeConfig.applyButtonStyle(actionButton);
-        actionButton.setVisible(false);
         actionButton.setOnAction(event -> Game.getInstance().setGameState(GameState.waitingInformation));
 
         this.getChildren().addAll(titre, picture, actionButton);
