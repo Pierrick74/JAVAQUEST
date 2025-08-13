@@ -156,7 +156,9 @@ public class Game {
 
                     case playerTurn:
                         changePlayerPosition();
-                        isSomethingToShow = false;
+                        if(character.getPosition() != 64){
+                            isSomethingToShow = false;
+                        }
                         break;
 
                     case moveBack:
@@ -349,7 +351,7 @@ public class Game {
      * @throws OutOfBoardException si le joueur dépasse la valeur max du board
      */
     private void movePlayer(Integer position) throws OutOfBoardException {
-        if(position > board.getSize()) {
+        if(position > board.getSize()+1) {
             throw new OutOfBoardException("Vous ne pouvez pas avancer plus que de case du plateau\nVous reculez\n");
         }
         character.setPosition(position);
