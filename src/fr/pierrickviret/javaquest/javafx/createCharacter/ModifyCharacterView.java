@@ -25,7 +25,7 @@ public class ModifyCharacterView extends VBox {
     public ModifyCharacterView(MainCharacter character) {
         super(15);
 
-        Label titre = new Label("Modifier votre Personnage");
+        Label titre = new Label("Modifier votre personnage");
         titre.setFont(Font.font("MedievalSharp", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
@@ -56,7 +56,7 @@ public class ModifyCharacterView extends VBox {
         name.setAlignment(Pos.CENTER);
 
         Button button = new Button("Valider");
-
+        ThemeConfig.applyButtonStyle(button);
         button.setOnAction(e -> {
             if (!name.getText().isEmpty()) {
                 Game.getInstance().createCharacter(type, name.getText());

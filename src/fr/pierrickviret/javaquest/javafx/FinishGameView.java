@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 public class FinishGameView extends VBox {
     public FinishGameView() {
         super(30);
-        Label titre = new Label("Vous avez Gagner, félicitation !!");
+        Label titre = new Label("Vous avez gagné, félicitations !");
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 

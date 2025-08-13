@@ -144,7 +144,7 @@ public class EnemyCase extends Case {
         }
         character.setHealth(health);
         setFightNewspaper(enemy.toString() + " vous attaque de " + attackValue);
-        setFightNewspaper("votre santé est à " + character.getHealth());
+        setFightNewspaper("Votre santé est à " + character.getHealth());
     }
 
     private void characterAttack(MainCharacter character, Integer equipementNumber) {
@@ -159,12 +159,12 @@ public class EnemyCase extends Case {
         setFightNewspaper("Vous attaquez " + enemy.toString() + " avec une force de " + attackValue);
         if (health > 0) {
             enemy.setCharacterHealth(health);
-            setFightNewspaper("la santé de "+ enemy.toString() + " passe à " + enemy.getCharacterHealthValue() );
+            setFightNewspaper("La santé de "+ enemy.toString() + " passe à " + enemy.getCharacterHealthValue() );
         }
         else {
             enemy.setCharacterHealth(0);
             character.increaseExperience(enemy.getExperience());
-            setFightNewspaper(" Vous avez vaincu " + enemy.toString());
+            setFightNewspaper("Vous avez vaincu " + enemy.toString());
             setFightNewspaper("Votre experience passe à " + character.getExperience());
         }
     }
@@ -192,11 +192,11 @@ public class EnemyCase extends Case {
 
         if (enemy instanceof Dragon && equipement instanceof Bow) {
             attackValue = attackValue + 2;
-            setFightNewspaper("coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
+            setFightNewspaper("Coup de chance, vous avez un arc, +2 d'attaque contre les dragons ");
         }
 
         if (enemy instanceof EvilSpirits && equipement instanceof Invisibility) {
-            setFightNewspaper("coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
+            setFightNewspaper("Coup de chance, vous avez un sort d'invisibilité, +3 d'attaque contre les mauvais esprits ");
             attackValue = attackValue + 3;
         }
         return attackValue;

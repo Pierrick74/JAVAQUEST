@@ -19,7 +19,7 @@ public class addEquipementView extends VBox {
         Button actionButton;
         Label titre;
 
-        titre = new Label("Vous mettez l'équipment dans votre sacoche");
+        titre = new Label("Vous mettez l'équipement dans votre sacoche");
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 

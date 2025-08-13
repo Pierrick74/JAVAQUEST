@@ -21,7 +21,7 @@ public class showCharacterView extends VBox {
     public showCharacterView(MainCharacter character) {
         super(15);
 
-        Label titre = new Label("Votre personnage créé");
+        Label titre = new Label("Votre personnage a été créé");
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 

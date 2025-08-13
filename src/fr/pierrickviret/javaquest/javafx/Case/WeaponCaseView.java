@@ -99,12 +99,12 @@ public class WeaponCaseView  extends VBox {
     private String getTitleInformation(Case currentCase) {
         String base = "Vous tombez sur ";
         return switch (currentCase.toString().toLowerCase()) {
-            case "un arc" -> base + "un Arc de niveau 3";
-            case "une massue" -> base + "une Massue de niveau 2";
+            case "un arc" -> base + "un arc de niveau 3";
+            case "une massue" -> base + "une massue de niveau 2";
             case "un sort:des boules de feu" -> base + "un sort: boules de feu de niveau 2";
             case "un sort d'invisibilité" -> base + "un sort d'invisibilité de niveau 3";
-            case "un sort: des éclaires" -> base + "un sort: des éclaires de niveau 1";
-            default -> base + "une Epée de niveau 1";
+            case "un sort: des éclaires" -> base + "un sort: des éclairs de niveau 1";
+            default -> base + "une épée de niveau 1";
         };
     }
 

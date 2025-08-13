@@ -25,7 +25,7 @@ public class NameOfCharacterView extends VBox {
         final String warriorImagePath = "fr/pierrickviret/javaquest/javafx/assets/warrior.PNG";
         final String wizardImagePath = "fr/pierrickviret/javaquest/javafx/assets/wizard.PNG";
 
-        Label titre = new Label("Veuillez Choisir un nom");
+        Label titre = new Label("Veuillez choisir un nom");
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
