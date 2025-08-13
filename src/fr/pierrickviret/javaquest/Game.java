@@ -150,7 +150,7 @@ public class Game {
                         break;
 
                     case launchDice:
-                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CardDiceView(() -> Game.getInstance().setGameState(GameState.playerTurn)) ));
+                        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, false,new CardDiceView(() -> Game.getInstance().setGameState(GameState.playerTurn)) )));
                         isSomethingToShow = false;
                         break;
 
@@ -342,7 +342,7 @@ public class Game {
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
         character.setPosition(Math.max(character.getPosition() - number, 0));
-        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new RunAwayView(()->Game.getInstance().setGameState(GameState.launchDice), number)));
+        Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, false, new RunAwayView(()->Game.getInstance().setGameState(GameState.launchDice), number))));
     }
 
     /**
@@ -378,7 +378,7 @@ public class Game {
         if(choice == 3) {
             setGameState(GameState.launchDice);
         } else {
-            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new addEquipementView(() -> Game.getInstance().setGameState(GameState.launchDice))));
+            Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, false, new addEquipementView(() -> Game.getInstance().setGameState(GameState.launchDice)))));
         }
     }
 
