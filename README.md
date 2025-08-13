@@ -112,15 +112,6 @@ CREATE TABLE IF NOT EXISTS JavaquestCharacters (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table des positions des joueurs
-CREATE TABLE IF NOT EXISTS JavaquestPlayerPositions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    character_id INT NOT NULL,
-    position INT NOT NULL,
-    saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (character_id) REFERENCES JavaquestCharacters(id) ON DELETE CASCADE
-);
-
 -- Table du plateau de jeu
 CREATE TABLE IF NOT EXISTS JavaquestBoard (
     id INT AUTO_INCREMENT PRIMARY KEY,
