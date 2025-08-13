@@ -24,12 +24,13 @@ public class PlayerPanel extends BorderPane {
     private ProgressBar healthBar;
     private Label healthText;
     private Label level;
+    private Label experience;
 
     public PlayerPanel(Character character) {
         initializeComponents(character);
 
         VBox root = new VBox(15);
-        root.getChildren().addAll(picture, playerName, healthBar, healthText, level);
+        root.getChildren().addAll(picture, playerName, healthBar, healthText, level, experience);
         root.setAlignment(Pos.CENTER);
 
         if(character instanceof MainCharacter) {
@@ -73,6 +74,9 @@ public class PlayerPanel extends BorderPane {
 
         level = new Label("Level: " + getLevel(character));
         level.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
+
+        experience = new Label("Experience: " + character.getExperience());
+        experience.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
     }
 
     private int getLevel(Character character) {

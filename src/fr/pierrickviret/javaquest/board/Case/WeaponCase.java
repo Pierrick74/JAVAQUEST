@@ -17,19 +17,18 @@ public class WeaponCase extends Case {
     }
 
     public Boolean interactWithCase(MainCharacter character, Integer choice) {
-        switch(choice) {
-            case 1:
+        return switch (choice) {
+            case 1 -> {
                 character.setOffensiveEquipement(weapon, 1);
-                character.showOffensiveEquipement();
-                return true;
-            case 2:
+                yield true;
+            }
+            case 2 -> {
                 character.setOffensiveEquipement(weapon, 2);
-                character.showOffensiveEquipement();
-                return true;
-            case 3:
-                return false;
-        }
-        return true;
+                yield true;
+            }
+            case 3 -> false;
+            default -> true;
+        };
     }
 
     public Boolean isCharacterCanInteract(MainCharacter character){

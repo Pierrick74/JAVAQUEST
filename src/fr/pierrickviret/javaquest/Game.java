@@ -338,6 +338,7 @@ public class Game {
      */
     private void movePlayerBackward(EnemyCase currentCase) {
         this.character.decreaseExperience((currentCase).getEnemieExperience());
+        this.character.decreaseHealthWhenRunAway();
 
         Random rand = new Random();
         int number = rand.nextInt(1, 7);
@@ -359,8 +360,7 @@ public class Game {
 
     public String getInteractionWithPotion(PotionCase currentCase) {
          currentCase.interact(character);
-         String result = currentCase.getDescriptionOfInteraction();
-         return result;
+        return currentCase.getDescriptionOfInteraction();
     }
 
     public void getInteractionWithWeapon(Case currentCase, Integer choice) {

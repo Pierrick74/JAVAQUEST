@@ -1,6 +1,5 @@
 package fr.pierrickviret.javaquest.character;
 
-import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.commun.CharacterType;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
 
@@ -82,22 +81,6 @@ public abstract class MainCharacter extends Character {
         offensiveEquipements.set(index-1, offensiveEquipement);
     }
 
-    public void showOffensiveEquipement() {
-        if (this.offensiveEquipements.isEmpty()) {
-            Menu.getInstance().showInformation("Aucun équipement offensif disponible");
-            return;
-        }
-
-        Menu.getInstance().showInformation("voici votre inventaire");
-        for (int i = 0; i < 2; i++) {
-            if(offensiveEquipements.get(i) != null) {
-                Menu.getInstance().showInformation("Emplacement "+ (i+1) + " : " + offensiveEquipements.get(i).getName());
-            } else {
-                Menu.getInstance().showInformation("Emplacement " + (i+1) + " : Vide");
-            }
-        }
-    }
-
     public Boolean hasOffensiveEquipement() {
         for (OffensiveEquipement equipement : offensiveEquipements) {
             if (equipement != null) {
@@ -122,6 +105,10 @@ public abstract class MainCharacter extends Character {
         Collections.fill(offensiveEquipements, null);
         experience = 0;
         position = 0;
+    }
+
+    public void decreaseHealthWhenRunAway() {
+        this.health = Math.max(this.health - 2, 0);
     }
 
     public void setBoostAttack() {

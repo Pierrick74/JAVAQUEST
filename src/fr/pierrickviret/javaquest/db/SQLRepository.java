@@ -1,6 +1,5 @@
 package fr.pierrickviret.javaquest.db;
 import com.google.gson.Gson;
-import fr.pierrickviret.javaquest.Menu;
 import fr.pierrickviret.javaquest.board.Board;
 import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 
 public class SQLRepository
 {
-    Menu menu =  Menu.getInstance();
     Connection conn = null;
     Statement stmt = null;
     ResultSet res = null;
@@ -30,29 +28,6 @@ public class SQLRepository
      */
     public static SQLRepository getInstance() {
         return instance==null?instance = new SQLRepository():instance;
-    }
-    /**
-     * Permet d'afficher les personnages en BD
-     */
-    public void showHeroes()
-    {
-        try
-        {
-
-            conn = getConnection();
-            stmt = conn.createStatement();
-
-            res = stmt.executeQuery("SELECT * FROM JavaquestCharacter");
-
-            menu.showInformation("voici les Heroes du jeu");
-            while(res.next())
-                menu.showInformation(res.getString("name"));
-
-            closeConnection();
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
     }
 
     /**
