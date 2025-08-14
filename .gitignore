@@ -27,3 +27,17 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Maven ###
+target/
+
+### JavaFX Downloads ###
+javafx-sdk-*/
+javafx*.zip
+
+### Database ###
+data/
+
+### Test Files ###
+**/TestJavaFX.java
+**/TestJavaFX.class

@@ -114,8 +114,46 @@
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
                     <mainClass>fr.pierrickviret.javaquest.Main</mainClass>
-                    <runtimePathOption>CLASSPATH</runtimePathOption>
+                    <commandlineArgs>-XstartOnFirstThread</commandlineArgs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>fr.pierrickviret.javaquest.Main</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Plugin jpackage pour créer un installateur natif -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.5</version>
+                <configuration>
+                    <name>JavaQuest</name>
+                    <appVersion>1.0</appVersion>
+                    <vendor>Pierrick Viret</vendor>
+                    <destination>target/installer</destination>
+                    <module>fr.pierrickviret.javaquest/fr.pierrickviret.javaquest.Main</module>
+                    <runtimeImage>target/javafx-app</runtimeImage>
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                        <option>-XstartOnFirstThread</option>
+                    </javaOptions>
+                    <type>DMG</type>
+                    <icon>src/main/resources/fr/pierrickviret/javaquest/assets/home.jpg</icon>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jpackage</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
