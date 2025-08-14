@@ -138,13 +138,11 @@ public class SQLRepository
     }
 
     private Connection getConnection(){
-        try
-        {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+        try {
+            Class.forName("org.h2.Driver");
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/Java", "root", "motdepasse");
-        }
-        catch(Exception e){
+                    "jdbc:h2:./data/javaquest", "sa", "");
+        } catch(Exception e) {
             System.out.println(e);
         }
         return null;
@@ -223,5 +221,41 @@ public class SQLRepository
             System.out.println(e);
         }
         return null;
+    }
+
+    public void initializeDatabase() {
+        try {
+            conn = getConnection();
+            Statement stmt = conn.createStatement();
+
+            // Créer table JavaquestCharacter
+            stmt.execute("""
+            CREATE TABLE IF NOT EXISTS JavaquestCharacter (
+                id INT PRIMARY KEY,
+                name VARCHAR(255),
+                type VARCHAR(50),
+                health INT,
+                maxHealth INT,
+                attack INT,
+                experience INT,
+                boostAttack BOOLEAN,
+                position INT,
+                offensiveEquipment1 VARCHAR(255),
+                offensiveEquipment2 VARCHAR(255)
+            )
+        """);
+
+            // Créer table JavaquestBoard
+            stmt.execute("""
+            CREATE TABLE IF NOT EXISTS JavaquestBoard (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                Data TEXT
+            )
+        """);
+
+            closeConnection();
+        } catch (SQLException e) {
+            System.out.println("Erreur création tables : " + e.getMessage());
+        }
     }
 }

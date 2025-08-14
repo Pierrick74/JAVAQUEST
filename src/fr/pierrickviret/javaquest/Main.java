@@ -1,5 +1,6 @@
 package fr.pierrickviret.javaquest;
 
+import fr.pierrickviret.javaquest.db.SQLRepository;
 import fr.pierrickviret.javaquest.javafx.StageRepository;
 import javafx.application.Application;
 import javafx.scene.text.Font;
@@ -13,7 +14,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-       getFont();
+        SQLRepository.getInstance().initializeDatabase();
+
+        getFont();
 
         primaryStage.initStyle(StageStyle.DECORATED);
         StageRepository.getInstance().setStage(primaryStage);
