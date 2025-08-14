@@ -2,6 +2,7 @@ package fr.pierrickviret.javaquest.javafx;
 
 import fr.pierrickviret.javaquest.Game;
 import fr.pierrickviret.javaquest.commun.GameState;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -49,7 +50,7 @@ public class StageRepository {
         gameMenu.setStyle("-fx-font-size: 16px;");
 
         MenuItem newGame = new MenuItem("Nouvelle partie");
-        newGame.setOnAction(e -> Game.getInstance().setGameState(GameState.selectMenu));
+        newGame.setOnAction(e -> Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView())));
 
         MenuItem saveGame = new MenuItem("Sauvegarder");
         saveGame.setOnAction(e -> Game.getInstance().saveGame());

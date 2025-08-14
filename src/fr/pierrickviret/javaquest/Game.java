@@ -59,6 +59,7 @@ public class Game {
      */
     private GameState gameState;
     private Boolean isSomethingToShow = true;
+    private Boolean isUserWantToStartGame = false;
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
@@ -95,6 +96,11 @@ public class Game {
                         break;
 
                     case waitingInformation:
+                        if(isUserWantToStartGame) {
+                            isUserWantToStartGame = false;
+                            setGameState(GameState.startGame);
+                            break;
+                        }
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new MainMenuView()));
                         isSomethingToShow = false;
                         break;
@@ -140,6 +146,7 @@ public class Game {
 
                     case startGame:
                         if (character == null) {
+                            isUserWantToStartGame = true;
                             setGameState(GameState.checkIfCharacterIsAlreadyCreated);
                             break;
                         } else {
@@ -196,7 +203,7 @@ public class Game {
             }
             // éviter de bloquer le CPU
             try {
-                Thread.sleep(1000);
+                Thread.sleep(800);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
