@@ -15,7 +15,7 @@ import javafx.scene.text.FontWeight;
 public class AskIfUserWantToChangeCharacterView extends VBox {
     public AskIfUserWantToChangeCharacterView() {
         super(15);
-        Label titre = new Label("Que voulez vous faire ?");
+        Label titre = new Label("Que voulez-vous faire ?");
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 

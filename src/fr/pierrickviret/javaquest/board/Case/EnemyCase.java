@@ -27,10 +27,6 @@ public class EnemyCase extends Case {
         return enemy.toString();
     }
 
-    public Boolean isEnemyAlive() {
-        return enemy.getHealth() > 0;
-    }
-
     private void setFightNewspaper(String fightNewspaper) {
         this.fightNewspaper += "\n" + fightNewspaper;
     }
@@ -59,7 +55,7 @@ public class EnemyCase extends Case {
 
         if(character instanceof Wizard && enemy instanceof Orcs) {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
-                            new CombatView(character, enemy, "Un Orcs, vos sorts ne peuvent pas l'atteindre"),
+                            new CombatView(character, enemy, "Un Orc, vos sorts ne peuvent pas l'atteindre"),
                             new ButtonInformationView("Vous partez", ()-> Game.getInstance().setGameState(GameState.moveBack)),
                     null
                     )));
@@ -67,20 +63,20 @@ public class EnemyCase extends Case {
         }
         if(character instanceof Warrior && enemy instanceof EvilSpirits) {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
-                    new CombatView(character, enemy, "Les mauvais esprits ne peuvent pas être touché avec vos armes"),
+                    new CombatView(character, enemy, "Les mauvais esprits ne peuvent pas être touchés avec vos armes"),
                     new ButtonInformationView("Vous partez", ()-> Game.getInstance().setGameState(GameState.moveBack)),
                     null
                     )));
             return;
         }
         if(!character.hasOffensiveEquipement()) {
-            setFightNewspaper("Vous n'avez pas d'arme dans votre sac, vous attaquez à main nu");
+            setFightNewspaper("Vous n'avez pas d'arme dans votre sac, vous attaquez à main nue");
             startFight(character, 0);
             return;
         }
 
         if(character.hasOffensiveEquipementsForHisLevel() == 0) {
-            setFightNewspaper("Vous n'avez pas d'arme compatible avec votre niveau dans votre sac, vous attaquez à main nu");
+            setFightNewspaper("Vous n'avez pas d'arme compatible avec votre niveau dans votre sac, vous attaquez à main nue");
             startFight(character, 0);
             return;
         }
@@ -105,7 +101,7 @@ public class EnemyCase extends Case {
     private void startFight(MainCharacter character, Integer equipementNumber) {
         characterAttack(character, equipementNumber);
         if(enemy.getCharacterHealthValue() <= 0){
-            setFightNewspaper("Vous avec vaincu " + enemy.getName());
+            setFightNewspaper("Vous avez vaincu " + enemy.getName());
             Game.getInstance().setActualyCaseToEmpty();
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new FightView(
                     new CombatView(character, enemy, fightNewspaper),
@@ -164,7 +160,6 @@ public class EnemyCase extends Case {
         else {
             enemy.setCharacterHealth(0);
             character.increaseExperience(enemy.getExperience());
-            setFightNewspaper("Vous avez vaincu " + enemy.toString());
             setFightNewspaper("Votre experience passe à " + character.getExperience());
         }
     }
@@ -207,11 +202,11 @@ public class EnemyCase extends Case {
         Integer number = dice.getRoll(20);
         return switch (number) {
             case 1 -> {
-                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces, dommage");
+                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces. Dommage");
                 yield 0;
             }
             case 20 -> {
-                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces, super");
+                setFightNewspaper("Vous obtenez " + number + " avec le dé à 20 faces. Super !");
                 yield attackValue + 2;
             }
             default -> {

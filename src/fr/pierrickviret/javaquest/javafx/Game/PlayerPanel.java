@@ -29,7 +29,7 @@ public class PlayerPanel extends BorderPane {
     public PlayerPanel(Character character) {
         initializeComponents(character);
 
-        VBox root = new VBox(15);
+        VBox root = new VBox(10);
         root.getChildren().addAll(picture, playerName, healthBar, healthText, level, experience);
         root.setAlignment(Pos.CENTER);
 

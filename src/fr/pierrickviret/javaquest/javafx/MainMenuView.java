@@ -16,7 +16,7 @@ public class MainMenuView extends VBox {
    public MainMenuView() {
        super(15);
 
-       Label titre = new Label("Que voulez vous faire ?");
+       Label titre = new Label("Que voulez-vous faire ?");
        titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
        titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
 

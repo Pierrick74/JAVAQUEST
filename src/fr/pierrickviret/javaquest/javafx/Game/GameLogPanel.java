@@ -3,13 +3,14 @@ package fr.pierrickviret.javaquest.javafx.Game;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 // Panel central du log de jeu (parchemin)
 public class GameLogPanel extends VBox {
@@ -58,13 +59,16 @@ public class GameLogPanel extends VBox {
     }
 
     private void addLogEntry(String message) {
-        Label entry = new Label(message);
-        entry.setFont(Font.font("Verdana", FontWeight.NORMAL, 13));
-        entry.setWrapText(true);
-        entry.setTextFill(Color.web("#2C1810"));
-        entry.setPadding(new Insets(3, 0, 3, 0));
+        TextFlow textFlow = new TextFlow();
+        String[] lines = message.split("\n");
+        for (String line : lines) {
+            Text text = new Text(line + "\n");
+            text.setFont(Font.font("Verdana", FontWeight.NORMAL, 13));
+            text.setFill(Color.web("#2C1810"));
+            textFlow.getChildren().add(text);
+        }
 
-        logContent.getChildren().add(entry);
+        logContent.getChildren().add(textFlow);
         Platform.runLater(() -> scrollPane.setVvalue(1.0));
     }
 }

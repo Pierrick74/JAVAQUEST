@@ -56,7 +56,7 @@ public class EnemyCaseView extends VBox {
     private HBox createButtonArea(Runnable fightAction, Runnable runAwayAction) {
         HBox buttonArea = new HBox(10);
 
-        Button runAwayButton = new Button("S'enfuire");
+        Button runAwayButton = new Button("S'enfuir");
         ThemeConfig.applyButtonStyle(runAwayButton);
         runAwayButton.setOnAction(event -> runAwayAction.run());
 

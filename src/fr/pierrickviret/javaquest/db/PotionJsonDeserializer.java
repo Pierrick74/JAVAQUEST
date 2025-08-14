@@ -14,15 +14,11 @@ public class PotionJsonDeserializer implements JsonDeserializer<Potion> {
         JsonObject jsonObject = json.getAsJsonObject();
         String name = jsonObject.get("name").getAsString();
 
-        switch(name.toLowerCase()) {
-            case "potion de vie standards":
-                return new SmallPotion();
-            case "grande potion":
-                return new BigPotion();
-            case "potion coup de tonnerre":
-                return new Thunderclap();
-            default:
-                throw new JsonParseException("Type inconnu : " + name);
-        }
+        return switch (name.toLowerCase()) {
+            case "potion de vie standard" -> new SmallPotion();
+            case "grande potion" -> new BigPotion();
+            case "potion coup de tonnerre" -> new Thunderclap();
+            default -> throw new JsonParseException("Type inconnu : " + name);
+        };
     }
 }

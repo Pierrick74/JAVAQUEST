@@ -78,15 +78,15 @@ public class WeaponCaseView  extends VBox {
     private HBox createButtonArea(Case currentCase) {
         HBox buttonArea = new HBox(10);
 
-        Button inventaire1 = new Button("Récupérer dans l'inventaire 1");
+        Button inventaire1 = new Button("Inv. 1");
         ThemeConfig.applyButtonStyle(inventaire1);
         inventaire1.setOnAction(event -> Game.getInstance().getInteractionWithWeapon(currentCase, 1));
 
-        Button inventaire2 = new Button("Récupérer dans l'inventaire 2");
+        Button inventaire2 = new Button("Inv. 2");
         ThemeConfig.applyButtonStyle(inventaire2);
         inventaire2.setOnAction(event -> Game.getInstance().getInteractionWithWeapon(currentCase, 2));
 
-        Button leave = new Button("Laissez l'arme et lancer le dé");
+        Button leave = new Button("Ignorer et lancer le dé");
         ThemeConfig.applyButtonStyle(leave);
         leave.setOnAction(event -> Game.getInstance().getInteractionWithWeapon(currentCase, 3));
 

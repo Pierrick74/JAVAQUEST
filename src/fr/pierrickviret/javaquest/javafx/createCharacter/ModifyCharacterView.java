@@ -26,7 +26,7 @@ public class ModifyCharacterView extends VBox {
         super(15);
 
         Label titre = new Label("Modifier votre personnage");
-        titre.setFont(Font.font("MedievalSharp", FontWeight.BOLD, 40.0));
+        titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
 
