@@ -150,6 +150,7 @@ public class Game {
                         break;
 
                     case launchDice:
+                        saveGame();
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, false,new CardDiceView(() -> Game.getInstance().setGameState(GameState.playerTurn)) )));
                         isSomethingToShow = false;
                         break;
@@ -181,6 +182,11 @@ public class Game {
                     case gameOver:
                         Platform.runLater(() -> StageRepository.getInstance().replaceScene(new GameOverView()));
                         isSomethingToShow = false;
+                        break;
+
+                    case exitGame:
+                        saveGame();
+                        Platform.exit();
                         break;
 
                     default:
@@ -380,6 +386,11 @@ public class Game {
         } else {
             Platform.runLater(() -> StageRepository.getInstance().replaceScene(new CaseView(character, false, new addEquipementView(() -> Game.getInstance().setGameState(GameState.launchDice)))));
         }
+    }
+
+    public void saveGame() {
+        SQLRepository.getInstance().save(character);
+        SQLRepository.getInstance().saveBoard(board);
     }
 
     public void setActualyCaseToEmpty() {

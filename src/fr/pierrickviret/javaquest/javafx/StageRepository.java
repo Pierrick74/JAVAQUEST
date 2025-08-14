@@ -1,6 +1,12 @@
 package fr.pierrickviret.javaquest.javafx;
 
+import fr.pierrickviret.javaquest.Game;
+import fr.pierrickviret.javaquest.commun.GameState;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -29,6 +35,36 @@ public class StageRepository {
     }
 
     public Scene createScene(javafx.scene.Parent root) {
-        return new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, BACKGROUND_COLOR);
+        BorderPane mainPane = new BorderPane();
+        mainPane.setTop(createMenuBar());
+        mainPane.setCenter(root);
+        return new Scene(mainPane, SCENE_WIDTH, SCENE_HEIGHT, BACKGROUND_COLOR);
+    }
+
+    private MenuBar createMenuBar() {
+        MenuBar menuBar = new MenuBar();
+        menuBar.setStyle("-fx-font-size: 16px; -fx-pref-height: 35px;");
+
+        Menu gameMenu = new Menu("Menu");
+        gameMenu.setStyle("-fx-font-size: 16px;");
+
+        MenuItem newGame = new MenuItem("Nouvelle partie");
+        newGame.setOnAction(e -> Game.getInstance().setGameState(GameState.selectMenu));
+
+        MenuItem saveGame = new MenuItem("Sauvegarder");
+        saveGame.setOnAction(e -> Game.getInstance().saveGame());
+
+        MenuItem exitGame = new MenuItem("Quitter");
+        exitGame.setOnAction(e -> Game.getInstance().setGameState(GameState.exitGame));
+
+        String itemStyle = "-fx-font-size: 14px; -fx-pref-height: 30px;";
+        newGame.setStyle(itemStyle);
+        saveGame.setStyle(itemStyle);
+        exitGame.setStyle(itemStyle);
+
+        gameMenu.getItems().addAll(newGame, saveGame, exitGame);
+        menuBar.getMenus().add(gameMenu);
+
+        return menuBar;
     }
 }
