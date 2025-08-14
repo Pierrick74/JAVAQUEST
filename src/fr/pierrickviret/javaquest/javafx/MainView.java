@@ -19,7 +19,7 @@ public class MainView extends VBox {
     private ImageView imageView;
 
     public MainView() {
-        super(25);
+        super(10);
         initializeComponents();
         setupActions();
 
@@ -45,10 +45,10 @@ public class MainView extends VBox {
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 50.0));
         titre.setAlignment(Pos.CENTER);
 
-        Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/epeetbouclier.png");
+        Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/home.jpg");
         imageView = new ImageView();
         imageView.setImage(image);
-        imageView.setFitWidth(300);
+        imageView.setFitWidth(400);
         imageView.setPreserveRatio(true);
     }
 
