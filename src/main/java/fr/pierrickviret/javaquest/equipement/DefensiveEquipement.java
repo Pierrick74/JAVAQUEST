@@ -1,0 +1,25 @@
+package fr.pierrickviret.javaquest.equipement;
+
+/**
+ *<h2> class DefensiveEquipement</h2>
+ * <p> Class abstraite représentant les équipements défensifs
+ * @author Pierrick
+ * @version 1.0
+ */
+public abstract class DefensiveEquipement {
+    protected Integer value;
+    String name;
+
+    public DefensiveEquipement(String name, Integer value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+}

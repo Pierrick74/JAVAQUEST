@@ -155,7 +155,7 @@ private static final String DB_PASSWORD = "votre_mot_de_passe";
 5. **Configuration de l'exécution**
    - Run → Edit Configurations
    - Ajouter une nouvelle configuration Application
-   - Main class : `fr.pierrickviret.javaquest.Main`
+   - fr.pierrickviret.javaquest.Main class : `fr.pierrickviret.javaquest.Main`
    - VM options (pour JavaFX) : 
    ```
    --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
@@ -176,7 +176,7 @@ private static final String DB_PASSWORD = "votre_mot_de_passe";
 3. **Configuration de l'exécution**
    - Run → Run Configurations
    - Créer une nouvelle Java Application
-   - Main class : `fr.pierrickviret.javaquest.Main`
+   - fr.pierrickviret.javaquest.Main class : `fr.pierrickviret.javaquest.Main`
    - Arguments → VM arguments :
    ```
    --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
@@ -253,7 +253,7 @@ java --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
 JAVAQUEST/
 ├── 📁 src/
 │   ├── 📁 fr/pierrickviret/javaquest/
-│   │   ├── 📄 Main.java                 # Point d'entrée
+│   │   ├── 📄 fr.pierrickviret.javaquest.Main.java                 # Point d'entrée
 │   │   ├── 📄 Game.java                 # Logique principale du jeu
 │   │   ├── 📄 Menu.java                 # Gestion des menus
 │   │   ├── 📄 Dice.java                 # Système de dés
