@@ -19,8 +19,8 @@ public class AskForSaveOrNewGameView extends VBox {
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
 
-        HBox creation = new BigMenu("Charger la partie\nsauvegardée", "fr/pierrickviret/javaquest/javafx/assets/menu/saveGame.PNG", () -> Game.getInstance().setGameState(GameState.uploadGame));
-        HBox game = new BigMenu("Créer une nouvelle\npartie", "fr/pierrickviret/javaquest/javafx/assets/menu/newFile.PNG", () -> Game.getInstance().setGameState(GameState.startGame));
+        HBox creation = new BigMenu("Charger la partie\nsauvegardée", "/fr/pierrickviret/javaquest/assets/menu/saveGame.PNG", () -> Game.getInstance().setGameState(GameState.uploadGame));
+        HBox game = new BigMenu("Créer une nouvelle\npartie", "/fr/pierrickviret/javaquest/assets/menu/newFile.PNG", () -> Game.getInstance().setGameState(GameState.startGame));
         this.getChildren().addAll(titre,creation, game);
         this.setAlignment(Pos.CENTER);
 

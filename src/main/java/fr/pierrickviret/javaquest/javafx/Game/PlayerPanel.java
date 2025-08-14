@@ -101,7 +101,7 @@ public class PlayerPanel extends BorderPane {
 
     private ImageView createEquipementPicture(MainCharacter character, Integer index) {
         OffensiveEquipement equipement = character.getOffensiveEquipement(index);
-        String imagePath = equipement == null ? "fr/pierrickviret/javaquest/javafx/assets/bag.png" : getImagePath(equipement);
+        String imagePath = equipement == null ? "/fr/pierrickviret/javaquest/assets/bag.png" : getImagePath(equipement);
 
         Image image = new Image(imagePath);
         ImageView equipmentImage = new ImageView(image);
@@ -113,22 +113,22 @@ public class PlayerPanel extends BorderPane {
 
     private String getImagePath(OffensiveEquipement equipement) {
         if(equipement instanceof Bow) {
-            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Bow.png";
+            return "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/Bow.png";
         }
         if(equipement instanceof Club) {
-            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Club.png";
+            return "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/Club.png";
         }
         if(equipement instanceof Fireball) {
-            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Fireball.png";
+            return "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/Fireball.png";
         }
         if(equipement instanceof Invisibility) {
-            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/invisibilitySpell.png";
+            return "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/invisibilitySpell.png";
         }
         if(equipement instanceof Lightning) {
-            return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Lightning.png";
+            return "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/Lightning.png";
         }
 
         //default
-        return "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/Sword.png";
+        return "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/Sword.png";
     }
 }

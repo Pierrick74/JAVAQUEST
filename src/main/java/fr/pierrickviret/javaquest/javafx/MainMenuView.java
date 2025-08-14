@@ -20,8 +20,8 @@ public class MainMenuView extends VBox {
        titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
        titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
 
-       BigMenu creation = new BigMenu("Création du personnage", "fr/pierrickviret/javaquest/javafx/assets/menu/createCharactere.PNG", () -> Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated));
-       BigMenu game = new BigMenu("Démarrer le jeu", "fr/pierrickviret/javaquest/javafx/assets/menu/startGame.PNG", () -> Game.getInstance().setGameState(GameState.selectMenu));
+       BigMenu creation = new BigMenu("Création du personnage", "/fr/pierrickviret/javaquest/assets/menu/createCharactere.PNG", () -> Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated));
+       BigMenu game = new BigMenu("Démarrer le jeu", "/fr/pierrickviret/javaquest/assets/menu/startGame.PNG", () -> Game.getInstance().setGameState(GameState.selectMenu));
        this.getChildren().addAll(titre, creation, game);
 
        this.setAlignment(Pos.CENTER);

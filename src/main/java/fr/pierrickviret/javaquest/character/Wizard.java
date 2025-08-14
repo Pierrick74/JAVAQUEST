@@ -12,7 +12,7 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
  */
 public class Wizard extends MainCharacter {
     public Wizard(String name, int id) {
-        super(CharacterType.Wizard, name, id, "fr/pierrickviret/javaquest/javafx/assets/Character/wizard.PNG");
+        super(CharacterType.Wizard, name, id, "/fr/pierrickviret/javaquest/assets/Character/wizard.PNG");
     }
 
     @Override

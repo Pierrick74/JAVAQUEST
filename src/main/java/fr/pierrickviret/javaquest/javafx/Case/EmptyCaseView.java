@@ -27,8 +27,8 @@ public class EmptyCaseView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/box.png",
-                "fr/pierrickviret/javaquest/javafx/assets/emptyBox.png",
+        card = new FlipCard("/fr/pierrickviret/javaquest/assets/box.png",
+                "/fr/pierrickviret/javaquest/assets/emptyBox.png",
                 () -> {
                     titre.setText("Dommage, la case est vide");
                     actionButton.setVisible(true);

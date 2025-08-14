@@ -25,7 +25,7 @@ public class EnemyCaseView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        card = new FlipCard("fr/pierrickviret/javaquest/javafx/assets/box.png",
+        card = new FlipCard("/fr/pierrickviret/javaquest/assets/box.png",
                 currentCase.getEnemyImagePath(),
                 () -> {
                     titre.setText(getTitleInformation(currentCase));

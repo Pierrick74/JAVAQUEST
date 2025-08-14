@@ -45,7 +45,7 @@ public class GameLogPanel extends VBox {
 
         // Background parchemin
         this.setStyle(
-                "-fx-background-image: url('fr/pierrickviret/javaquest/javafx/assets/parchemin.png');" +
+                "-fx-background-image: url('/fr/pierrickviret/javaquest/assets/parchemin.png');" +
                         "-fx-background-size: cover;" +
                         "-fx-background-repeat: no-repeat;"
         );

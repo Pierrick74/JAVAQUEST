@@ -2,7 +2,7 @@ package fr.pierrickviret.javaquest.equipement.offensive;
 
 public class Invisibility extends Spell{
     public Invisibility() {
-        super("Invisibilité", 2, 3, "fr/pierrickviret/javaquest/javafx/assets/OffensiveEquipement/invisibilitySpell.png");
+        super("Invisibilité", 2, 3, "/fr/pierrickviret/javaquest/assets/OffensiveEquipement/invisibilitySpell.png");
     }
 
     @Override

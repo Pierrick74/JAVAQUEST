@@ -19,8 +19,8 @@ public class AskIfUserWantToChangeCharacterView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
-        HBox creation = new BigMenu("Modifier le personnage actuel", "fr/pierrickviret/javaquest/javafx/assets/menu/editCharacter.PNG", () -> Game.getInstance().setGameState(GameState.modifyCharacter));
-        HBox game = new BigMenu("Créer un nouveau", "fr/pierrickviret/javaquest/javafx/assets/menu/newCharacter.PNG", () -> {
+        HBox creation = new BigMenu("Modifier le personnage actuel", "/fr/pierrickviret/javaquest/assets/menu/editCharacter.PNG", () -> Game.getInstance().setGameState(GameState.modifyCharacter));
+        HBox game = new BigMenu("Créer un nouveau", "/fr/pierrickviret/javaquest/assets/menu/newCharacter.PNG", () -> {
             Game.getInstance().deleteCharacter();
             Game.getInstance().setGameState(GameState.checkIfCharacterIsAlreadyCreated);
         });

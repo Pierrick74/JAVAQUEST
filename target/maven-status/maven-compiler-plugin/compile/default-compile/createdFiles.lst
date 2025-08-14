@@ -1,6 +1,6 @@
 fr/pierrickviret/javaquest/board/Board.class
-fr/pierrickviret/javaquest/Dice.class
 fr/pierrickviret/javaquest/javafx/Game/addEquipementView.class
+fr/pierrickviret/javaquest/Dice.class
 fr/pierrickviret/javaquest/javafx/Case/WeaponCaseView.class
 fr/pierrickviret/javaquest/javafx/FlipCard.class
 fr/pierrickviret/javaquest/equipement/defensive/BigPotion.class
@@ -16,6 +16,7 @@ fr/pierrickviret/javaquest/character/EvilSpirits.class
 fr/pierrickviret/javaquest/db/SpellJsonDeserializer.class
 fr/pierrickviret/javaquest/javafx/selectGame/AskForSaveOrNewGameView.class
 fr/pierrickviret/javaquest/Main.class
+fr/pierrickviret/javaquest/TestJavaFX.class
 fr/pierrickviret/javaquest/character/MainCharacter.class
 fr/pierrickviret/javaquest/javafx/FinishGameView.class
 fr/pierrickviret/javaquest/db/PotionJsonDeserializer.class
@@ -32,8 +33,8 @@ fr/pierrickviret/javaquest/javafx/Case/EmptyCaseView.class
 fr/pierrickviret/javaquest/commun/ThemeConfig.class
 fr/pierrickviret/javaquest/commun/DefensiveEquipmentType.class
 fr/pierrickviret/javaquest/character/Wizard.class
-fr/pierrickviret/javaquest/commun/CharacterType.class
 fr/pierrickviret/javaquest/javafx/createCharacter/CreateCharacterMenuView.class
+fr/pierrickviret/javaquest/commun/CharacterType.class
 fr/pierrickviret/javaquest/equipement/defensive/Thunderclap.class
 fr/pierrickviret/javaquest/equipement/OffensiveEquipement.class
 fr/pierrickviret/javaquest/character/Sorcerer.class
@@ -47,8 +48,8 @@ fr/pierrickviret/javaquest/board/Case/EnemyCase.class
 fr/pierrickviret/javaquest/db/CaseJsonDeserializer.class
 fr/pierrickviret/javaquest/javafx/createCharacter/NameOfCharacterView.class
 fr/pierrickviret/javaquest/character/Dragon.class
-fr/pierrickviret/javaquest/javafx/Game/GameLogPanel.class
 fr/pierrickviret/javaquest/javafx/createCharacter/AskIfUserWantToChangeCharacterView.class
+fr/pierrickviret/javaquest/javafx/Game/GameLogPanel.class
 fr/pierrickviret/javaquest/javafx/MainMenuView.class
 fr/pierrickviret/javaquest/board/Case/SpellCase.class
 fr/pierrickviret/javaquest/javafx/createCharacter/ModifyCharacterView.class
@@ -63,8 +64,8 @@ fr/pierrickviret/javaquest/commun/GameState.class
 fr/pierrickviret/javaquest/javafx/MainView.class
 fr/pierrickviret/javaquest/javafx/CaseView.class
 fr/pierrickviret/javaquest/javafx/StageRepository.class
-fr/pierrickviret/javaquest/db/WeaponJsonDeserializer.class
 fr/pierrickviret/javaquest/board/Case/Case.class
+fr/pierrickviret/javaquest/db/WeaponJsonDeserializer.class
 fr/pierrickviret/javaquest/db/SQLRepository.class
 fr/pierrickviret/javaquest/javafx/Game/RunAwayView.class
 fr/pierrickviret/javaquest/character/Orcs.class

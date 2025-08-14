@@ -15,7 +15,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         SQLRepository.getInstance().initializeDatabase();
-
         getFont();
 
         primaryStage.initStyle(StageStyle.DECORATED);
@@ -32,16 +31,16 @@ public class Main extends Application {
 
     private void getFont() {
         Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/SNOW BLUE.ttf"), 12);
+                "/fr/pierrickviret/javaquest/font/SNOW BLUE.ttf"), 12);
         Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/MedievalSharp-Regular.ttf"), 12);
+                "/fr/pierrickviret/javaquest/font/MedievalSharp-Regular.ttf"), 12);
         Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/Almendra-Bold.ttf"), 12);
+                "/fr/pierrickviret/javaquest/font/Almendra-Bold.ttf"), 12);
         Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/Almendra-BoldItalic.ttf"), 12);
+                "/fr/pierrickviret/javaquest/font/Almendra-BoldItalic.ttf"), 12);
         Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/Almendra-Italic.ttf"), 12);
+                "/fr/pierrickviret/javaquest/font/Almendra-Italic.ttf"), 12);
         Font.loadFont(getClass().getResourceAsStream(
-                "/fr/pierrickviret/javaquest/commun/font/Almendra-Regular.ttf"), 12);
+                "/fr/pierrickviret/javaquest/font/Almendra-Regular.ttf"), 12);
     }
 }

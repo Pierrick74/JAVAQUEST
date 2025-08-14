@@ -20,11 +20,11 @@ public class CreateCharacterMenuView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 40.0));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_LIGHT));
 
-        BigMenu warrior = new BigMenu("Combattant", "fr/pierrickviret/javaquest/javafx/assets/Character/warrior.PNG", () -> {
+        BigMenu warrior = new BigMenu("Combattant", "/fr/pierrickviret/javaquest/assets/Character/warrior.PNG", () -> {
             Game.getInstance().SetSelectedCharacter(CharacterType.Warrior);
             Game.getInstance().setGameState(GameState.createCharacter);
         });
-        BigMenu wizard = new BigMenu("Magicien","fr/pierrickviret/javaquest/javafx/assets/Character/wizard.PNG", () -> {
+        BigMenu wizard = new BigMenu("Magicien","/fr/pierrickviret/javaquest/assets/Character/wizard.PNG", () -> {
             Game.getInstance().SetSelectedCharacter(CharacterType.Wizard);
             Game.getInstance().setGameState(GameState.createCharacter);
         });

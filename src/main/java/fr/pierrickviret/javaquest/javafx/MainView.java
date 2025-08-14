@@ -45,7 +45,7 @@ public class MainView extends VBox {
         titre.setFont(Font.font("SNOW BLUE", FontWeight.BOLD, 50.0));
         titre.setAlignment(Pos.CENTER);
 
-        Image image = new Image("fr/pierrickviret/javaquest/javafx/assets/home.jpg");
+        Image image = new Image("/fr/pierrickviret/javaquest/assets/home.jpg");
         imageView = new ImageView();
         imageView.setImage(image);
         imageView.setFitWidth(400);

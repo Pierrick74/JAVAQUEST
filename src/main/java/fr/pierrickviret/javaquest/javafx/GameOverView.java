@@ -21,7 +21,7 @@ public class GameOverView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        ImageView picture = new ImageView(new Image("fr/pierrickviret/javaquest/javafx/assets/gameOver.png"));
+        ImageView picture = new ImageView(new Image("/fr/pierrickviret/javaquest/assets/gameOver.png"));
         picture.setFitWidth(120);
         picture.setPreserveRatio(true);
 

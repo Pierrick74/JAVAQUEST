@@ -12,7 +12,7 @@ import fr.pierrickviret.javaquest.commun.CharacterType;
  */
 public class Warrior extends MainCharacter {
     public Warrior(String name, int id) {
-        super(CharacterType.Warrior,name, id, "fr/pierrickviret/javaquest/javafx/assets/Character/warrior.PNG");
+        super(CharacterType.Warrior,name, id, "/fr/pierrickviret/javaquest/assets/Character/warrior.PNG");
     }
 
     @Override

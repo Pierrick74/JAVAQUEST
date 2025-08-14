@@ -20,7 +20,7 @@ public class FinishGameView extends VBox {
         titre.setFont(Font.font("Almendra", FontWeight.BOLD, 30));
         titre.setTextFill(Color.web(ThemeConfig.TEXT_GOLD));
 
-        ImageView picture = new ImageView(new Image("fr/pierrickviret/javaquest/javafx/assets/chest.png"));
+        ImageView picture = new ImageView(new Image("/fr/pierrickviret/javaquest/assets/chest.png"));
         picture.setFitWidth(120);
         picture.setPreserveRatio(true);
 
