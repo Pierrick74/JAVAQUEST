@@ -34,7 +34,9 @@ public class PotionCase extends Case {
     private void treatTheSick(MainCharacter character) {
         int health = character.getHealth() + potion.getValue();
         if(character.getHealth() == character.getMaxHealth()) {
-            descriptionOfInteraction =  "Votre vie est au maximum, vous laissez la potion";
+            descriptionOfInteraction =  "Vous renversez la potion, quelle chance d'avoir la vie au maximum !";
+            Game.getInstance().setActualyCaseToEmpty();
+            return;
         }
 
         if(health > character.getMaxHealth()) {

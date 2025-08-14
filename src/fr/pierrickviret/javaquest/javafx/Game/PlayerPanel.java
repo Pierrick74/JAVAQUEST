@@ -104,10 +104,11 @@ public class PlayerPanel extends BorderPane {
         String imagePath = equipement == null ? "fr/pierrickviret/javaquest/javafx/assets/bag.png" : getImagePath(equipement);
 
         Image image = new Image(imagePath);
-        picture = new ImageView(image);
-        picture.setFitWidth(70);
-        picture.setPreserveRatio(true);
-        return  picture;
+        ImageView equipmentImage = new ImageView(image);
+        equipmentImage.setFitWidth(70);
+        equipmentImage.setFitHeight(83);
+        equipmentImage.setPreserveRatio(false);
+        return equipmentImage;
     }
 
     private String getImagePath(OffensiveEquipement equipement) {

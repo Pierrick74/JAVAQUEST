@@ -5,6 +5,7 @@ import fr.pierrickviret.javaquest.character.MainCharacter;
 import fr.pierrickviret.javaquest.character.Warrior;
 import fr.pierrickviret.javaquest.character.Wizard;
 import fr.pierrickviret.javaquest.equipement.OffensiveEquipement;
+import fr.pierrickviret.javaquest.equipement.offensive.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -58,13 +59,10 @@ public class SQLRepository
             pstmt.setInt(7, character.getExperience());
             pstmt.setBoolean(8, character.getBoostAttackValue());
             pstmt.setInt(9, character.getPosition());
-
-            Gson gson = GsonConfig.getInstance();
-            String offensiveEquipement = gson.toJson(character.getOffensiveEquipement(1));
-            pstmt.setString(10, offensiveEquipement);
-            offensiveEquipement = gson.toJson(character.getOffensiveEquipement(2));
-            pstmt.setString(11, offensiveEquipement);
-
+            String OffEqu1 = character.getOffensiveEquipement(1) == null ? "" :  character.getOffensiveEquipement(1).toString();
+            String OffEqu2 = character.getOffensiveEquipement(2) == null ? "" :  character.getOffensiveEquipement(2).toString();
+            pstmt.setString(10, OffEqu1);
+            pstmt.setString(11, OffEqu2);
 
             pstmt.executeUpdate();
             closeConnection();
@@ -99,12 +97,9 @@ public class SQLRepository
                 String offensiveEquipementString1 = rs.getString("offensiveEquipment1");
                 String offensiveEquipementString2 = rs.getString("offensiveEquipment2");
 
-                Gson gson = GsonConfig.getInstance();
-                OffensiveEquipement offensiveEquipement1 = gson.fromJson(offensiveEquipementString1, OffensiveEquipement.class);
-                OffensiveEquipement offensiveEquipement2 = gson.fromJson(offensiveEquipementString2, OffensiveEquipement.class);
                 ArrayList<OffensiveEquipement> offensiveEquipements = new ArrayList<>();
-                offensiveEquipements.add(offensiveEquipement1);
-                offensiveEquipements.add(offensiveEquipement2);
+                offensiveEquipements.add(createEquipementByName(offensiveEquipementString1));
+                offensiveEquipements.add(createEquipementByName(offensiveEquipementString2));
 
                 switch (type) {
                     case "Wizard":
@@ -126,6 +121,20 @@ public class SQLRepository
             System.out.println(e);
         }
         return null;
+    }
+
+    private OffensiveEquipement createEquipementByName(String name) {
+        if (name == null) return null;
+
+        return switch (name.toLowerCase()) {
+            case "un arc" -> new Bow();
+            case "une epée" -> new Sword();
+            case "une massue" -> new Club();
+            case "un sort:des boules de feu" -> new Fireball();
+            case "un sort d'invisibilité" -> new Invisibility();
+            case "un sort: des éclaires" -> new Lightning();
+            default -> null;
+        };
     }
 
     private Connection getConnection(){
