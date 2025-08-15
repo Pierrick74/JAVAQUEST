@@ -51,13 +51,26 @@ if not exist "pom.xml" (
     goto :error
 )
 
+:: Installation des dépendances
+echo [3/4] Installation des dependances...
+mvn clean install -q
+if %errorlevel% neq 0 (
+    echo ❌ Erreur lors de l'installation des dependances !
+    mvn clean install
+    if %errorlevel% neq 0 (
+        echo ❌ Echec de l'installation
+        goto :error
+    )
+) else (
+    echo ✅ Dependances OK
+)
+
 :: Lancement du jeu
-echo [3/3] Lancement de JavaQuest...
+echo [4/4] Lancement de JavaQuest...
 echo.
-echo Compilation et lancement en cours...
 echo Fermer cette fenetre arretera le jeu !
 echo.
-mvn clean compile javafx:run
+mvn javafx:run
 if %errorlevel% neq 0 (
     echo.
     echo ❌ Erreur lors du lancement !
