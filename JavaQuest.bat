@@ -38,7 +38,9 @@ echo.
 
 :: Test de Maven - Version detailed
 echo [2/5] Test de Maven...
+echo Verification de Maven dans le PATH...
 echo Commande: mvn -version
+echo.
 mvn -version
 set MAVEN_ERROR=%errorlevel%
 echo Code retour Maven: %MAVEN_ERROR%
@@ -49,6 +51,9 @@ if %MAVEN_ERROR% neq 0 (
     echo 1. Installez Maven: https://maven.apache.org/download.cgi
     echo 2. Ajoutez Maven au PATH systeme
     echo 3. Ou installez via: winget install Apache.Maven
+    echo.
+    echo Appuyez sur une touche pour voir le diagnostic complet...
+    pause >nul
     goto :error
 ) else (
     echo [OK] Maven detecte
