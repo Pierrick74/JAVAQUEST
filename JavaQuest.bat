@@ -1,86 +1,149 @@
 @echo off
-title JavaQuest - Launcher
+title JavaQuest - Debug Launcher
+cls
 echo =====================================
-echo     🎮 JAVAQUEST - Launcher 🎮
+echo     JAVAQUEST - Debug Launcher
 echo =====================================
 echo.
+
+:: Pause immediate pour voir les erreurs
+echo Appuyez sur une touche pour commencer le diagnostic...
+pause >nul
+cls
 
 :: Se placer dans le répertoire du script
+echo [DEBUG] Changement de repertoire...
 cd /d "%~dp0"
+echo Repertoire actuel: %CD%
+echo.
 
-:: Test de Java
-echo [1/3] Test de Java...
-java -version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ❌ ERREUR: Java non trouve !
-    echo Installez Java 17+ depuis https://adoptium.net/
+:: Test de Java - Version detailed
+echo [1/5] Test de Java...
+echo Commande: java -version
+java -version
+set JAVA_ERROR=%errorlevel%
+echo Code retour Java: %JAVA_ERROR%
+if %JAVA_ERROR% neq 0 (
+    echo [ERREUR] Java non trouve dans PATH
+    echo.
+    echo Solutions:
+    echo 1. Installez Java 17+: https://adoptium.net/
+    echo 2. Ajoutez Java au PATH systeme
+    echo 3. Ou installez via: winget install Eclipse.Temurin.17.JDK
     goto :error
 ) else (
-    echo ✅ Java OK
-    :: Vérification version Java 17+
-    for /f "tokens=3" %%g in ('java -version 2^>^&1 ^| findstr /i "version"') do (
-        set JAVA_VERSION=%%g
-    )
-    set JAVA_VERSION=%JAVA_VERSION:"=%
-    for /f "delims=. tokens=1-3" %%a in ("%JAVA_VERSION%") do (
-        set /a JAVA_MAJOR=%%a
-        if %%a equ 1 set /a JAVA_MAJOR=%%b
-    )
-    if %JAVA_MAJOR% lss 17 (
-        echo ❌ ERREUR: Java %JAVA_MAJOR% detecte, Java 17+ requis !
-        echo Installez Java 17+ depuis https://adoptium.net/
-        goto :error
-    )
+    echo [OK] Java detecte
 )
+echo.
 
-:: Test de Maven
-echo [2/3] Test de Maven...
-mvn -v >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ❌ ERREUR: Maven non trouve !
-    echo Installez Maven depuis https://maven.apache.org/
+:: Test de Maven - Version detailed
+echo [2/5] Test de Maven...
+echo Commande: mvn -version
+mvn -version
+set MAVEN_ERROR=%errorlevel%
+echo Code retour Maven: %MAVEN_ERROR%
+if %MAVEN_ERROR% neq 0 (
+    echo [ERREUR] Maven non trouve dans PATH
+    echo.
+    echo Solutions:
+    echo 1. Installez Maven: https://maven.apache.org/download.cgi
+    echo 2. Ajoutez Maven au PATH systeme
+    echo 3. Ou installez via: winget install Apache.Maven
     goto :error
 ) else (
-    echo ✅ Maven OK
+    echo [OK] Maven detecte
 )
+echo.
 
-:: Test de l'existence du pom.xml
+:: Test du projet
+echo [3/5] Verification du projet...
 if not exist "pom.xml" (
-    echo ❌ ERREUR: pom.xml non trouve !
-    echo Assurez-vous d'etre dans le repertoire du projet
+    echo [ERREUR] pom.xml non trouve dans: %CD%
+    echo.
+    echo Verifiez que vous etes dans le bon repertoire
+    dir *.xml *.java /b
     goto :error
+) else (
+    echo [OK] pom.xml present
 )
+
+if not exist "src" (
+    echo [ERREUR] Dossier src/ manquant
+    goto :error
+) else (
+    echo [OK] Dossier src/ present
+)
+echo.
+
+:: Test de compilation
+echo [4/5] Test de compilation...
+echo Commande: mvn clean compile
+echo.
+mvn clean compile
+set COMPILE_ERROR=%errorlevel%
+echo.
+echo Code retour compilation: %COMPILE_ERROR%
+if %COMPILE_ERROR% neq 0 (
+    echo [ERREUR] Echec de la compilation
+    echo.
+    echo Verifiez les erreurs Maven ci-dessus
+    goto :error
+) else (
+    echo [OK] Compilation reussie
+)
+echo.
 
 :: Lancement du jeu
-echo [3/3] Lancement de JavaQuest...
+echo [5/5] Lancement du jeu...
 echo.
-echo Compilation et lancement en cours...
-echo Fermer cette fenetre arretera le jeu !
+echo ATTENTION: Ne fermez PAS cette fenetre pendant que le jeu tourne !
 echo.
-mvn clean compile javafx:run
-if %errorlevel% neq 0 (
+echo Commande: mvn javafx:run
+echo.
+mvn javafx:run
+set RUN_ERROR=%errorlevel%
+echo.
+echo Code retour execution: %RUN_ERROR%
+if %RUN_ERROR% neq 0 (
+    echo [ERREUR] Echec du lancement
     echo.
-    echo ❌ Erreur lors du lancement !
-    echo.
-    echo Nouvelle tentative...
-    mvn clean compile javafx:run -X
-    if %errorlevel% neq 0 (
-        echo.
-        echo ❌ Echec definitif
-        echo Verifiez les logs ci-dessus pour plus de details
-        goto :error
-    )
+    echo Tentative alternative...
+    echo Commande: mvn javafx:run -X
+    mvn javafx:run -X
+    goto :error
+) else (
+    echo [OK] Jeu termine normalement
 )
-
 echo.
-echo ✅ Jeu termine normalement
-goto :end
+goto :success
 
 :error
 echo.
-echo ❌ Erreur detectee !
-echo Verifiez l'installation de Java 17+ et Maven
+echo =====================================
+echo         DIAGNOSTIC D'ERREUR
+echo =====================================
+echo.
+echo Erreur detectee. Codes de retour:
+echo - Java: %JAVA_ERROR%
+echo - Maven: %MAVEN_ERROR%
+echo - Compilation: %COMPILE_ERROR%
+echo - Execution: %RUN_ERROR%
+echo.
+echo Repertoire de travail: %CD%
+echo.
+echo Verifiez les messages d'erreur ci-dessus
+echo.
+goto :end
+
+:success
+echo.
+echo =====================================
+echo        EXECUTION TERMINEE
+echo =====================================
+echo.
+echo Le jeu s'est execute avec succes !
 echo.
 
 :end
-pause
+echo Appuyez sur une touche pour fermer...
+pause >nul
