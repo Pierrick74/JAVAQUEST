@@ -24,6 +24,9 @@ public class StageRepository {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+        this.stage.setMinWidth(1000);
+        this.stage.setMinHeight(600);
+        this.stage.setTitle("JavaQuest");
     }
 
     public static StageRepository getInstance() {

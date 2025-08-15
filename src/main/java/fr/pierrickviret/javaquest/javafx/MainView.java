@@ -48,7 +48,7 @@ public class MainView extends VBox {
         Image image = new Image("/fr/pierrickviret/javaquest/assets/home.jpg");
         imageView = new ImageView();
         imageView.setImage(image);
-        imageView.setFitWidth(400);
+        imageView.setFitWidth(500);
         imageView.setPreserveRatio(true);
     }
 
