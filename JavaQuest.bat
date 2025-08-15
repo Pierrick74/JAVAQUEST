@@ -55,13 +55,15 @@ if not exist "pom.xml" (
 echo [3/3] Lancement de JavaQuest...
 echo.
 echo Compilation et lancement en cours...
-mvn clean compile javafx:run -q
+echo Fermer cette fenetre arretera le jeu !
+echo.
+mvn clean compile javafx:run
 if %errorlevel% neq 0 (
     echo.
     echo ❌ Erreur lors du lancement !
     echo.
-    echo Tentative avec sortie detaillee...
-    mvn clean compile javafx:run
+    echo Nouvelle tentative...
+    mvn clean compile javafx:run -X
     if %errorlevel% neq 0 (
         echo.
         echo ❌ Echec definitif
