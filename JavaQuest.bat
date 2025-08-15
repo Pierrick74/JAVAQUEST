@@ -51,45 +51,24 @@ if not exist "pom.xml" (
     goto :error
 )
 
-:: Installation des dépendances
-echo [3/4] Installation des dependances...
-mvn clean install -q
-if %errorlevel% neq 0 (
-    echo ❌ Erreur lors de l'installation des dependances !
-    mvn clean install
-    if %errorlevel% neq 0 (
-        echo ❌ Echec de l'installation
-        goto :error
-    )
-) else (
-    echo ✅ Dependances OK
-)
-
 :: Lancement du jeu
-echo [4/4] Lancement de JavaQuest...
+echo [3/3] Lancement de JavaQuest...
 echo.
-echo Test de lancement avec logs detailles...
+echo Compilation et lancement en cours...
+echo Fermer cette fenetre arretera le jeu !
 echo.
-mvn javafx:run
-echo.
-echo Code de retour: %errorlevel%
+mvn clean compile javafx:run
 if %errorlevel% neq 0 (
     echo.
-    echo ❌ Erreur detectee lors du lancement !
+    echo ❌ Erreur lors du lancement !
     echo.
-    echo Tentative alternative avec compile...
-    mvn clean compile exec:java -Dexec.mainClass="fr.pierrickviret.javaquest.Main"
+    echo Nouvelle tentative...
+    mvn clean compile javafx:run -X
     if %errorlevel% neq 0 (
         echo.
-        echo ❌ Echec avec exec:java aussi
-        echo.
-        echo Derniere tentative avec jar...
-        mvn clean package
-        java -jar target\javaquest-1.0.jar
-        if %errorlevel% neq 0 (
-            echo ❌ Toutes les tentatives ont echoue
-            goto :error
-        )
+        echo ❌ Echec definitif
+        echo Verifiez les logs ci-dessus pour plus de details
+        goto :error
     )
 )
 
