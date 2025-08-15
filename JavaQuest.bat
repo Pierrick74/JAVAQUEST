@@ -1,4 +1,84 @@
 @echo off
+title JavaQuest - Launcher
+echo =====================================
+echo     🎮 JAVAQUEST - Launcher 🎮
+echo =====================================
+echo.
+
+:: Se placer dans le répertoire du script
 cd /d "%~dp0"
-mvn javafx:run -q
+
+:: Test de Java
+echo [1/3] Test de Java...
+java -version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ ERREUR: Java non trouve !
+    echo Installez Java 17+ depuis https://adoptium.net/
+    goto :error
+) else (
+    echo ✅ Java OK
+    :: Vérification version Java 17+
+    for /f "tokens=3" %%g in ('java -version 2^>^&1 ^| findstr /i "version"') do (
+        set JAVA_VERSION=%%g
+    )
+    set JAVA_VERSION=%JAVA_VERSION:"=%
+    for /f "delims=. tokens=1-3" %%a in ("%JAVA_VERSION%") do (
+        set /a JAVA_MAJOR=%%a
+        if %%a equ 1 set /a JAVA_MAJOR=%%b
+    )
+    if %JAVA_MAJOR% lss 17 (
+        echo ❌ ERREUR: Java %JAVA_MAJOR% detecte, Java 17+ requis !
+        echo Installez Java 17+ depuis https://adoptium.net/
+        goto :error
+    )
+)
+
+:: Test de Maven
+echo [2/3] Test de Maven...
+mvn -v >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ ERREUR: Maven non trouve !
+    echo Installez Maven depuis https://maven.apache.org/
+    goto :error
+) else (
+    echo ✅ Maven OK
+)
+
+:: Test de l'existence du pom.xml
+if not exist "pom.xml" (
+    echo ❌ ERREUR: pom.xml non trouve !
+    echo Assurez-vous d'etre dans le repertoire du projet
+    goto :error
+)
+
+:: Lancement du jeu
+echo [3/3] Lancement de JavaQuest...
+echo.
+echo Compilation et lancement en cours...
+mvn clean compile javafx:run -q
+if %errorlevel% neq 0 (
+    echo.
+    echo ❌ Erreur lors du lancement !
+    echo.
+    echo Tentative avec sortie detaillee...
+    mvn clean compile javafx:run
+    if %errorlevel% neq 0 (
+        echo.
+        echo ❌ Echec definitif
+        echo Verifiez les logs ci-dessus pour plus de details
+        goto :error
+    )
+)
+
+echo.
+echo ✅ Jeu termine normalement
+goto :end
+
+:error
+echo.
+echo ❌ Erreur detectee !
+echo Verifiez l'installation de Java 17+ et Maven
+echo.
+
+:end
 pause
