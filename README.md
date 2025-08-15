@@ -2,6 +2,8 @@
 
 Un jeu d'aventure développé en Java avec interface graphique JavaFX et base de données H2 intégrée.
 
+<img src="example.png" alt="exemple du jeu" width="600">
+
 ## 🚀 Installation rapide (2 étapes)
 
 **En cas de problème, voir la section [Dépannage](#-résolution-de-problèmes)**
